@@ -10,6 +10,7 @@ Sections:
 
 2/ Development 
 - Install tilt. Modify source code locally for a python file of the bookinfo app. Show both options where Tilt automatically updates via registry, vs. hot reload the container.
+- Install telepresence. Showcase how multiple developers can work on the same dev cluster.
 
 
 3/ CI/CD Setup
