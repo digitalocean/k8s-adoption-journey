@@ -9,6 +9,7 @@ Sections:
 - Install 2 apps: Bookinfo, and wordpress. We will use the wordpress site as a blog post for BookInfo App. 
 
 2/ Development 
+- Use VS-code for local IDE. Install necessary VScode addons for development. Also add Snyk for scanning and static analysis.
 - Install tilt. Modify source code locally for a python file of the bookinfo app. Show both options where Tilt automatically updates via registry, vs. hot reload the container.
 - Install telepresence. Showcase how multiple developers can work on the same dev cluster.
 
