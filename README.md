@@ -1,38 +1,17 @@
-# k8s-adoption-journey
-Hands-on tutorial for going from day-1 to production on DigitalOcean Kubernetes. Goes with "kubernetes adoption journey" document.
+# Kubernetes Adoption Journey
 
+Hands-on tutorial for going from day-1 to production on DigitalOcean Kubernetes.
 
-Sections:
-1/ Setup 
-- Set up DOKS cluster, DOCR registry, ...
-- Set up the client tools - kubectl, helm3, k9s, ...
-- Install 2 apps: Bookinfo, and wordpress. We will use the wordpress site as a blog post for BookInfo App. 
+Main documentation is available at [digitalocean.github.io/k8s-adoption-journey](https://digitalocean.github.io/k8s-adoption-journey/).
 
-2/ Development 
-- Use VS-code for local IDE. Install necessary VScode addons for development. Also add Snyk for scanning and static analysis.
-- Install tilt. Modify source code locally for a python file of the bookinfo app. Show both options where Tilt automatically updates via registry, vs. hot reload the container.
-- Install telepresence. Showcase how multiple developers can work on the same dev cluster.
+## Background
 
+Kubernetes is a complex system that requires hard work and dedication. In fact, when it comes to using Kubernetes, the best value comes from adopting a DevOps culture. Kubernetes isn’t just installing something on a virtual machine (VM), it’s a transformative way of viewing IT and enabling your teams. Increased automation is a must to increase productivity. With Kubernetes, every aspect of your applications and tools can be made accessible to Kubernetes automation, including role-based access controls, ports, databases, storage, networking, automated container builds, automated security scanning, and more. Kubernetes gives teams a well-documented and proven system that they can use to automate so that they can focus on outcomes.
 
-3/ CI/CD Setup
-- Create 1 staging and 2 prod clusters.
-- Install argocd.
-- Set up the Git repository structure for bookinfo and wordpress to deploy to the staging and prod environments.
-- Use external secrets operator - combine with a vault install on a standalone droplet. 
-- Verify the argo CD is able to install the apps.
-- CI pipeline
-  - Use caching feature offered by github to optimize the build.
-  - Add a few sample tests as part of the bookinfo CI.
-  - Use github actions to update bookinfo and push to registry, and update the staging manifests.
-  - Configure argocd to pickup the updated image from the registry and deploy to staging.
-- Create a PR for prod manifest. Approve the PR.
-- Show the update failing for some reason, show how to revert to the previous version.
+## Design
 
-4/ Production 
-- Set up ingress, monitoring, logging, alerting 
-- Add Snyk to CI pipeline and registry scanning. 
+Design and planning steps are available in the [planning readme](plan.md).
 
-5/ Scaling
-- Send lots of traffic to the bookinfo app. Observe the metrics.
-- Set up HPA for certain pods to address the traffic load.
-- TBD
+## Building the Documentation
+
+Please follow the [documentation build process](docs/README.md) guide for instructions.
