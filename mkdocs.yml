@@ -11,6 +11,9 @@ nav:
   - Getting started:
       - Installing required tools: getting-started/installing-required-tools.md
       - Authentication: getting-started/authentication.md
+      - Creating a DO K8s cluster: getting-started/setting-up-a-doks-cluster.md
+      - Creating a DO container registry: getting-started/setting-up-a-docr-registry.md
+      - Testing the setup: getting-started/testing-the-setup.md
 
 theme:
   name: material
