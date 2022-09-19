@@ -9,8 +9,11 @@ site_dir: !ENV [SITE_DIR, "site"]
 nav:
   - Home: index.md
   - Getting started:
-      - Installing required tools: getting-started/installing-required-tools.md
+      - Installing the required tools: getting-started/installing-required-tools.md
       - Authentication: getting-started/authentication.md
+      - Creating a Digital Ocean Kubernetes Cluster: getting-started/setting-up-a-digital-ocean-kubernetes-cluster.md
+      - Creating a Digital Ocean Container Registry: getting-started/setting-up-a-digital-ocean-container-registry.md
+      - Testing the setup: getting-started/testing-the-setup.md
 
 theme:
   name: material
