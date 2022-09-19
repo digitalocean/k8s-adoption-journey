@@ -22,7 +22,7 @@ Next, you can verify the cluster details. First, fetch your `DOKS` cluster `ID`:
 doctl k8s cluster list
 ```
 
-Finally, check if the `kubectl` context was set to point to your `DOKS` cluster. The `doctl` utility should do this automatically.
+Finally, check if the `kubectl` context was set to point to your `DOKS` cluster. The `doctl` utility should do this automatically:
 
 ```shell
 kubectl config current-context

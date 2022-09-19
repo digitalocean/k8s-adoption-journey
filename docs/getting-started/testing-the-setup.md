@@ -30,7 +30,15 @@ You will install the 2048 game application on your newly created Kubernetes clus
     !!! note
         Please replace the **`<YOUR_REGISTRY_NAME_HERE>`** placeholder with the name of the `DOCR` you created in the [Setting up a Digital Ocean Container Registry (DOCR)](./setting-up-a-digital-ocean-container-registry.md) section.
 
-5. Edit the game-2048 [deployment manifest](kustomize/resources/deployment.yaml) and replace the `<>` placeholders.
+5. Next, edit the game-2048 [deployment manifest](https://raw.githubusercontent.com/digitalocean/kubernetes-sample-apps/master/game-2048-example/kustomize/resources/deployment.yaml) and replace the `<>` placeholders. For example, you can use [VS Code](https://code.visualstudio.com/):
+
+    ```shell
+    code game-2048-example/kustomize/resources/deployment.yaml
+    ```
+
+    !!! note
+        Please replace the **`YOUR_DOCKER_REGISTRY_NAME_HERE>`** placeholder with the name of the `DOCR` you pushed the `docker image` to in `Step 4`.
+
 6. Deploy the application using the `kubectl kustomize` option (`-k` flag):
 
     ```shell
