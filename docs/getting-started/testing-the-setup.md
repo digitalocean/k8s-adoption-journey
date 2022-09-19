@@ -4,7 +4,17 @@ This section will show you how to quickly install a sample application to test t
 You will install the 2048 game application on your newly created Kubernetes cluster.
 
 1. Clone the [sample-apps-repository](https://github.com/digitalocean/kubernetes-sample-apps).
-2. Navigate to the `game-2048-example` folder.
+
+    ```shell
+    git clone https://github.com/digitalocean/kubernetes-sample-apps.git
+    ```
+
+2. Change directory to the `game-2048-example` folder.
+
+    ```shell
+    cd kubernetes-sample-apps
+    ```
+
 3. Build the `docker image`:
 
     ```shell
@@ -16,6 +26,9 @@ You will install the 2048 game application on your newly created Kubernetes clus
     ```shell
     docker push registry.digitalocean.com/<YOUR_DOCKER_REGISTRY_NAME_HERE>/2048-game
     ```
+
+    !!! note
+        Please replace the **`<YOUR_REGISTRY_NAME_HERE>`** placeholder with the name of the `DOCR` you created in the [Setting up a Digital Ocean Container Registry (DOCR)](./setting-up-a-digital-ocean-container-registry.md) section.
 
 5. Edit the game-2048 [deployment manifest](kustomize/resources/deployment.yaml) and replace the `<>` placeholders.
 6. Deploy the application using the `kubectl kustomize` option (`-k` flag):
@@ -29,6 +42,25 @@ You will install the 2048 game application on your newly created Kubernetes clus
     ```shell
     kubectl get all -n game-2048
     ```
+
+    You should see an output similar to the following:
+
+    ```text
+    NAME                            READY   STATUS    RESTARTS   AGE
+    pod/game-2048-f96755947-dgj7z   1/1     Running   0          5m19s
+
+    NAME                TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)     AGE
+    service/game-2048   ClusterIP   10.245.120.202   <none>        8080/TCP    5m21s
+
+    NAME                        READY   UP-TO-DATE   AVAILABLE   AGE
+    deployment.apps/game-2048   1/1     1            1           5m22s
+
+    NAME                                  DESIRED   CURRENT   READY   AGE
+    replicaset.apps/game-2048-f96755947   1         1         1       5m22s
+    ```
+
+    !!! note
+        Please note that you might need to wait for about a minute for everything to be ready.
 
 8. Port-forward the `game-2048` service using kubectl:
 

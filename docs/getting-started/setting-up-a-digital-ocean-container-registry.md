@@ -1,4 +1,4 @@
-# Setting up a DOCR registry
+# Setting up a Digital Ocean Container Registry (DOCR)
 
 This section will show you how to create a DOCR registry using the `doctl` CLI.
 
@@ -9,8 +9,9 @@ doctl registry create <YOUR_REGISTRY_NAME> --subscription-tier basic
 ```
 
 !!! note
+    Please replace the **`<YOUR_REGISTRY_NAME>`** placeholder with a valid name.
     You can have only `1` registry endpoint per `account` in `DOCR`. A `repository` in a `registry` refers to a collection of `container images` using tags.
-    
+
 ## Configuring DOKS for Private Registries
 
 From the command line run the following:

@@ -54,8 +54,14 @@ Depending on your operating system, you can install [docker-desktop](https://doc
         "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
         $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
         ```
+    
+    4. Install docker desktop:
+        
+        ```shell
+        sudo apt install docker-desktop
+        ```
 
-    2. Test to ensure you installed the latest version:
+    5. Test to ensure you installed the latest version:
     
         ```shell
         docker version
@@ -190,7 +196,7 @@ Depending on your operating system, you can install [Tilt](https://docs.tilt.dev
     1. Install tilt using curl:
 
         ```shell
-        curl -fsSL https://raw.githubusercontent.com/tilt-dev/tilt/master/scripts/install.sh | bash
+        brew install tilt
         ```
 
     2. Test to ensure you installed the latest version:

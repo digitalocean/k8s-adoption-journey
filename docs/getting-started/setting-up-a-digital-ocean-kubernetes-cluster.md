@@ -1,4 +1,4 @@
-# Setting up a DOKS cluster
+# Setting up a Digital Ocean Kubernetes Cluster (DOKS)
 
 This section will show you how to create a DOKS cluster using the `doctl` CLI.
 
@@ -13,6 +13,7 @@ doctl k8s cluster create <YOUR_CLUSTER_NAME> \
 ```
 
 !!! note
+    Please replace the **`<YOUR_CLUSTER_NAME>`** placeholder with a valid name.
     This cluster is using `2vCPU/2GB` node size which amounts to 18$/month.
 
 Next, you can verify the cluster details. First, fetch your `DOKS` cluster `ID`:
