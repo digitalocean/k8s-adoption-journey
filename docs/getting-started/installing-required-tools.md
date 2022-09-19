@@ -1,6 +1,6 @@
 # Installing Required Tools
 
-This section will show you how to install the required tools to bootstrap a [DigitalOcean Kubernetes](https://docs.digitalocean.com/products/kubernetes/) cluster (aka **DOKS**).
+This section will show you how to install the required tools needed to complete this tutorial.
 
 ## Prerequisites
 
