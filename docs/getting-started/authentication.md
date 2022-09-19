@@ -3,7 +3,14 @@
 This section will show you how to authenticate with the `DigitalOcean` API.
 A token created in the [Installing required tools](./installing-required-tools.md) allows you to authenticate doctl for use with your DigitalOcean account.
 
-## Authenticating to the DigitalOcean API
+## Prerequisites
+
+To complete this section, you will need:
+
+1. A [DigitalOcean account](https://docs.digitalocean.com/products/getting-started/#sign-up) for accessing the `DigitalOcean` platform.
+2. A [DigitalOcean personal access token](https://docs.digitalocean.com/reference/api/create-personal-access-token) for using the `DigitalOcean` API.
+
+## Authenticating with the DigitalOcean API
 
 First you will need to initialze `doctl` by running the following command:
 

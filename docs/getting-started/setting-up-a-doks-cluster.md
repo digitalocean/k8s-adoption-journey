@@ -12,8 +12,8 @@ doctl k8s cluster create <YOUR_CLUSTER_NAME> \
   --region nyc1
 ```
 
-**Note:**
-This cluster is using `2vCPU/2GB` node size which amounts to 18$/month.
+!!! note
+    This cluster is using `2vCPU/2GB` node size which amounts to 18$/month.
 
 Next, you can verify the cluster details. First, fetch your `DOKS` cluster `ID`:
 

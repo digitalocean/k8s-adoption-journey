@@ -6,9 +6,8 @@ This section will show you how to install the required tools to bootstrap a [Dig
 
 To complete this section, you will need:
 
-1. A [DigitalOcean account](https://docs.digitalocean.com/products/getting-started/#sign-up) for accessing the `DigitalOcean` platform.
-2. A [DigitalOcean personal access token](https://docs.digitalocean.com/reference/api/create-personal-access-token) for using the `DigitalOcean` API.
-3. Curl package installed on your system.
+1. [Homebrew](https://brew.sh/) if you are using a macOS system.
+2. [Curl](https://curl.se/) package installed on your system.
 
 ## Installing Docker Desktop
 
@@ -16,20 +15,50 @@ Depending on your operating system, you can install [docker-desktop](https://doc
 
 === "MacOS"
 
-    1. Download the `DMG` file corresponding to your version of Mac machine and install it from [here](https://docs.docker.com/desktop/install/mac-install/)
-    2. Test to ensure you installed the latest version:
-    
+    1. Install `docker-desktop` using Homebrew:
+
         ```shell
-            docker version
+        brew install --cask docker
         ```
 
-=== "Linux"
-
-    1. Download the package file corresponding to your Linux distribution and install it from [here](https://docs.docker.com/desktop/install/linux-install/)
     2. Test to ensure you installed the latest version:
     
         ```shell
-            docker version
+        docker version
+        ```
+
+=== "Linux - Ubuntu"
+
+    1. Update `apt` package index:
+
+        ```shell
+        sudo apt-get update
+        sudo apt-get install \
+            ca-certificates \
+            curl \
+            gnupg \
+            lsb-release
+        ```
+
+    2. Add Docker's official GPG key:
+
+        ```shell
+        sudo mkdir -p /etc/apt/keyrings
+        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+        ```
+
+    3. Set up the repository:
+
+        ```shell
+        echo \
+        "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+        $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+        ```
+
+    2. Test to ensure you installed the latest version:
+    
+        ```shell
+        docker version
         ```
 
 ## Installing Doctl

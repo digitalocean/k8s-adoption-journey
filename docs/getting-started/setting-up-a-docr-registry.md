@@ -8,10 +8,9 @@ From the command line run the following:
 doctl registry create <YOUR_REGISTRY_NAME> --subscription-tier basic
 ```
 
-**Note:**
-
-You can have only `1` registry endpoint per `account` in `DOCR`. A `repository` in a `registry` refers to a collection of `container images` using tags.
-
+!!! note
+    You can have only `1` registry endpoint per `account` in `DOCR`. A `repository` in a `registry` refers to a collection of `container images` using tags.
+    
 ## Configuring DOKS for Private Registries
 
 From the command line run the following:
