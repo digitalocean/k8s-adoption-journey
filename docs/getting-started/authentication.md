@@ -1,7 +1,7 @@
 # Authentication
 
 This section will show you how to authenticate with the `DigitalOcean` API.
-A token created in the [Installing required tools](./installing-required-tools.md) allows you to authenticate doctl for use with your DigitalOcean account.
+A token created in the [Installing required tools](installing-required-tools.md) allows you to authenticate doctl for use with your DigitalOcean account.
 
 ## Prerequisites
 

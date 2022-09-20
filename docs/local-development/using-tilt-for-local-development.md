@@ -2,7 +2,7 @@
 
 This section will show you how to do local development using `Tilt`.
 You will install the `game-2048-example` application on your local environment using `docker-desktop` and tilt.
-This section assumes that you already installed `Tilt` in the [Installing Required Tools](../getting-started/installing-required-tools.md) section.
+This section assumes that you already installed `Tilt` in the [Installing Required Tools](installing-required-tools.md) section.
 
 ## Local development with Tilt
 
@@ -56,7 +56,8 @@ This section assumes that you already installed `Tilt` in the [Installing Requir
 6. Open a web browser and point to [localhost:8080](http://localhost:9000/). You should see the `game-2048` welcome page.
 
     You should see the following:
-    ![game-2048 Landing Page](../assets/game_2048_landing_page.png)
+
+    ![game-2048 Landing Page](game_2048_landing_page.png)
 
 ## Live Updates with Tilt
 
@@ -83,4 +84,7 @@ Tilt has the ability to reload and rebuild resources at the right time. Every co
 3. Navigate to `Tilt`'s detailed view on its UI. You should see that the `game-2048` resource is being rebuilt.
 4. Open a web browser and point to [localhost:8080](http://localhost:9000/). You should see the updated `game-2048-example` welcome page with your change:
 
-    ![game-2048 Updated Landing Page](../assets/game_2048_updated_landing_page.png)
+    ![game-2048 Updated Landing Page](game_2048_updated_landing_page.png)
+
+    !!! info
+        Due to browser cache the changes might not appear immediately and for this reason you can `hard refresh` your browser to see the changes. On modern browsers this can be achieved by pressing `Command` + `Shift` + `R` on macOS and `Ctrl` + `Shift` + `R` for Linux systems.
