@@ -14,6 +14,8 @@ nav:
       - Creating a Digital Ocean Kubernetes Cluster: getting-started/setting-up-a-digital-ocean-kubernetes-cluster.md
       - Creating a Digital Ocean Container Registry: getting-started/setting-up-a-digital-ocean-container-registry.md
       - Testing the setup: getting-started/testing-the-setup.md
+  - Local development:
+      - Using Tilt for local development: local-development/using-tilt-for-local-development.md
 
 theme:
   name: material

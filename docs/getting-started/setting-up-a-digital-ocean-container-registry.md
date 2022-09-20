@@ -25,3 +25,6 @@ This will configure your `DOKS` cluster to fetch images from your newly created 
 This step can also be achieved via the DO cloud console. Please follow this [guide](https://docs.digitalocean.com/products/container-registry/how-to/use-registry-docker-kubernetes/#kubernetes-integration).
 
 For more info on this topic please see this [Kubernetes Starter Kit DOCR Creation](https://github.com/digitalocean/Kubernetes-Starter-Kit-Developers/tree/main/02-setup-DOCR).
+
+!!! note
+    Please note that DOCR creation can also be achived from the [Digital Ocean Cloud Console](https://docs.digitalocean.com/products/container-registry/quickstart/).

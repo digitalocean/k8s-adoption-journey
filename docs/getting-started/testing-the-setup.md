@@ -12,7 +12,7 @@ You will install the 2048 game application on your newly created Kubernetes clus
 2. Change directory to the `game-2048-example` folder.
 
     ```shell
-    cd kubernetes-sample-apps
+    cd game-2048-example
     ```
 
 3. Build the `docker image`:

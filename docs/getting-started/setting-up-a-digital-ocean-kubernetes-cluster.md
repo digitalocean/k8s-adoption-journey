@@ -29,3 +29,6 @@ kubectl config current-context
 ```
 
 For more info on this topic please see this [Kubernetes Starter Kit DOKS Creation](https://github.com/digitalocean/Kubernetes-Starter-Kit-Developers/tree/main/01-setup-DOKS#step-3---creating-the-doks-cluster).
+
+!!! note
+    Please note that DOKS creation can also be achived from the [Digital Ocean Cloud Console](https://docs.digitalocean.com/products/kubernetes/quickstart/).
