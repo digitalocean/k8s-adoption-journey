@@ -27,7 +27,17 @@ This section assumes that you already installed `Tilt` in the [Installing Requir
     !!! note
         This is required for local development as Titl can be ran against a remote Kubernetes cluster and you can accidentaly do unwanted changes to it.
 
-4. From the command line run the following:
+4. Edit the `deployment.yaml`[file](https://raw.githubusercontent.com/digitalocean/kubernetes-sample-apps/master/game-2048-example/kustomize/resources/deployment.yaml) and change the `image` property to the following:
+
+    ```code
+    ...
+    image: game-2048
+    ```
+
+    !!! note
+        This is required so the deployment runs using the local docker image built by Tilt.
+
+5. From the command line run the following:
 
     ```shell
     tilt up
@@ -45,7 +55,7 @@ This section assumes that you already installed `Tilt` in the [Installing Requir
     (ctrl-c) to exit
     ```
 
-5. Press the `Space` bar to open Tilt's UI.
+6. Press the `Space` bar to open Tilt's UI.
 
     You should see the following:
     ![Tilt UI](../assets/tilt_ui.png)
@@ -53,7 +63,7 @@ This section assumes that you already installed `Tilt` in the [Installing Requir
     !!! note
         Please note that from the top left you can switch between `Table` and `Detail` view. `Detail` view offers a lot more information on what Titl is doing such as logs from all Kubernetes resources.
 
-6. Open a web browser and point to [localhost:8080](http://localhost:9000/). You should see the `game-2048` welcome page.
+7. Open a web browser and point to [localhost:8080](http://localhost:9000/). You should see the `game-2048` welcome page.
 
     You should see the following:
 
