@@ -58,7 +58,7 @@ This section assumes that you already installed `Tilt` in the [Installing Requir
 6. Press the `Space` bar to open Tilt's UI.
 
     You should see the following:
-    ![Tilt UI](../assets/tilt_ui.png)
+    ![Tilt UI](tilt_ui.png)
 
     !!! note
         Please note that from the top left you can switch between `Table` and `Detail` view. `Detail` view offers a lot more information on what Titl is doing such as logs from all Kubernetes resources.
