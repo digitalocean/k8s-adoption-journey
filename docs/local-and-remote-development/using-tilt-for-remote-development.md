@@ -19,6 +19,7 @@ To complete this section you will need:
 
     !!! info
         You will use this domain to create aditional sub-domains to use with the microservices app you will deploy in this section. The name of the domain needs to match the domain you configured to point to DigitalOcean's nameservers.
+
 5. Create a sub-domain for your domain:
 
     ```shell
@@ -81,7 +82,6 @@ To complete this section you will need:
 
 9. Press the `Space` bar to open Tilt's UI.
 
-    You should see the following:
     ![Tilt UI](tilt_ui.png)
 
     !!! note
@@ -89,9 +89,35 @@ To complete this section you will need:
 
 10. Open a web browser and point to `<YOUR_RECORD_NAME>.<YOUR_DOMAIN_NAME>`. You should see the `microservices-demo` welcome page.
 
-    You should see the following:
-
     ![microservices-demo landing page](microservices_demo_remote_development.png)
 
     !!! info
         In the above image you can see that the `frontend` service is served through a valid domain name via the `dev` subdomain. It is also using valid TLS/SSL certificates.
+
+## Live Updates with Tilt
+
+Tilt has the ability to reload and rebuild resources at the right time. Every code change will require tilt to rebuild and push (if using Tilt agains a remote Kubernetes cluster) docker images and roll out new versions of pods.
+
+1. Navigate to your clone of the `kuberentes-sample-apps` (if not there already) and go to the `src/frontend/templates` folder under the `microservices-demo` folder:
+
+    ```shell
+    cd microservices-demo/src/frontend/templates
+    ```
+
+2. Next, edit the `home.html` [file](https://raw.githubusercontent.com/digitalocean/kubernetes-sample-apps/master/microservices-demo/src/frontend/templates/home.html) and change its `h3` to something different:
+
+    ```code
+    ...
+    <div class="col-12">
+        <h3>On Sale Now</h3>
+    </div>
+    });
+    ```
+
+3. Navigate to `Tilt`'s detailed view on its UI. You should see that the `frontend` resource is being rebuilt. The updated `docker image` will be pushed to DOCR.
+4. Open a web browser and point to `<YOUR_RECORD_NAME>.<YOUR_DOMAIN_NAME>`. You should see the `microservices-demo` welcome page updated with your changes.
+
+    ![microservices-demo updated page](microservices_demo_updated_page.png)
+
+    !!! info
+        Due to browser cache the changes might not appear immediately and for this reason you can `hard refresh` your browser to see the changes. On modern browsers this can be achieved by pressing `Command` + `Shift` + `R` on macOS and `Ctrl` + `Shift` + `R` for Linux systems.
