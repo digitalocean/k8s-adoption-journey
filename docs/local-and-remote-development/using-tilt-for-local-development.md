@@ -74,7 +74,7 @@ Tilt has the ability to reload and rebuild resources at the right time. Every co
     ```code
     ...
     <div class="col-12">
-        <h3>My Cool New Products</h3>
+        <h3>On Sale Now</h3>
     </div>
     });
     ```
@@ -82,7 +82,7 @@ Tilt has the ability to reload and rebuild resources at the right time. Every co
 3. Navigate to `Tilt`'s detailed view on its UI. You should see that the `frontend` resource is being rebuilt.
 4. Open a web browser and point to [localhost:9000](http://localhost:9000/). You should see the updated `microservices-demo` welcome page with your change:
 
-    ![microservices-demo updated page](microservices_demo_updated_page.png) // poza noua
+    ![microservices-demo updated page](microservices_demo_updated_page.png)
 
     !!! info
         Due to browser cache the changes might not appear immediately and for this reason you can `hard refresh` your browser to see the changes. On modern browsers this can be achieved by pressing `Command` + `Shift` + `R` on macOS and `Ctrl` + `Shift` + `R` for Linux systems.
