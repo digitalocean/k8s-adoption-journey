@@ -1,6 +1,6 @@
 ## Introduction
 
-This section will show you how to create a [DigitalOcean Kubernetes Cluster](https://docs.digitalocean.com/products/kubernetes/) (**DOKS**) cluster that can be used for remote development, targeting the [microservices-demo](https://github.com/digitalocean/kubernetes-sample-apps/tree/master/microservices-demo) sample used as a reference in this guide.
+This section will show you how to create a [DigitalOcean Kubernetes Cluster](https://docs.digitalocean.com/products/kubernetes/) (**DOKS**) cluster that can be used for remote development, targeting the [online boutique](https://github.com/digitalocean/kubernetes-sample-apps/tree/master/microservices-demo) sample application used as a reference in this guide.
 
 ## Prerequisites
 
@@ -9,7 +9,7 @@ To complete this section you will need:
 1. A container registry already set up as explained in the [Set up DOCR](setup-docr.md) section.
 2. Doctl utility already installed as explained in the [Installing Required Tools -> Doctl](installing-required-tools.md#installing-doctl) section.
 
-## Provisioning a DOKS Cluster for Microservices Development
+## Provisioning a Development DOKS Cluster for Microservices
 
 In this step, you will create a new Kubernetes cluster running on the DigitalOcean platform, using the [doctl](https://docs.digitalocean.com/reference/doctl/) utility.
 

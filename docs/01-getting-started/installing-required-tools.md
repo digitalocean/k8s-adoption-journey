@@ -226,4 +226,4 @@ Depending on your operating system, you can install [Tilt](https://docs.tilt.dev
         tilt version
         ```
 
-Next, you will learn how to authenticate with the DigitalOcean API to get the most out of the tools.
+Next, you will learn how to authenticate with the DigitalOcean API to get the most out of the tools used in this guide to provision required cloud resources.
