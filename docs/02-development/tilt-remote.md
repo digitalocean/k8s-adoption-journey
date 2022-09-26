@@ -1,8 +1,8 @@
-# Using Tilt for remote development
+## Introduction
 
-This section will show you how to do remote development using `Tilt`.
-You will install the `microservices-demo` application on your remote development environment using `Tilt`.
-This section assumes that you already installed `Tilt` in the [Installing Required Tools](installing-required-tools.md) sction, [DOCR](setting-up-a-digital-ocean-container-registry.md) and [DOKS](setting-up-a-digital-ocean-kubernetes-cluster.md) configured and [tested](testing-the-setup.md).
+This section will show you how to do remote development using [Tilt](https://tilt.dev/). Tilt eases remote development by taking away the pain of time consuming Docker builds, watching files, and bringing environments up to date.
+
+You will install the `microservices-demo` application on your remote development environment using `Tilt`. This section assumes that you already installed `Tilt` in the [Installing Required Tools](installing-required-tools.md) section, [DOCR](setup-docr.md), and [DOKS](setup-doks.md) configured.
 
 ## Prerequisites
 
@@ -18,7 +18,7 @@ To complete this section you will need:
     ```
 
     !!! info
-        You will use this domain to create aditional sub-domains to use with the microservices app you will deploy in this section. The name of the domain needs to match the domain you configured to point to DigitalOcean's nameservers.
+        You will use this domain to create additional sub-domains to use with the microservices app you will deploy in this section. The name of the domain needs to match the domain you configured to point to DigitalOcean's nameservers.
 
 5. Create a sub-domain for your domain:
 
@@ -42,7 +42,7 @@ To complete this section you will need:
     cd kubernetes-sample-apps/microservices-demo
     ```
 
-3. Switch your current `Kuberenetes` config to your current config in the `Tiltfile-dev`:
+3. Switch your current `Kubernetes` config to your current config in the `Tiltfile-dev`:
 
     ```code
     ...
@@ -50,7 +50,7 @@ To complete this section you will need:
     ...
     ```
 
-4. Edit the `pat.env` file under the `configs/do-token` and set it to your DigitalOcean access token:
+4. Edit the `pat.env` file under the `configs/do` and set it to your DigitalOcean access token:
 
     ```code
     access_token=<DO_ACCESS_TOKEN>
@@ -62,7 +62,13 @@ To complete this section you will need:
 
 7. Edit the `wildcard-issuer.yaml` file under the `/kustomize/dev/frontend` folder and change all of the placeholders to a valid email address.
 
-8. From the command line run the following:
+8. All microservices Docker images are built on your local machine, and then pushed to your DOCR registry. A registry login is required first using `doctl`:
+
+    ```shell
+    doctl registry login
+    ```
+
+9. From the command line run the following:
 
     ```shell
     tilt up -f Tiltfile-dev
@@ -80,14 +86,14 @@ To complete this section you will need:
     (ctrl-c) to exit
     ```
 
-9. Press the `Space` bar to open Tilt's UI.
+10. Press the `Space` bar to open Tilt's UI.
 
     ![Tilt UI](tilt_ui.png)
 
     !!! note
-        Please note that from the top left you can switch between `Table` and `Detail` view. `Detail` view offers a lot more information on what Titl is doing such as logs from all Kubernetes resources. This may take a few minutes.
+        Please note that from the top left you can switch between `Table` and `Detail` view. `Detail` view offers a lot more information on what Tilt is doing such as logs from all Kubernetes resources. This may take a few minutes.
 
-10. Open a web browser and point to `<YOUR_RECORD_NAME>.<YOUR_DOMAIN_NAME>`. You should see the `microservices-demo` welcome page.
+11. Open a web browser and point to `<YOUR_RECORD_NAME>.<YOUR_DOMAIN_NAME>`. You should see the `microservices-demo` welcome page.
 
     ![microservices-demo landing page](microservices_demo_remote_development.png)
 
@@ -96,15 +102,15 @@ To complete this section you will need:
 
 ## Live Updates with Tilt
 
-Tilt has the ability to reload and rebuild resources at the right time. Every code change will require tilt to rebuild and push (if using Tilt agains a remote Kubernetes cluster) docker images and roll out new versions of pods.
+Tilt has the ability to reload and rebuild resources at the right time. Every code change will require tilt to rebuild and push (if using Tilt against a remote Kubernetes cluster) docker images and roll out new versions of pods.
 
-1. Navigate to your clone of the `kuberentes-sample-apps` (if not there already) and go to the `src/frontend/templates` folder under the `microservices-demo` folder:
+1. Navigate to your clone of the `kubernetes-sample-apps` (if not there already) and go to the `src/frontend/templates` folder under the `microservices-demo` folder:
 
     ```shell
     cd microservices-demo/src/frontend/templates
     ```
 
-2. Next, edit the `home.html` [file](https://raw.githubusercontent.com/digitalocean/kubernetes-sample-apps/master/microservices-demo/src/frontend/templates/home.html) and change its `h3` to something different:
+2. Next, edit the [home.html](https://raw.githubusercontent.com/digitalocean/kubernetes-sample-apps/master/microservices-demo/src/frontend/templates/home.html) file, and change some of the `h3` tags to something different:
 
     ```code
     ...
@@ -120,4 +126,4 @@ Tilt has the ability to reload and rebuild resources at the right time. Every co
     ![microservices-demo updated page](microservices_demo_updated_page.png)
 
     !!! info
-        Due to browser cache the changes might not appear immediately and for this reason you can `hard refresh` your browser to see the changes. On modern browsers this can be achieved by pressing `Command` + `Shift` + `R` on macOS and `Ctrl` + `Shift` + `R` for Linux systems.
+        Due to browser cache the changes might not appear immediately and for this reason you can `hard refresh` your browser to see the changes. On modern browsers this can be achieved by pressing `Command` + `Shift` + `R` on macOS, and `Ctrl` + `Shift` + `R` for Linux systems.
