@@ -1,32 +1,16 @@
 ## Introduction
 
-This section will show you how to do remote development using [Tilt](https://tilt.dev/). Tilt eases remote development by taking away the pain of time consuming Docker builds, watching files, and bringing environments up to date.
+This section will show you how to do remote development using [Tilt](https://tilt.dev/). It is very similar to the local development guide, the only difference being you will work directly on the remote Kubernetes cluster created in the [Set up DOKS](setup-doks.md) section. Application changes and reloading will happen as well on the remote development cluster.
 
-You will install the `microservices-demo` application on your remote development environment using `Tilt`. This section assumes that you already installed `Tilt` in the [Installing Required Tools](installing-required-tools.md) section, [DOCR](setup-docr.md), and [DOKS](setup-doks.md) configured.
+Next, you will use Tilt to deploy the [microservices-demo](https://github.com/digitalocean/kubernetes-sample-apps/tree/master/microservices-demo) application on your remote Kubernetes cluster used as a development environment.
 
 ## Prerequisites
 
 To complete this section you will need:
 
-1. [Ingress-nginx](https://kubernetes.github.io/ingress-nginx/deploy/#quick-start) installed.
-2. [Cert-manager](https://cert-manager.io/docs/installation/helm/) installed.
-3. A valid domain available configured to point to DigitalOcean name servers. More information in this [article](https://www.digitalocean.com/community/tutorials/how-to-point-to-digitalocean-nameservers-from-common-domain-registrars). Digital Ocean is not a domain registrar so you will need to purchase that from another vendor.
-4. The valid domain added to DigitalOcean. From the command line:
-
-    ```shell
-    doctl compute domain create <YOUR_DOMAIN_NAME>
-    ```
-
-    !!! info
-        You will use this domain to create additional sub-domains to use with the microservices app you will deploy in this section. The name of the domain needs to match the domain you configured to point to DigitalOcean's nameservers.
-
-5. Create a sub-domain for your domain:
-
-    ```shell
-    LOAD_BALANCER_IP=$(doctl compute load-balancer list --format IP --no-header)
-
-    doctl compute domain records create <YOUR_DOMAIN_NAME> --record-type "A" --record-name <YOUR_RECORD_NAME> --record-data "$LOAD_BALANCER_IP" --record-ttl "30"
-    ```
+1. Tilt already installed and working as explained in the [Installing Required Tools](installing-required-tools.md) section.
+2. A container registry already set up as explained in the [Set up DOCR](setup-docr.md) section.
+3. A Kubernetes cluster (DOKS) up and running as explained in the [Set up DOKS](setup-doks.md) section.
 
 ## Remote development with Tilt
 
@@ -50,25 +34,13 @@ To complete this section you will need:
     ...
     ```
 
-4. Edit the `pat.env` file under the `configs/do` and set it to your DigitalOcean access token:
-
-    ```code
-    access_token=<DO_ACCESS_TOKEN>
-    ```
-
-5. Edit the `wildcard-certificate.yaml` file under the `/kustomize/dev/frontend` folder and change all of the placeholders to the created and configured domain.
-
-6. Edit the `wildcard-host.yaml` file under the `/kustomize/dev/frontend` folder and change all of the placeholders to the created and configured domain.
-
-7. Edit the `wildcard-issuer.yaml` file under the `/kustomize/dev/frontend` folder and change all of the placeholders to a valid email address.
-
-8. All microservices Docker images are built on your local machine, and then pushed to your DOCR registry. A registry login is required first using `doctl`:
+4. All microservices Docker images are built on your local machine, and then pushed to your DOCR registry. A registry login is required first using `doctl`:
 
     ```shell
     doctl registry login
     ```
 
-9. From the command line run the following:
+5. From the command line run the following:
 
     ```shell
     tilt up -f Tiltfile-dev
@@ -86,19 +58,19 @@ To complete this section you will need:
     (ctrl-c) to exit
     ```
 
-10. Press the `Space` bar to open Tilt's UI.
+6. Press the `Space` bar to open Tilt's UI.
 
     ![Tilt UI](tilt_ui.png)
 
     !!! note
         Please note that from the top left you can switch between `Table` and `Detail` view. `Detail` view offers a lot more information on what Tilt is doing such as logs from all Kubernetes resources. This may take a few minutes.
 
-11. Open a web browser and point to `<YOUR_RECORD_NAME>.<YOUR_DOMAIN_NAME>`. You should see the `microservices-demo` welcome page.
+7. Open a web browser and point to [localhost:9000](http://localhost:9000/). You should see the `microservices-demo` welcome page:
 
-    ![microservices-demo landing page](microservices_demo_remote_development.png)
+    ![microservices-demo landing page](microservices_demo_landing_page.png)
 
-    !!! info
-        In the above image you can see that the `frontend` service is served through a valid domain name via the `dev` subdomain. It is also using valid TLS/SSL certificates.
+    !!! note
+        Although you open a connection to localhost in your web browser, traffic is forwarded to the remote development cluster by Tilt.
 
 ## Live Updates with Tilt
 
@@ -121,9 +93,11 @@ Tilt has the ability to reload and rebuild resources at the right time. Every co
     ```
 
 3. Navigate to `Tilt`'s detailed view on its UI. You should see that the `frontend` resource is being rebuilt. The updated `docker image` will be pushed to DOCR.
-4. Open a web browser and point to `<YOUR_RECORD_NAME>.<YOUR_DOMAIN_NAME>`. You should see the `microservices-demo` welcome page updated with your changes.
+4. Open a web browser and point to [localhost:9000](http://localhost:9000/). You should see the `microservices-demo` welcome page updated with your changes:
 
     ![microservices-demo updated page](microservices_demo_updated_page.png)
 
     !!! info
         Due to browser cache the changes might not appear immediately and for this reason you can `hard refresh` your browser to see the changes. On modern browsers this can be achieved by pressing `Command` + `Shift` + `R` on macOS, and `Ctrl` + `Shift` + `R` for Linux systems.
+
+Next, you will learn how to deploy and configure the Nginx ingress controller for your development cluster (DOKS) to expose microservices to the outside world. You will also learn how to set up [cert-manager](https://cert-manager.io/) to automatically issue valid TLS certificates for your applications.
