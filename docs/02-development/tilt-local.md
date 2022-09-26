@@ -2,7 +2,12 @@
 
 This section will show you how to do local development using [Tilt](https://tilt.dev/). Tilt eases local development by taking away the pain of time consuming Docker builds, watching files, and bringing environments up to date.
 
-You will install the `microservices-demo` application on your local environment using `docker-desktop` and tilt. This section assumes that you already installed `Tilt` in the [Installing Required Tools](installing-required-tools.md) section.
+You will install the [microservices-demo](https://github.com/digitalocean/kubernetes-sample-apps/tree/master/microservices-demo) application on your local environment using [Docker Desktop](https://www.docker.com/products/docker-desktop/) and Tilt.
+
+## Prerequisites
+
+1. Tilt already installed and working as explained in the [Installing Required Tools -> Tilt](installing-required-tools.md#installing-tilt) section.
+2. Docker desktop already installed and working as explained in the [Installing Required Tools -> Docker Desktop](installing-required-tools.md#installing-docker-desktop) section.
 
 ## Local development with Tilt
 
@@ -53,9 +58,7 @@ You will install the `microservices-demo` application on your local environment 
     !!! note
         Please note that from the top left you can switch between `Table` and `Detail` view. `Detail` view offers a lot more information on what Tilt is doing such as logs from all Kubernetes resources.
 
-6. Open a web browser and point to [localhost:9000](http://localhost:9000/). You should see the `microservices-demo` welcome page.
-
-    You should see the following:
+6. Open a web browser and point to [localhost:9000](http://localhost:9000/). You should see the `microservices-demo` welcome page:
 
     ![microservices-demo landing page](microservices_demo_landing_page.png)
 
@@ -80,9 +83,11 @@ Tilt has the ability to reload and rebuild resources at the right time. Every co
     ```
 
 3. Navigate to `Tilt`'s detailed view on its UI. You should see that the `frontend` resource is being rebuilt.
-4. Open a web browser and point to [localhost:9000](http://localhost:9000/). You should see the updated `microservices-demo` welcome page with your change:
+4. Open a web browser and point to [localhost:9000](http://localhost:9000/). You should see the updated `microservices-demo` welcome page with your changes:
 
     ![microservices-demo updated page](microservices_demo_updated_page.png)
 
     !!! info
         Due to browser cache the changes might not appear immediately and for this reason you can `hard refresh` your browser to see the changes. On modern browsers this can be achieved by pressing `Command` + `Shift` + `R` on macOS, and `Ctrl` + `Shift` + `R` for Linux systems.
+
+Next, you will learn how to perform remote development for the same set of microservices, using the Kubernetes environment created at the beginning of this chapter.
