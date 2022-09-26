@@ -2,7 +2,7 @@
 
 This section will show you how to do remote development using [Tilt](https://tilt.dev/). It is very similar to the local development guide, the only difference being you will work directly on the remote Kubernetes cluster created in the [Set up DOKS](setup-doks.md) section. Application changes and reloading will happen as well on the remote development cluster.
 
-Next, you will use Tilt to deploy the [microservices-demo](https://github.com/digitalocean/kubernetes-sample-apps/tree/master/microservices-demo) application on your remote Kubernetes cluster used as a development environment.
+Next, you will use Tilt to deploy the [online boutique](https://github.com/digitalocean/kubernetes-sample-apps/tree/master/microservices-demo) sample application to your development DOKS cluster.
 
 ## Prerequisites
 
@@ -26,7 +26,7 @@ To complete this section you will need:
     cd kubernetes-sample-apps/microservices-demo
     ```
 
-3. Switch your current `Kubernetes` config to your current config in the `Tiltfile-dev`:
+3. Switch Kubernetes config to your current config in the `Tiltfile-dev`:
 
     ```code
     ...
@@ -58,16 +58,16 @@ To complete this section you will need:
     (ctrl-c) to exit
     ```
 
-6. Press the `Space` bar to open Tilt's UI.
+6. Press the `Space` bar to open Tilt's UI:
 
     ![Tilt UI](tilt_ui.png)
 
     !!! note
         Please note that from the top left you can switch between `Table` and `Detail` view. `Detail` view offers a lot more information on what Tilt is doing such as logs from all Kubernetes resources. This may take a few minutes.
 
-7. Open a web browser and point to [localhost:9000](http://localhost:9000/). You should see the `microservices-demo` welcome page:
+7. Open a web browser and point to [localhost:9000](http://localhost:9000/). You should see the online boutique welcome page:
 
-    ![microservices-demo landing page](microservices_demo_landing_page.png)
+    ![online boutique landing page](microservices_demo_landing_page.png)
 
     !!! note
         Although you open a connection to localhost in your web browser, traffic is forwarded to the remote development cluster by Tilt.
@@ -76,7 +76,7 @@ To complete this section you will need:
 
 Tilt has the ability to reload and rebuild resources at the right time. Every code change will require tilt to rebuild and push (if using Tilt against a remote Kubernetes cluster) docker images and roll out new versions of pods.
 
-1. Navigate to your clone of the `kubernetes-sample-apps` (if not there already) and go to the `src/frontend/templates` folder under the `microservices-demo` folder:
+1. Navigate to your clone of the `kubernetes-sample-apps` (if not there already), and switch to the `src/frontend/templates` folder under the `microservices-demo` folder:
 
     ```shell
     cd microservices-demo/src/frontend/templates
@@ -92,10 +92,10 @@ Tilt has the ability to reload and rebuild resources at the right time. Every co
     });
     ```
 
-3. Navigate to `Tilt`'s detailed view on its UI. You should see that the `frontend` resource is being rebuilt. The updated `docker image` will be pushed to DOCR.
-4. Open a web browser and point to [localhost:9000](http://localhost:9000/). You should see the `microservices-demo` welcome page updated with your changes:
+3. Navigate to `Tilt`'s detailed view using the UI. You should see the `frontend` resource being rebuilt. The updated `docker image` will be pushed to your DOCR.
+4. Open a web browser and point to [localhost:9000](http://localhost:9000/). You should see the online boutique welcome page updated with your changes:
 
-    ![microservices-demo updated page](microservices_demo_updated_page.png)
+    ![online boutique updated page](microservices_demo_updated_page.png)
 
     !!! info
         Due to browser cache the changes might not appear immediately and for this reason you can `hard refresh` your browser to see the changes. On modern browsers this can be achieved by pressing `Command` + `Shift` + `R` on macOS, and `Ctrl` + `Shift` + `R` for Linux systems.
