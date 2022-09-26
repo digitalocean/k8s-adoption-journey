@@ -1,7 +1,8 @@
-# Authentication
+## Introduction
 
-This section will show you how to authenticate with the `DigitalOcean` API.
-A token created in the [Installing required tools](installing-required-tools.md) allows you to authenticate doctl for use with your DigitalOcean account.
+This section will show you how to authenticate with the [DigitalOcean API](https://docs.digitalocean.com/reference/api/api-reference/). To use the API, you’ll first generate a personal access token.
+
+A personal access token allows you to use automation tools such as [doctl](https://docs.digitalocean.com/reference/doctl/) to create and manage various DigitalOcean cloud resources, such as [Kubernetes Clusters](https://docs.digitalocean.com/products/kubernetes/), [Droplets](https://docs.digitalocean.com/products/droplets/), [Container Registries](https://docs.digitalocean.com/products/container-registry/), etc.
 
 ## Prerequisites
 
@@ -26,6 +27,8 @@ Test to ensure that your account is configured for `doctl` to use:
 doctl auth list
 ```
 
-You should see a line containing your acount and the "current" string next to it.
+You should see a line containing your account and the `"current"` string next to it.
 
 For more info on this topic please see this [Kubernetes Starter Kit Authentication Section](https://github.com/digitalocean/Kubernetes-Starter-Kit-Developers/tree/main/01-setup-DOKS#step-2---authenticating-to-digitalocean-api).
+
+Next, you will learn how to create a DigitalOcean Container Registry to store all Docker images used in this guide for demonstration.
