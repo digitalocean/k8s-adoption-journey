@@ -65,7 +65,7 @@ To complete this section you will need:
     !!! note
         Please note that from the top left you can switch between `Table` and `Detail` view. `Detail` view offers a lot more information on what Tilt is doing such as logs from all Kubernetes resources. This may take a few minutes.
 
-7. Open a web browser and point to [localhost:9000](http://localhost:9000/). You should see the online boutique welcome page:
+7. Open a web browser and point to [localhost:9090](http://localhost:9090/). You should see the online boutique welcome page:
 
     ![online boutique landing page](microservices_demo_landing_page.png)
 
@@ -93,7 +93,7 @@ Tilt has the ability to reload and rebuild resources at the right time. Every co
     ```
 
 3. Navigate to `Tilt`'s detailed view using the UI. You should see the `frontend` resource being rebuilt. The updated `docker image` will be pushed to your DOCR.
-4. Open a web browser and point to [localhost:9000](http://localhost:9000/). You should see the online boutique welcome page updated with your changes:
+4. Open a web browser and point to [localhost:9090](http://localhost:9090/). You should see the online boutique welcome page updated with your changes:
 
     ![online boutique updated page](microservices_demo_updated_page.png)
 
