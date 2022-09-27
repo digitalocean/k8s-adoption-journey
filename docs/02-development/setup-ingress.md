@@ -105,7 +105,7 @@ In this section, you will learn how to use the Kubernetes-maintained [Nginx](htt
     To verify the certificate status run:
 
     ```shell
-    kubectl get certificate starter-kit.online -n microservides-demo-dev
+    kubectl get certificate <YOUR_DOMAIN_NAME> -n microservides-demo-dev
     ```
 
     !!! info
