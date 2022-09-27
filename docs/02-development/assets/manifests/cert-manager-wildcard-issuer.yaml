@@ -10,7 +10,7 @@ spec:
   # `server` - the URL used to access the ACME server’s directory endpoint.
   # `privateKeySecretRef` - Kubernetes Secret to store the automatically generated ACME account private key.
   acme:
-    email: bogdan.pastiu@gmail.com
+    email: <YOUR_EMAIL_ADDRESS>
     server: https://acme-v02.api.letsencrypt.org/directory
     privateKeySecretRef:
       name: letsencrypt-nginx-wcard-private

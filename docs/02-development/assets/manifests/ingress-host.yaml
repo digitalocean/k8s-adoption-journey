@@ -6,10 +6,10 @@ metadata:
 spec:
   tls:
     - hosts:
-        - "*.starter-kit.eu"
-      secretName: starter-kit.eu
+        - "*.<YOUR_DOMAIN_NAME>"
+      secretName: <YOUR_DOMAIN_NAME>
   rules:
-    - host: app.starter-kit.eu
+    - host: <YOUR_A_RECORD>.<YOUR_DOMAIN_NAME>
       http:
         paths:
           - path: /
