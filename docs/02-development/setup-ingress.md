@@ -131,7 +131,7 @@ In this section you will install the community maintained version of the Nginx i
     Running `kubectl get issuer letsencrypt-nginx-wcard -n microservices-demo-dev` should result in the `True` value being displayed under the `READY` column.
 
     !!! note
-        If the `Issuer` object displays a `Not Ready` state you can describe the object to get additional information using: `kubectl describe issuer letsencrypt-nginx-wcard -n microservices-demo-dev`.
+        If the `Issuer` object displays a `Not Ready` state you can describe the object to get additional information using: `kubectl describe issuer letsencrypt-nginx-wcard -n microservices-demo-dev` to get more information.
 
 9. Create the `wildcard certificates` resource using `kubectl` and the provided manifest file (make sure to replace the <> placeholders first):
 
@@ -211,3 +211,8 @@ In this section you will install the community maintained version of the Nginx i
 11. Open a web browser and point to `<YOUR_A_RECORD>.<YOUR_DOMAIN>`. You should see the online boutique welcome page. The connection is secure and the certificate is a valid one issued by [Let's Encrypt](https://letsencrypt.org).
 
     ![development environment online boutique](microservices_demo_ingress_dev.png)
+
+!!! note
+    You will not install monitoring, logging and alerting on the development cluster but will do so for the `staging` and `production` clusters.
+
+Next, you will deploy the `online boutique` application on the `staging` environment. You will install ingress, monitoring, logging and alerting as this should be a production-like environment.
