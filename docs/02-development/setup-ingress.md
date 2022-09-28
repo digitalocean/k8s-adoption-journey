@@ -215,4 +215,4 @@ In this section you will install the community maintained version of the Nginx i
 !!! note
     You will not install monitoring, logging and alerting on the development cluster but will do so for the `staging` and `production` clusters.
 
-Next, you will deploy the `online boutique` application on the `staging` environment. You will install ingress, monitoring, logging and alerting as this should be a production-like environment.
+Next, you will deploy the [Kubernetes Dashboard](https://github.com/kubernetes/dashboard) and [Kubernetes Metrics Server](https://github.com/kubernetes-sigs/metrics-server) which will allow you to visualize application and cluster related metrics as well as logs and events.
