@@ -1,5 +1,7 @@
 ## Introduction
 
+!!! note
+        You will not install a full blown monitoring and logging solution on the development cluster such as `Prometheus` and `Loki`, but will do so for the `staging` and `production` clusters.
 On the development environment you will be configuring the `Kubernetes Metrics Server` and `Kubernetes Dashboard` tools. This way your cluster size can be small but sufficient that you can do your local development and deploy that to a Kubernetes cluster and test it. At the most basic level you will need to be able to troubleshoot your aplication if things go wrong. In this section, you will learn about the [Kubernetes Metrics Server](https://github.com/kubernetes-sigs/metrics-server) and the [Kubernetes Dashboard](https://github.com/kubernetes/dashboard).
 Metrics Server is a scalable, efficient source of container resource metrics for Kubernetes built-in autoscaling pipelines. It collects resource metrics from Kubelets and exposes them in Kubernetes apiserver through [Metrics API](https://github.com/kubernetes/metrics).
 Kubernetes Dashboard is a general purpose, web-based UI for Kubernetes clusters. It allows users to manage applications running in the cluster and troubleshoot them, as well as manage the cluster itself.
@@ -24,8 +26,13 @@ In this section you will install the community maintained Kubernetes Metrics Ser
 2. Install the `Kubernetes Metrics Server` using `Helm`:
 
     ```shell
-    helm upgrade --install metrics-server metrics-server/metrics-server
+    helm upgrade --install metrics-server metrics-server/metrics-server \
+        --namespace metrics-server \
+        --create-namespace
     ```
+
+    !!! note
+        To check if the installation was successful, run the `helm ls -n metrics-server` command, and confirm the deployment status.
 
 ## Collect resource metrics from Kubernetes objects
 
@@ -78,7 +85,7 @@ redis-cart-596c7658c4-lwf8g              3m           7Mi
 shippingservice-bfc488696-dkcpz          3m           15Mi 
 ```
 
-See details about the resources that have been allocated to your nodes, rather than the current resource usage, the kubectl describe command provides a detailed breakdown of a specified pod or node.
+See details about the resources that have been allocated to your nodes, rather than the current resource usage. The kubectl describe command provides a detailed breakdown of a specified pod or node.
 
 ```shell
 kubectl describe node <NODE_NAME>
@@ -197,25 +204,28 @@ In this section you will install the community maintained [Kubernetes Dashboard]
     kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
     ```
 
+    !!! note
+        To check if the installation was successful, run the `kubectl get pods -n kubernetes-dashboard` command, and confirm that the pods are running.
+
 2. In a new terminal window start the `kubectl proxy`:
 
     ```shell
     kubectl proxy
     ```
 
-3. Open a web browser and point to the [Kubernetes Dashboard Login](http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:https/proxy/#/login) and add your cluster's config file in the `Login` page.
+3. Launch a web browser and open the [Kubernetes Dashboard Login](http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/) page. Then, choose the `Kubeconfig` option, and provide your cluster's config file to log in.
 
     !!! note
-            You will authenticate using the cluster's `kubeconfig` file. To get the config file navigate to your DigitalOcean cloud console, go to `Kubernetes`, select your cluster and from the `Configuration` section, click on `Download Config File`.
+            To get the config file navigate to your DigitalOcean cloud console, go to `Kubernetes`, select your cluster and from the `Configuration` section, click on `Download Config File`.
 
-    You should see the following:
+    After successfully logging in, you should be presented with the main dashboard landing page:
 
     ![kubernetes dashboard landing page](kubernetes_dashboard_landing_page.png)
 
-Once you deploy and log in to Kubernetes Dashboard, you’ll have access to metric summaries for each pod, node, and namespace in your cluster. You can also use the UI to edit Kubernetes objects—for instance, to scale up a Deployment or to change the image version in a pod’s specification.'
+Next, you can check metric summaries for each pod, node, and namespace in your cluster. Editing Kubernetes objects is also possible, such as scaling up/down deployments, change image version for pods, etc.
 
-You can also view the stream of logs from a pod in `Kubernetes Dashboard`. From the navigation bar at the top of the `Pods` view, click on the `Logs` tab to access a log stream from the pod in the browser, which can be further segmented by container if the pod comprises multiple containers. `Exec` into a container is also possible from the same page.
+Going further it is also possible to inspect log streams for pods. From the navigation bar at the top of the `Pods` view, click on the `Logs` tab to access a pod log stream directly in your web browser. In case of pods comprised of multiple containers, you have the option to inspect each container logs. Finally, you can `Exec` into a pod container from the same page.
 
 Kuberentes events are also viewable from the `Kubernetes Dashboard`. From the left menu click on the `Events` view. Events will be displayed and stored for 1 hour.
 
-Next, you will setup the `staging` environment.
+Next, you will learn how to provision and configure the `staging` environment for the online boutique sample application. Besides DOKS setup and the sample app deployment, you will also configure a full observability stack comprised of logging, monitoring and alerting via Slack. Usually, a staging environment should be pretty close (if not similar) to a production environment.

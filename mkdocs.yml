@@ -17,7 +17,7 @@ nav:
       - Tilt for local development: 02-development/tilt-local.md
       - Tilt for remote development: 02-development/tilt-remote.md
       - Set up ingress: 02-development/setup-ingress.md
-      - Development observability: 02-development/development-observability.md
+      - Observability: 02-development/observability.md
 
 theme:
   name: material

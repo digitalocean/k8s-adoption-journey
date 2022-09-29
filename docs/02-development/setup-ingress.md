@@ -212,7 +212,4 @@ In this section you will install the community maintained version of the Nginx i
 
     ![development environment online boutique](microservices_demo_ingress_dev.png)
 
-!!! note
-    You will not install monitoring, logging and alerting on the development cluster but will do so for the `staging` and `production` clusters.
-
-Next, you will deploy the [Kubernetes Dashboard](https://github.com/kubernetes/dashboard) and [Kubernetes Metrics Server](https://github.com/kubernetes-sigs/metrics-server) which will allow you to visualize application and cluster related metrics as well as logs and events.
+Next, you will deploy the [Kubernetes Dashboard](https://github.com/kubernetes/dashboard) and [Kubernetes Metrics Server](https://github.com/kubernetes-sigs/metrics-server) to your cluster in order to visualize application and cluster related metrics, as well as corresponding logs and events.
