@@ -86,7 +86,7 @@ kubectl describe node <NODE_NAME>
 
 The output is quite verbose containing a full breakdown of the node’s workloads, system info, and metadata such as labels and annotations.
 
-??? note "Click to expand `node desribe command` output"
+??? note "Click to expand `node describe command` output"
         Name:               basicnp-766qo
         Roles:              <none>
         Labels:             beta.kubernetes.io/arch=amd64
@@ -186,6 +186,9 @@ The output is quite verbose containing a full breakdown of the node’s workload
 
 ## Installing the Kubernetes Dashboard
 
+!!! note
+    The `Kubernetes Dashboard` is already available as a managed solution for DigitalOcean customers after creating a Kubernetes Cluster. You are installing it separately due to the lack of `CPU` and `memory usage` metrics not displayed in the managed solution and those metrics are very important to monitor. Please see this [support case](https://docs.digitalocean.com/support/why-are-cpu-and-memory-usage-not-displayed-on-managed-kubernetes-dashboard/) for more details.
+
 In this section you will install the community maintained [Kubernetes Dashboard](https://github.com/kubernetes/dashboard). Please follow below steps to install it using kubectl:
 
 1. Install the `Kubernetes Dashboard` using `kubectl`:
@@ -214,3 +217,5 @@ Once you deploy and log in to Kubernetes Dashboard, you’ll have access to metr
 You can also view the stream of logs from a pod in `Kubernetes Dashboard`. From the navigation bar at the top of the `Pods` view, click on the `Logs` tab to access a log stream from the pod in the browser, which can be further segmented by container if the pod comprises multiple containers. `Exec` into a container is also possible from the same page.
 
 Kuberentes events are also viewable from the `Kubernetes Dashboard`. From the left menu click on the `Events` view. Events will be displayed and stored for 1 hour.
+
+Next, you will setup the `staging` environment.
