@@ -1,13 +1,13 @@
 ## Introduction
 
-In this section, you will learn how to install and configure the Kubernetes-maintained version of the [Nginx](https://kubernetes.github.io/ingress-ngin) Ingress Controller. Then, you're going to discover how to automatically issue TLS certificates for your hosts (thus enabling TLS termination), and route traffic to your backend applications.
+In this section, you will install and configure the Kubernetes-maintained version of the [Nginx](https://kubernetes.github.io/ingress-ngin) Ingress Controller. Then, you're going to issue TLS certificates for your hosts (thus enabling TLS termination), and route traffic to your backend applications.
 
 ## Prerequisites
 
 1. Helm installed as explained in the [Installing required tools](installing-required-tools.md) section.
 2. A container registry already set up as explained in the [Set up DOCR](setup-docr.md) section.
 3. A Kubernetes cluster (DOKS) up and running as explained in the [Set up DOKS](setup-doks.md) section.
-4. The online boutique sample application deployed to your cluster as explained in the [Tilt remote development](tilt-remote.md) section.
+4. The online boutique sample application deployed to your cluster as explained in the [Deploying the app](deploying-the-app.md) section.
 5. A valid domain available and configured to point to DigitalOcean name servers. More information is available in this [article](https://www.digitalocean.com/community/tutorials/how-to-point-to-digitalocean-nameservers-from-common-domain-registrars). Digital Ocean is not a domain registrar, so you will need to purchase the domain from a well known vendor, such as GoDaddy.
 
 ## Installing the Nginx Ingress Controller
@@ -42,20 +42,16 @@ In this section you will install the community maintained version of the Nginx i
     ```
 
     !!! info
-        Please note that this domain matches the domain you purchased in the [Prerequisites](#prerequisites) section. You will use this domain to create additional sub-domains to use with the microservices app you will deploy in this section.
+        Please note that this domain matches the domain you purchased in the [Prerequisites](#prerequisites) section. You will use this domain to create additional sub-domains to use with the microservices app you will deploy in this section. You can also use the domain you already created in the [Development ingress setup](docs/02-development/setup-ingress.md) section.
 
-4. Create an `A` record for your host:
+4. Create an `A` record for your host (make sure to replace the <> placeholders first):
 
     ```shell
-    LOAD_BALANCER_IP=$(doctl compute load-balancer list --format IP --no-header)
     doctl compute domain records create <YOUR_DOMAIN_NAME> \
         --record-type "A" --record-name <YOUR_RECORD_NAME> \
-        --record-data "$LOAD_BALANCER_IP" \
+        --record-data "<YOUR_STAGING_LB_IP_ADDRESS>" \
         --record-ttl "30"
     ```
-
-    !!! info
-        The upper mentioned command works if you have only one LB in your DO account. If you have multiple LBs you will need to add the its IP in the command.
 
 5. Add the `Jetstack` Helm repository:
 
@@ -88,7 +84,7 @@ In this section you will install the community maintained version of the Nginx i
     ```
 
     !!! note
-        The secret must be created in the **same namespace** where the `Issuer` CRD is located - in this case the `microservides-demo-dev` namespace.
+        The secret must be created in the **same namespace** where the `Issuer` CRD is located - in this case the `microservides-demo-staging` namespace.
 
 8. Create an `issuer` resource for cert-manager using `kubectl` (make sure to replace the <> placeholders first):
 
@@ -99,7 +95,7 @@ In this section you will install the community maintained version of the Nginx i
             kind: Issuer
             metadata:
             name: letsencrypt-nginx-wcard
-            namespace: microservices-demo-dev
+            namespace: microservices-demo-staging
             spec:
             # ACME issuer configuration:
             # `email` - the email address to be associated with the ACME account (make sure it's a valid one).
@@ -124,11 +120,11 @@ In this section you will install the community maintained version of the Nginx i
     Apply via kubectl:
 
     ```shell
-    kubectl apply -f docs/03-development/assets/manifests/cert-manager-wildcard-issuer.yaml
+    kubectl apply -f docs/03-staging/assets/manifests/cert-manager-wildcard-issuer.yaml
     ```
 
     !!! info
-    Running `kubectl get issuer letsencrypt-nginx-wcard -n microservices-demo-dev` should result in the `True` value being displayed under the `READY` column.
+    Running `kubectl get issuer letsencrypt-nginx-wcard -n microservices-demo-staging` should result in the `True` value being displayed under the `READY` column.
 
     !!! note
         If the `Issuer` object displays a `Not Ready` state you can describe the object to get additional information using: `kubectl describe issuer letsencrypt-nginx-wcard -n microservices-demo-dev` to get more information.
@@ -143,7 +139,7 @@ In this section you will install the community maintained version of the Nginx i
             metadata:
             name: <YOUR_DOMAIN_NAME>
             # Cert-Manager will put the resulting Secret in the same Kubernetes namespace as the Certificate.
-            namespace: microservices-demo-dev
+            namespace: microservices-demo-staging
             spec:
             # Secret name to create, where the private key and certificate should be stored.
             secretName: <YOUR_DOMAIN_NAME>
@@ -162,13 +158,13 @@ In this section you will install the community maintained version of the Nginx i
     Apply via kubectl:
 
     ```shell
-    kubectl apply -f docs/03-development/assets/manifests/cert-manager-wildcard-certificate.yaml
+    kubectl apply -f docs/03-staging/assets/manifests/cert-manager-wildcard-certificate.yaml
     ```
 
     To verify the certificate status run:
 
     ```shell
-    kubectl get certificate <YOUR_DOMAIN_NAME> -n microservices-demo-dev
+    kubectl get certificate <YOUR_DOMAIN_NAME> -n microservices-demo-staging
     ```
 
     !!! info
@@ -182,8 +178,8 @@ In this section you will install the community maintained version of the Nginx i
             apiVersion: networking.k8s.io/v1
             kind: Ingress
             metadata:
-            name: ingress-microservices-demo-dev
-            namespace: microservices-demo-dev
+            name: ingress-microservices-demo-staging
+            namespace: microservices-demo-staging
             spec:
             tls:
                 - hosts:
@@ -205,11 +201,12 @@ In this section you will install the community maintained version of the Nginx i
     Apply via kubectl:
 
     ```shell
-    kubectl apply -f docs/03-development/assets/manifests/ingress-host.yaml 
+    kubectl apply -f docs/03-staging/assets/manifests/ingress-host.yaml 
     ```
 
 11. Open a web browser and point to `<YOUR_A_RECORD>.<YOUR_DOMAIN>`. You should see the online boutique welcome page. The connection is secure and the certificate is a valid one issued by [Let's Encrypt](https://letsencrypt.org).
 
-    ![development environment online boutique](microservices_demo_ingress_dev.png)
+    ![staging environment online boutique](microservices_demo_ingress_staging.png)
 
-Next, you will deploy the [Kubernetes Dashboard](https://github.com/kubernetes/dashboard) and [Kubernetes Metrics Server](https://github.com/kubernetes-sigs/metrics-server) to your cluster in order to visualize application and cluster related metrics, as well as corresponding logs and events.
+Next you will install and configure the `Prometheus` stack for monitoring your DOKS cluster, `Loki` to fetch and aggregate logs from your cluster's resources and view them in `Grafana` and configure `AlertManager` to alert and notify when there is a critical issue in your cluster.
+You will also configure the `events exporter` tool to grab `Kubernetes events` and send and store them in `Loki` as they are a great way to monitor the health and activity of your K8s clusters.
