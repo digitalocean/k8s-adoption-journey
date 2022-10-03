@@ -25,11 +25,14 @@ To complete this section you will need:
 
 ## Deploying the application with Kustomize
 
-1. Clone the [sample-apps-repository](https://github.com/digitalocean/kubernetes-sample-apps).
+1. Clone your fork of the [kubernetes-sample-apps](https://github.com/digitalocean/kubernetes-sample-apps) if you haven't already (make sure to replace the <> placeholders).
 
     ```shell
-    git clone https://github.com/digitalocean/kubernetes-sample-apps.git
+    git clone https://github.com/<YOUR_GITHUB_ACCOUNT_USERNAME>/kubernetes-sample-apps.git
     ```
+
+    !!! info
+        The `kubernetes-sample-apps` repository was forked initially in the [Setup DOCR](setup-docr.md) section.
 
 2. Change directory to the `microservices-demo` folder:
 
