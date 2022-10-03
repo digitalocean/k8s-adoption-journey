@@ -1,6 +1,6 @@
 ## Introduction
 
-The goal of observability is to understand what’s happening across all these environments and among the technologies, so you can detect and resolve issues to keep your systems efficient and reliable.
+The goal of observability is to understand what’s happening across all of your environments and among the technologies, so you can detect and resolve issues to keep your systems efficient and reliable.
 
 Observability is a measure of how well the system’s internal states can be inferred from knowledge of its external outputs. It uses the data and insights that monitoring produces to provide a holistic understanding of your system, including its health and performance. The observability of your system, then, depends partly on how well your monitoring metrics can interpret your system's performance indicators.
 
