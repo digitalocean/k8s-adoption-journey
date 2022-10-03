@@ -27,6 +27,41 @@ alertmanager:
   ## Deploy alertmanager
   ##
   enabled: true
+  # config:
+  #   global:
+  #     resolve_timeout: 5m
+  #     slack_api_url: "<YOUR_SLACK_APP_INCOMING_WEBHOOK_URL_HERE>"
+  #   route:
+  #     receiver: "slack-notifications"
+  #     repeat_interval: 12h
+  #     routes:
+  #       - receiver: "slack-notifications"
+  #         matchers:
+  #           - alertname="OnlineBoutiqueInstanceDown"
+  #         continue: false
+  #   receivers:
+  #     - name: "slack-notifications"
+  #       slack_configs:
+  #         - channel: "#<YOUR_SLACK_CHANNEL_NAME_HERE>"
+  #           send_resolved: true
+  #           title: "{{ range .Alerts }}{{ .Annotations.summary }}\n{{ end }}"
+  #           text: "{{ range .Alerts }}{{ .Annotations.description }}\n{{ end }}"
+
+
+# additionalPrometheusRulesMap:
+#   rule-name:
+#     groups:
+#     - name: online-boutique-instance-down
+#       rules:
+#         - alert: OnlineBoutiqueInstanceDown
+#           expr: sum(kube_pod_owner{namespace="microservices-demo-staging"}) by (namespace) < 10
+#           for: 1m
+#           labels:
+#             severity: 'critical'
+#             alert_type: 'infrastructure'
+#           annotations:
+#             description: ' The Number of pods from the namespace {{ $labels.namespace }} is lower than the expected 10.'
+#             summary: 'Pod in {{ $labels.namespace }} namespace down'
 
 grafana:
   enabled: true

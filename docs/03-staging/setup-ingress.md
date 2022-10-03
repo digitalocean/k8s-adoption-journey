@@ -90,7 +90,7 @@ In this section you will install the community maintained version of the Nginx i
 
     The `issuer` manifest file looks like the following:
 
-    ??? note "Click to expland `issuer` manifest file"
+    ??? note "Click to expand `issuer` manifest file"
             apiVersion: cert-manager.io/v1
             kind: Issuer
             metadata:
