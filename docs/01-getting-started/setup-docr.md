@@ -74,7 +74,7 @@ In this section you will build and push the docker images required by the next s
     ```
 
     !!!info
-        You will be pushing an initial release first to DOCR (1.0.0) and use that to deploy to the `staging` and `production` environments in the upcoming sections. Then, ArgoCD will take care of the new images building, tagging, pushing and promoting to the upper environments.
+        You will be pushing an initial release first to DOCR (1.0.0) and use that to deploy to the `staging` and `production` environments in the upcoming sections. Later on, GitHub Actions will take care of building, tagging and pushing images to `DOCR`.
         This process might take about 15 minutes.
 
 Next, you will learn how to create a DOKS cluster to use as a Kubernetes development environment, and start working with microservices.
