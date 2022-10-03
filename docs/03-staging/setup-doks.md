@@ -1,6 +1,6 @@
 ## Introduction
 
-This section will show you how to create a [DigitalOcean Kubernetes Cluster](https://docs.digitalocean.com/products/kubernetes/) (**DOKS**) cluster that can be used for remote development, targeting the [online boutique](https://github.com/digitalocean/kubernetes-sample-apps/tree/master/microservices-demo) sample application used as a reference in this guide.
+This section will show you how to create a [DigitalOcean Kubernetes Cluster](https://docs.digitalocean.com/products/kubernetes/) (**DOKS**) cluster which will be used as a `staging` environment, targeting the [online boutique](https://github.com/digitalocean/kubernetes-sample-apps/tree/master/microservices-demo) sample application used as a reference in this guide.
 
 !!! note
     A staging environment should be pretty close (if not similar) to a production environment hence you will be creating a bigger cluster, resource wise, to be able to handle the workload you would normally have on your production environment.
@@ -9,8 +9,7 @@ This section will show you how to create a [DigitalOcean Kubernetes Cluster](htt
 
 To complete this section you will need:
 
-1. A container registry already set up as explained in the [Set up DOCR](setup-docr.md) section.
-2. Doctl utility already installed as explained in the [Installing Required Tools -> Doctl](installing-required-tools.md#installing-doctl) section.
+1. Doctl utility already installed as explained in the [Installing Required Tools -> Doctl](installing-required-tools.md#installing-doctl) section.
 
 ## Provisioning a Staging DOKS Cluster for Microservices
 
