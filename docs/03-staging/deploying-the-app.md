@@ -13,7 +13,7 @@ A more common use case of `Kustomize` is that you’ll need multiple variants of
 For this purpose, kustomize supports the idea of an `overlay` and a `base`. Both are represented by a `kustomization` file. The base declares things that the variants share in common (both resources and a common customization of those resources), and the overlays declare the differences. This is well represented in the structure of the `online boutique` sample application [repository structure](https://github.com/digitalocean/kubernetes-sample-apps/tree/master/microservices-demo).
 
 !!! info
-        You will be using the `kubectl` built-in verion of `Kustomize`.
+        You will be using the `kubectl` built-in verion of [Kustomize](https://kustomize.io/).
 
 ## Prerequisites
 
