@@ -7,10 +7,9 @@ Observability is a measure of how well the system’s internal states can be inf
 ## Prerequisites
 
 1. Helm installed as explained in the [Installing required tools](installing-required-tools.md) section.
-2. A container registry already set up as explained in the [Set up DOCR](setup-docr.md) section.
-3. A Kubernetes cluster (DOKS) up and running as explained in the [Set up DOKS](setup-doks.md) section.
-4. The online boutique sample application deployed to your cluster as explained in the [Deploying the app](deploying-the-online-boutique-sample-application.md.md) section.
-5. A [DO Spaces](https://cloud.digitalocean.com/spaces) bucket for `Loki` storage. Please follow the official `DigitalOcean` tutorial to [create one](https://docs.digitalocean.com/products/spaces/how-to/create/). Make sure that it is set to `restrict file listing` for security reasons.
+2. A Kubernetes cluster (DOKS) up and running as explained in the [Set up DOKS](setup-doks.md) section.
+3. The online boutique sample application deployed to your cluster as explained in the [Deploying the app](deploying-the-online-boutique-sample-application.md.md) section.
+4. A [DO Spaces](https://cloud.digitalocean.com/spaces) bucket for `Loki` storage. Please follow the official `DigitalOcean` tutorial to [create one](https://docs.digitalocean.com/products/spaces/how-to/create/). Make sure that it is set to `restrict file listing` for security reasons.
 
 ## Installing the Prometheus Monitoring Stack
 
@@ -50,6 +49,9 @@ Observability is a measure of how well the system’s internal states can be inf
 
     !!! info
         `Grafana` installation comes with a number of dashboards. Open a web browser on [localhost:3000](http://localhost:3000). Once in, you can go to `Dashboards -> Browse`, and choose different dashboards.
+        As an example, you can open the `General / Kubernetes / Compute Resources / Node (Pods)` and view the resource metrics for a node and its related pods.
+        ![grafana dashboard example](grafana_dashboard_example_staging.png)
+
 
 ## Configuring Persistent Storage for Prometheus
 
