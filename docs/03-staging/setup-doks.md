@@ -10,23 +10,24 @@ This section will show you how to create a [DigitalOcean Kubernetes Cluster](htt
 To complete this section you will need:
 
 1. Doctl utility already installed as explained in the [Installing Required Tools -> Doctl](installing-required-tools.md#installing-doctl) section.
+2. Make sure that you're authenticated with the DigitalOcean API as explained in the [Authenticating with the DigitalOcean API](do-api-auth.md) section.
 
 ## Provisioning a Staging DOKS Cluster for Microservices
 
 In this step, you will create a new Kubernetes cluster running on the DigitalOcean platform, using the [doctl](https://docs.digitalocean.com/reference/doctl/) utility.
 
-Following command will create a DigitalOcean Kubernetes cluster named `microservices-demo-staging`, with a pool size of `3 nodes`, auto-scale to `2-4` each having `4 vCPUs` and `8gbGB` of RAM, in the `nyc1` region:
+Following command will create a DigitalOcean Kubernetes cluster named `microservices-demo-staging`, with a pool size of `2 nodes`, auto-scale to `2-4` each having `2 vCPUs` and `4gbGB` of RAM, in the `nyc1` region:
 
 ```shell
 doctl k8s cluster create microservices-demo-staging \
   --auto-upgrade=true \
   --maintenance-window "saturday=21:00" \
-  --node-pool "name=basicnp;size=s-4vcpu-8gb-amd;count=3;tag=cluster2;label=type=basic;auto-scale=true;min-nodes=2;max-nodes=4" \
+  --node-pool "name=basicnp;size=s-2vcpu-4gb-amd;count=3;tag=cluster2;label=type=basic;auto-scale=true;min-nodes=2;max-nodes=4" \
   --region nyc1
 ```
 
 !!! notes
-    - The example cluster created above is using 3 nodes, each having **4vCPU/8GB** size, which amounts to **168$/month**.
+    - The example cluster created above is using 3 nodes, each having **2vCPU/4GB** size, which amounts to **56$/month**.
     - For simplicity and consistency through all the guide, the **microservices-demo-staging** name was picked for the example cluster. You can choose any name you like, but you need to make sure the naming convention stays consistent.
     - It is recommended to use a region for your cluster that is closest to you for faster interaction. Run the following command - `doctl k8s options regions` to check available regions.
     - Cluster [auto upgrade](https://docs.digitalocean.com/products/kubernetes/how-to/upgrade-cluster/#automatically) is enabled (`--auto-upgrade=true`). Kubernetes clusters should be auto-upgraded to ensure that they always contain the latest security patches.

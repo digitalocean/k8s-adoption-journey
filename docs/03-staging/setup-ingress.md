@@ -78,7 +78,7 @@ In this section you will install the community maintained version of the Nginx i
     DO_API_TOKEN="<YOUR_DO_API_TOKEN_HERE>"
 
     kubectl create secret generic "digitalocean-dns" \
-        --namespace microservices-demo-dev \
+        --namespace microservices-demo-staging \
         --from-literal=access-token="$DO_API_TOKEN"
     ```
 

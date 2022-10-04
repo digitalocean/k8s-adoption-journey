@@ -23,7 +23,7 @@ To complete this section you will need:
 2. A Kubernetes cluster (DOKS) up and running as explained in the [Set up DOKS](setup-doks.md) section.
 3. Doctl utility already installed as explained in the [Installing Required Tools -> Doctl](installing-required-tools.md#installing-doctl) section.
 
-## Deploying the application with Kustomize
+## Bootstrap the online boutique application using Kustomize
 
 1. Clone your fork of the [kubernetes-sample-apps](https://github.com/digitalocean/kubernetes-sample-apps) if you haven't already (make sure to replace the <> placeholders).
 

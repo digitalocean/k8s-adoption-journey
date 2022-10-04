@@ -9,7 +9,7 @@ Observability is a measure of how well the system’s internal states can be inf
 1. Helm installed as explained in the [Installing required tools](installing-required-tools.md) section.
 2. A container registry already set up as explained in the [Set up DOCR](setup-docr.md) section.
 3. A Kubernetes cluster (DOKS) up and running as explained in the [Set up DOKS](setup-doks.md) section.
-4. The online boutique sample application deployed to your cluster as explained in the [Deploying the app](deploying-the-app.md) section.
+4. The online boutique sample application deployed to your cluster as explained in the [Deploying the app](deploying-the-online-boutique-sample-application.md.md) section.
 5. A [DO Spaces](https://cloud.digitalocean.com/spaces) bucket for `Loki` storage. Please follow the official `DigitalOcean` tutorial to [create one](https://docs.digitalocean.com/products/spaces/how-to/create/). Make sure that it is set to `restrict file listing` for security reasons.
 
 ## Installing the Prometheus Monitoring Stack
