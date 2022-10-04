@@ -7,7 +7,8 @@ A docker container registry is required to store all [microservices-demo](https:
 ## Prerequisites
 
 1. Doctl utility already installed, as explained in the [Installing Required Tools -> Doctl](installing-required-tools.md#installing-doctl) section.
-2. Make sure that you're authenticated with the DigitalOcean API as explained in the [Authenticating with the DigitalOcean API](do-api-auth.md) section.
+2. Kubectl utility already installed as explained in the [Installing Required Tools -> Kubectl](installing-required-tools.md#installing-kubectl) section.
+3. Make sure that you're authenticated with the DigitalOcean API as explained in the [Authenticating with the DigitalOcean API](do-api-auth.md) section.
 
 ## Provisioning a DigitalOcean Container Registry for Microservices Development
 
@@ -40,5 +41,45 @@ For more info on this topic please see this [Kubernetes Starter Kit DOCR Creatio
 
 !!! note
     Please note that DOCR creation can also be achieved from the [Digital Ocean Cloud Console](https://docs.digitalocean.com/products/container-registry/quickstart/).
+
+## Building and pushing docker images to DOCR
+
+In this section you will build and push the docker images required by the next sections. The sample application used throughout this adoption journey is the [Online Boutique](https://github.com/digitalocean/kubernetes-sample-apps/tree/master/microservices-demo) application.
+
+1. Create a fork of the [sample-apps-repository](https://github.com/digitalocean/kubernetes-sample-apps) to your GitHub account.
+
+    !!! info
+        At the top right of the page, you will find the `Fork` button. Click on it and create the fork.
+
+2. Clone the forked repository to your local machine:
+
+    ```shell
+    git clone https://github.com/digitalocean/kubernetes-sample-apps.git
+    ```
+
+3. Change directory to the `microservices-demo` folder:
+
+    ```shell
+    cd kubernetes-sample-apps/microservices-demo
+    ```
+
+4. Login to DOCR:
+
+    ```shell
+    doctl registry login
+    ```
+
+5. Run the `make-docker-images.sh` script (make sure to export the required environment variables):
+
+    ```shell
+    export REPO_PREFIX="registry.digitalocean.com/microservices-demo"
+    export TAG=1.0.0
+
+    ./release-scripts/make-docker-images.sh
+    ```
+
+    !!!info
+        You will be pushing an initial release first to DOCR (1.0.0) and use that to deploy to the `staging` and `production` environments in the upcoming sections. Later on, GitHub Actions will take care of building, tagging and pushing images to `DOCR`.
+        This process might take about 15 minutes.
 
 Next, you will learn how to create a DOKS cluster to use as a Kubernetes development environment, and start working with microservices.

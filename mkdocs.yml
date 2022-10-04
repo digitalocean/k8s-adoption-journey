@@ -18,7 +18,11 @@ nav:
       - Tilt for remote development: 02-development/tilt-remote.md
       - Set up ingress: 02-development/setup-ingress.md
       - Observability: 02-development/observability.md
-
+  - Staging environment:
+      - Setup DOKS: 03-staging/setup-doks.md
+      - Deploying the online boutique sample application: 03-staging/deploying-the-online-boutique-sample-application.md
+      - Set up ingress: 03-staging/setup-ingress.md
+      - Observability: 03-staging/observability.md
 theme:
   name: material
   logo: assets/do_logo.png
