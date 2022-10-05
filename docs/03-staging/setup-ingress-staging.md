@@ -5,8 +5,8 @@ In this section, you will install and configure the Kubernetes-maintained versio
 ## Prerequisites
 
 1. Helm installed as explained in the [Installing required tools](installing-required-tools.md) section.
-2. A Kubernetes cluster (DOKS) up and running as explained in the [Set up DOKS](setup-doks.md) section.
-3. The online boutique sample application deployed to your cluster as explained in the [Deploying the app](deploying-the-app.md) section.
+2. A Kubernetes cluster (DOKS) up and running as explained in the [Set up DOKS](setup-doks-staging.md) section.
+3. The online boutique sample application deployed to your cluster as explained in the [Deploying the app](deploying-the-online-boutique-sample-application-staging.md) section.
 4. A valid domain available and configured to point to DigitalOcean name servers. More information is available in this [article](https://www.digitalocean.com/community/tutorials/how-to-point-to-digitalocean-nameservers-from-common-domain-registrars). Digital Ocean is not a domain registrar, so you will need to purchase the domain from a well known vendor, such as GoDaddy.
 
 ## Installing the Nginx Ingress Controller
@@ -41,7 +41,7 @@ In this section you will install the community maintained version of the Nginx i
     ```
 
     !!! info
-        Please note that this domain matches the domain you purchased in the [Prerequisites](#prerequisites) section. You will use this domain to create additional sub-domains to use with the microservices app you will deploy in this section. You can also use the domain you already created in the [Development ingress setup](docs/02-development/setup-ingress.md) section.
+        Please note that this domain matches the domain you purchased in the [Prerequisites](#prerequisites) section. You will use this domain to create additional sub-domains to use with the microservices app you will deploy in this section. You can also use the domain you already created in the [Development ingress setup](setup-ingress-dev.md) section.
 
 4. Create an `A` record for your host (make sure to replace the <> placeholders first):
 

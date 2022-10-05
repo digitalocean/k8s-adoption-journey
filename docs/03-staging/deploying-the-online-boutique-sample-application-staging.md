@@ -20,7 +20,7 @@ For this purpose, kustomize supports the idea of an `overlay` and a `base`. Both
 To complete this section you will need:
 
 1. A container registry already set up as explained in the [Set up DOCR](setup-docr.md) section.
-2. A Kubernetes cluster (DOKS) up and running as explained in the [Set up DOKS](setup-doks.md) section.
+2. A Kubernetes cluster (DOKS) up and running as explained in the [Set up DOKS](setup-doks-staging.md) section.
 3. Doctl utility already installed as explained in the [Installing Required Tools -> Doctl](installing-required-tools.md#installing-doctl) section.
 
 ## Bootstrap the online boutique application using Kustomize

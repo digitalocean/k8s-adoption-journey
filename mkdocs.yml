@@ -13,16 +13,16 @@ nav:
       - Authenticating with the DigitalOcean API: 01-getting-started/do-api-auth.md
       - Set up a Digital Ocean container registry: 01-getting-started/setup-docr.md
   - Development environment:
-      - Setup DOKS: 02-development/setup-doks.md
+      - Setup DOKS: 02-development/setup-doks-dev.md
       - Tilt for local development: 02-development/tilt-local.md
       - Tilt for remote development: 02-development/tilt-remote.md
-      - Set up ingress: 02-development/setup-ingress.md
-      - Observability: 02-development/observability.md
+      - Set up ingress: 02-development/setup-ingress-dev.md
+      - Observability: 02-development/observability-dev.md
   - Staging environment:
-      - Setup DOKS: 03-staging/setup-doks.md
-      - Deploying the online boutique sample application: 03-staging/deploying-the-online-boutique-sample-application.md
-      - Set up ingress: 03-staging/setup-ingress.md
-      - Observability: 03-staging/observability.md
+      - Setup DOKS: 03-staging/setup-doks-staging.md
+      - Deploying the online boutique sample application: 03-staging/deploying-the-online-boutique-sample-application-staging.md
+      - Set up ingress: 03-staging/setup-ingress-staging.md
+      - Observability: 03-staging/observability-staging.md
 theme:
   name: material
   logo: assets/do_logo.png
