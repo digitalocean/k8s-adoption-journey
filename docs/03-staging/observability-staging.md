@@ -7,8 +7,8 @@ Observability is a measure of how well the system’s internal states can be inf
 ## Prerequisites
 
 1. Helm installed as explained in the [Installing required tools](installing-required-tools.md) section.
-2. A Kubernetes cluster (DOKS) up and running as explained in the [Set up DOKS](setup-doks.md) section.
-3. The online boutique sample application deployed to your cluster as explained in the [Deploying the app](deploying-the-online-boutique-sample-application.md.md) section.
+2. A Kubernetes cluster (DOKS) up and running as explained in the [Set up DOKS](setup-doks-staging.md) section.
+3. The online boutique sample application deployed to your cluster as explained in the [Deploying the app](deploying-the-online-boutique-sample-application-staging.md) section.
 4. A [DO Spaces](https://cloud.digitalocean.com/spaces) bucket for `Loki` storage. Please follow the official `DigitalOcean` tutorial to [create one](https://docs.digitalocean.com/products/spaces/how-to/create/). Make sure that it is set to `restrict file listing` for security reasons.
 
 ## Installing the Prometheus Monitoring Stack
@@ -51,7 +51,6 @@ Observability is a measure of how well the system’s internal states can be inf
         `Grafana` installation comes with a number of dashboards. Open a web browser on [localhost:3000](http://localhost:3000). Once in, you can go to `Dashboards -> Browse`, and choose different dashboards.
         As an example, you can open the `General / Kubernetes / Compute Resources / Node (Pods)` and view the resource metrics for a node and its related pods.
         ![grafana dashboard example](grafana_dashboard_example_staging.png)
-
 
 ## Configuring Persistent Storage for Prometheus
 
@@ -249,7 +248,7 @@ You will be creating a sample alert that will trigger if the `microservices-demo
     ```
 
     !!! info
-        To check that the alert has been created successfully, first port-forward to your local machine by running this command: `kubectl --namespace monitoring port-forward service/kube-prom-stack-kube-prome-prometheus 9090:9090`. Navigate to the [Promethes Console](http://localhost:9090) click on the `Alerts` menu item and identify the `EmojivotioInstanceDown` alert. It should be visible at the bottom of the list.
+        To check that the alert has been created successfully, first port-forward to your local machine by running this command: `kubectl --namespace monitoring port-forward service/kube-prom-stack-kube-prome-prometheus 9090:9090`. Navigate to the [Promethes Console](http://localhost:9090) click on the `Alerts` menu item and identify the `OnlineBoutiqueInstanceDown` alert. It should be visible at the bottom of the list.
 
 ## Configuring Alertmanager to Send Notifications to Slack
 
@@ -267,15 +266,15 @@ Next you will tell `Alertmanager` how to send `Slack` notifications.
 
 1. Open the `docs/03-staging/assets/manifests/prom-stack-values-v35.5.1.yaml` file provided and uncomment the `alertmaanager.config` block. Make sure to update the `<>` placeholders accordingly. The definition should look like:
 
-    ```yaml
+  ```yaml
     alertmanager:
       enabled: true
       config:
         global:
           resolve_timeout: 5m
-          <!-- #slack_api_url: "<YOUR_SLACK_APP_INCOMING_WEBHOOK_URL_HERE>" -->
+          slack_api_url: "<YOUR_SLACK_APP_INCOMING_WEBHOOK_URL_HERE>"
         route:
-          receiver: "slack-notifications"
+          receiver: "null"
           repeat_interval: 12h
           routes:
             - receiver: "slack-notifications"
@@ -283,6 +282,7 @@ Next you will tell `Alertmanager` how to send `Slack` notifications.
                 - alertname="OnlineBoutiqueInstanceDown"
               continue: false
         receivers:
+          - name: "null"
           - name: "slack-notifications"
             slack_configs:
               - channel: "#<YOUR_SLACK_CHANNEL_NAME_HERE>"

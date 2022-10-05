@@ -32,7 +32,7 @@ alertmanager:
   #     resolve_timeout: 5m
   #     slack_api_url: "<YOUR_SLACK_APP_INCOMING_WEBHOOK_URL_HERE>"
   #   route:
-  #     receiver: "slack-notifications"
+  #     receiver: "null"
   #     repeat_interval: 12h
   #     routes:
   #       - receiver: "slack-notifications"
@@ -40,6 +40,7 @@ alertmanager:
   #           - alertname="OnlineBoutiqueInstanceDown"
   #         continue: false
   #   receivers:
+  #     - name: "null"
   #     - name: "slack-notifications"
   #       slack_configs:
   #         - channel: "#<YOUR_SLACK_CHANNEL_NAME_HERE>"

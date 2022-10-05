@@ -1,6 +1,6 @@
 ## Introduction
 
-This section will show you how to do remote development using [Tilt](https://tilt.dev/). It is very similar to the local development guide, the only difference being you will work directly on the remote Kubernetes cluster created in the [Set up DOKS](setup-doks.md) section. Application changes and reloading will happen as well on the remote development cluster.
+This section will show you how to do remote development using [Tilt](https://tilt.dev/). It is very similar to the local development guide, the only difference being you will work directly on the remote Kubernetes cluster created in the [Set up DOKS](setup-doks-dev.md) section. Application changes and reloading will happen as well on the remote development cluster.
 
 Next, you will use Tilt to deploy the [online boutique](https://github.com/digitalocean/kubernetes-sample-apps/tree/master/microservices-demo) sample application to your development DOKS cluster.
 
@@ -10,7 +10,7 @@ To complete this section you will need:
 
 1. Tilt already installed and working as explained in the [Installing Required Tools](installing-required-tools.md) section.
 2. A container registry already set up as explained in the [Set up DOCR](setup-docr.md) section.
-3. A Kubernetes cluster (DOKS) up and running as explained in the [Set up DOKS](setup-doks.md) section.
+3. A Kubernetes cluster (DOKS) up and running as explained in the [Set up DOKS](setup-doks-dev.md) section.
 
 ## Remote development with Tilt
 

@@ -5,7 +5,7 @@ In this section, you will learn how to install and configure the Kubernetes-main
 ## Prerequisites
 
 1. Helm installed as explained in the [Installing required tools](installing-required-tools.md) section.
-2. A Kubernetes cluster (DOKS) up and running as explained in the [Set up DOKS](setup-doks.md) section.
+2. A Kubernetes cluster (DOKS) up and running as explained in the [Set up DOKS](setup-doks-dev.md) section.
 3. The online boutique sample application deployed to your cluster as explained in the [Tilt remote development](tilt-remote.md) section.
 4. A valid domain available and configured to point to DigitalOcean name servers. More information is available in this [article](https://www.digitalocean.com/community/tutorials/how-to-point-to-digitalocean-nameservers-from-common-domain-registrars). Digital Ocean is not a domain registrar, so you will need to purchase the domain from a well known vendor, such as GoDaddy.
 
