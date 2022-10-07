@@ -23,6 +23,11 @@ nav:
       - Deploying the online boutique sample application: 03-staging/deploying-the-online-boutique-sample-application-staging.md
       - Set up ingress: 03-staging/setup-ingress-staging.md
       - Observability: 03-staging/observability-staging.md
+  - Production environment:
+      - Setup DOKS: 04-production/setup-doks-production.md
+      - Deploying the online boutique sample application: 04-production/deploying-the-online-boutique-sample-application-production.md
+      - Set up ingress: 04-production/setup-ingress-production.md
+      - Observability: 04-production/observability-production.md
 theme:
   name: material
   logo: assets/do_logo.png

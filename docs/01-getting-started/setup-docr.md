@@ -41,6 +41,7 @@ For more info on this topic please see this [Kubernetes Starter Kit DOCR Creatio
 
 !!! note
     Please note that DOCR creation can also be achieved from the [Digital Ocean Cloud Console](https://docs.digitalocean.com/products/container-registry/quickstart/).
+    Please note that this step should be configured for each new cluster you create in your DO account.
 
 ## Building and pushing docker images to DOCR
 

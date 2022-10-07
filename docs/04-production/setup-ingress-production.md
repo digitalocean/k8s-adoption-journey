@@ -5,8 +5,8 @@ In this section, you will install and configure the Kubernetes-maintained versio
 ## Prerequisites
 
 1. Helm installed as explained in the [Installing required tools](installing-required-tools.md) section.
-2. A Kubernetes cluster (DOKS) up and running as explained in the [Set up DOKS](setup-doks-staging.md) section.
-3. The online boutique sample application deployed to your cluster as explained in the [Deploying the app](deploying-the-online-boutique-sample-application-staging.md) section.
+2. A Kubernetes cluster (DOKS) up and running as explained in the [Set up DOKS](setup-doks-production.md) section.
+3. The online boutique sample application deployed to your cluster as explained in the [Deploying the app](deploying-the-online-boutique-sample-application-production.md) section.
 4. A valid domain available and configured to point to DigitalOcean name servers. More information is available in this [article](https://www.digitalocean.com/community/tutorials/how-to-point-to-digitalocean-nameservers-from-common-domain-registrars). Digital Ocean is not a domain registrar, so you will need to purchase the domain from a well known vendor, such as GoDaddy.
 
 ## Installing the Nginx Ingress Controller
@@ -48,7 +48,7 @@ In this section you will install the community maintained version of the Nginx i
     ```shell
     doctl compute domain records create <YOUR_DOMAIN_NAME> \
         --record-type "A" --record-name <YOUR_RECORD_NAME> \
-        --record-data "<YOUR_STAGING_LB_IP_ADDRESS>" \
+        --record-data "<YOUR_PRODUCTION_LB_IP_ADDRESS>" \
         --record-ttl "30"
     ```
 
@@ -78,12 +78,12 @@ In this section you will install the community maintained version of the Nginx i
     DO_API_TOKEN="<YOUR_DO_API_TOKEN_HERE>"
 
     kubectl create secret generic "digitalocean-dns" \
-        --namespace microservices-demo-staging \
+        --namespace microservices-demo-prod \
         --from-literal=access-token="$DO_API_TOKEN"
     ```
 
     !!! note
-        The secret must be created in the **same namespace** where the `Issuer` CRD is located - in this case the `microservides-demo-staging` namespace.
+        The secret must be created in the **same namespace** where the `Issuer` CRD is located - in this case the `microservides-demo-prod` namespace.
 
 8. Create an `issuer` resource for cert-manager using `kubectl` (make sure to replace the <> placeholders first):
 
@@ -95,7 +95,7 @@ In this section you will install the community maintained version of the Nginx i
         kind: Issuer
         metadata:
         name: letsencrypt-nginx-wcard
-        namespace: microservices-demo-staging
+        namespace: microservices-demo-prod
         spec:
         # ACME issuer configuration:
         # `email` - the email address to be associated with the ACME account (make sure it's a valid one).
@@ -121,14 +121,14 @@ In this section you will install the community maintained version of the Nginx i
     Apply via kubectl:
 
     ```shell
-    kubectl apply -f docs/03-staging/assets/manifests/cert-manager-wildcard-issuer.yaml
+    kubectl apply -f docs/04-production/assets/manifests/cert-manager-wildcard-issuer.yaml
     ```
 
     !!! info
-    Running `kubectl get issuer letsencrypt-nginx-wcard -n microservices-demo-staging` should result in the `True` value being displayed under the `READY` column.
+    Running `kubectl get issuer letsencrypt-nginx-wcard -n microservices-demo-prod` should result in the `True` value being displayed under the `READY` column.
 
     !!! note
-        If the `Issuer` object displays a `Not Ready` state you can describe the object to get additional information using: `kubectl describe issuer letsencrypt-nginx-wcard -n microservices-demo-staging` to get more information.
+        If the `Issuer` object displays a `Not Ready` state you can describe the object to get additional information using: `kubectl describe issuer letsencrypt-nginx-wcard -n microservices-demo-prod` to get more information.
 
 9. Create the `wildcard certificates` resource using `kubectl` and the provided manifest file (make sure to replace the <> placeholders first):
 
@@ -141,7 +141,7 @@ In this section you will install the community maintained version of the Nginx i
         metadata:
         name: <YOUR_DOMAIN_NAME>
         # Cert-Manager will put the resulting Secret in the same Kubernetes namespace as the Certificate.
-        namespace: microservices-demo-staging
+        namespace: microservices-demo-prod
         spec:
         # Secret name to create, where the private key and certificate should be stored.
         secretName: <YOUR_DOMAIN_NAME>
@@ -157,17 +157,17 @@ In this section you will install the community maintained version of the Nginx i
             - "<YOUR_DOMAIN_NAME>"
             - "*.<YOUR_DOMAIN_NAME>"
         ```
-    
+
     Apply via kubectl:
 
     ```shell
-    kubectl apply -f docs/03-staging/assets/manifests/cert-manager-wildcard-certificate.yaml
+    kubectl apply -f docs/04-production/assets/manifests/cert-manager-wildcard-certificate.yaml
     ```
 
     To verify the certificate status run:
 
     ```shell
-    kubectl get certificate <YOUR_DOMAIN_NAME> -n microservices-demo-staging
+    kubectl get certificate <YOUR_DOMAIN_NAME> -n microservices-demo-prod
     ```
 
     !!! info
@@ -182,8 +182,8 @@ In this section you will install the community maintained version of the Nginx i
         apiVersion: networking.k8s.io/v1
         kind: Ingress
         metadata:
-        name: ingress-microservices-demo-staging
-        namespace: microservices-demo-staging
+        name: ingress-microservices-demo-prod
+        namespace: microservices-demo-prod
         spec:
         tls:
             - hosts:
@@ -206,12 +206,12 @@ In this section you will install the community maintained version of the Nginx i
     Apply via kubectl:
 
     ```shell
-    kubectl apply -f docs/03-staging/assets/manifests/ingress-host.yaml 
+    kubectl apply -f docs/04-production/assets/manifests/ingress-host.yaml 
     ```
 
 11. Open a web browser and point to `<YOUR_A_RECORD>.<YOUR_DOMAIN>`. You should see the online boutique welcome page. The connection is secure and the certificate is a valid one issued by [Let's Encrypt](https://letsencrypt.org).
 
-    ![staging environment online boutique](microservices_demo_ingress_staging.png)
+    ![production environment online boutique](microservices_demo_ingress_production.png)
 
 Next you will install and configure the `Prometheus` stack for monitoring your DOKS cluster, `Loki` to fetch and aggregate logs from your cluster's resources and view them in `Grafana` and configure `AlertManager` to alert and notify when there is a critical issue in your cluster.
 You will also configure the `events exporter` tool to grab `Kubernetes events` and send and store them in `Loki` as they are a great way to monitor the health and activity of your K8s clusters.
