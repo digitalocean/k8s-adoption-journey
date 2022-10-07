@@ -93,32 +93,34 @@ In this section you will install the community maintained version of the Nginx i
 
     The `issuer` manifest file looks like the following:
 
-    ??? note "Click to expland `issuer` manifest file"
-            apiVersion: cert-manager.io/v1
-            kind: Issuer
-            metadata:
-            name: letsencrypt-nginx-wcard
-            namespace: microservices-demo-dev
-            spec:
-            # ACME issuer configuration:
-            # `email` - the email address to be associated with the ACME account (make sure it's a valid one).
-            # `server` - the URL used to access the ACME server’s directory endpoint.
-            # `privateKeySecretRef` - Kubernetes Secret to store the automatically generated ACME account private key.
-            acme:
-                email: <YOUR_EMAIL_ADDRESS>
-                server: https://acme-v02.api.letsencrypt.org/directory
-                privateKeySecretRef:
-                name: letsencrypt-nginx-wcard-private
-                # List of challenge solvers that will be used to solve ACME challenges for the matching domains.
-                solvers:
-                # Use the DigitalOcean DNS API to manage DNS01 challenge records.
-                - dns01:
-                    digitalocean:
-                        # Kubernetes secret that contains the DO API token .
-                        # Must be in the same namespace as the Issuer CRD.
-                        tokenSecretRef:
-                        name: digitalocean-dns
-                        key: access-token`
+    ??? note "Click to expand `issuer` manifest file"
+        ```yaml
+        apiVersion: cert-manager.io/v1
+        kind: Issuer
+        metadata:
+        name: letsencrypt-nginx-wcard
+        namespace: microservices-demo-dev
+        spec:
+        # ACME issuer configuration:
+        # `email` - the email address to be associated with the ACME account (make sure it's a valid one).
+        # `server` - the URL used to access the ACME server’s directory endpoint.
+        # `privateKeySecretRef` - Kubernetes Secret to store the automatically generated ACME account private key.
+        acme:
+            email: <YOUR_EMAIL_ADDRESS>
+            server: https://acme-v02.api.letsencrypt.org/directory
+            privateKeySecretRef:
+            name: letsencrypt-nginx-wcard-private
+            # List of challenge solvers that will be used to solve ACME challenges for the matching domains.
+            solvers:
+            # Use the DigitalOcean DNS API to manage DNS01 challenge records.
+            - dns01:
+                digitalocean:
+                    # Kubernetes secret that contains the DO API token .
+                    # Must be in the same namespace as the Issuer CRD.
+                    tokenSecretRef:
+                    name: digitalocean-dns
+                    key: access-token
+        ```
 
     Apply via kubectl:
 
@@ -137,26 +139,28 @@ In this section you will install the community maintained version of the Nginx i
     The `certificate` manifest file looks like the following:
 
     ??? note "Click to expland the `certificate` resource"
-            apiVersion: cert-manager.io/v1
-            kind: Certificate
-            metadata:
-            name: <YOUR_DOMAIN_NAME>
-            # Cert-Manager will put the resulting Secret in the same Kubernetes namespace as the Certificate.
-            namespace: microservices-demo-dev
-            spec:
-            # Secret name to create, where the private key and certificate should be stored.
-            secretName: <YOUR_DOMAIN_NAME>
-            # What Issuer to use for getting the certificate.
-            issuerRef:
-                name: letsencrypt-nginx-wcard
-                kind: Issuer
-                group: cert-manager.io
-            # Common name to be used on the Certificate.
-            commonName: "*.<YOUR_DOMAIN_NAME>"
-            # List of DNS subjectAltNames to be set on the Certificate.
-            dnsNames:
-                - "<YOUR_DOMAIN_NAME>"
-                - "*.<YOUR_DOMAIN_NAME>"
+        ```yaml
+        apiVersion: cert-manager.io/v1
+        kind: Certificate
+        metadata:
+        name: <YOUR_DOMAIN_NAME>
+        # Cert-Manager will put the resulting Secret in the same Kubernetes namespace as the Certificate.
+        namespace: microservices-demo-dev
+        spec:
+        # Secret name to create, where the private key and certificate should be stored.
+        secretName: <YOUR_DOMAIN_NAME>
+        # What Issuer to use for getting the certificate.
+        issuerRef:
+            name: letsencrypt-nginx-wcard
+            kind: Issuer
+            group: cert-manager.io
+        # Common name to be used on the Certificate.
+        commonName: "*.<YOUR_DOMAIN_NAME>"
+        # List of DNS subjectAltNames to be set on the Certificate.
+        dnsNames:
+            - "<YOUR_DOMAIN_NAME>"
+            - "*.<YOUR_DOMAIN_NAME>"
+        ```
 
     Apply via kubectl:
 
@@ -178,28 +182,30 @@ In this section you will install the community maintained version of the Nginx i
     The `ingress host` manifest file looks like the following:
 
     ??? note "Click to expand the `ingress host` resource"
-            apiVersion: networking.k8s.io/v1
-            kind: Ingress
-            metadata:
-            name: ingress-microservices-demo-dev
-            namespace: microservices-demo-dev
-            spec:
-            tls:
-                - hosts:
-                    - "*.<YOUR_DOMAIN_NAME>"
-                secretName: <YOUR_DOMAIN_NAME>
-            rules:
-                - host: <YOUR_A_RECORD>.<YOUR_DOMAIN_NAME>
-                http:
-                    paths:
-                    - path: /
-                        pathType: Prefix
-                        backend:
-                        service:
-                            name: frontend
-                            port:
-                            number: 80
-            ingressClassName: nginx
+        ```yaml
+        apiVersion: networking.k8s.io/v1
+        kind: Ingress
+        metadata:
+        name: ingress-microservices-demo-dev
+        namespace: microservices-demo-dev
+        spec:
+        tls:
+            - hosts:
+                - "*.<YOUR_DOMAIN_NAME>"
+            secretName: <YOUR_DOMAIN_NAME>
+        rules:
+            - host: <YOUR_A_RECORD>.<YOUR_DOMAIN_NAME>
+            http:
+                paths:
+                - path: /
+                    pathType: Prefix
+                    backend:
+                    service:
+                        name: frontend
+                        port:
+                        number: 80
+        ingressClassName: nginx
+        ```
 
     Apply via kubectl:
 
