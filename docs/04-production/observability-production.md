@@ -7,8 +7,8 @@ Observability is a measure of how well the system’s internal states can be inf
 ## Prerequisites
 
 1. Helm installed as explained in the [Installing required tools](installing-required-tools.md) section.
-2. A Kubernetes cluster (DOKS) up and running as explained in the [Set up DOKS](setup-doks-staging.md) section.
-3. The online boutique sample application deployed to your cluster as explained in the [Deploying the app](deploying-the-online-boutique-sample-application-staging.md) section.
+2. A Kubernetes cluster (DOKS) up and running as explained in the [Set up DOKS](setup-doks-production.md) section.
+3. The online boutique sample application deployed to your cluster as explained in the [Deploying the app](deploying-the-online-boutique-sample-application-production.md) section.
 4. A [DO Spaces](https://cloud.digitalocean.com/spaces) bucket for `Loki` storage. Please follow the official `DigitalOcean` tutorial to [create one](https://docs.digitalocean.com/products/spaces/how-to/create/). Make sure that it is set to `restrict file listing` for security reasons.
 
 ## Installing the Prometheus Monitoring Stack
@@ -29,7 +29,7 @@ Observability is a measure of how well the system’s internal states can be inf
     helm install kube-prom-stack prometheus-community/kube-prometheus-stack --version "${HELM_CHART_VERSION}" \
       --namespace monitoring \
       --create-namespace \
-      -f "docs/03-staging/assets/manifests/prom-stack-values-v${HELM_CHART_VERSION}.yaml"
+      -f "docs/04-production/assets/manifests/prom-stack-values-v${HELM_CHART_VERSION}.yaml"
     ```
 
     !!! note
@@ -54,12 +54,14 @@ Observability is a measure of how well the system’s internal states can be inf
 
 ## Configuring Persistent Storage for Prometheus
 
-In this section, you will learn how to enable `persistent storage` for `Prometheus`, so that metrics data is persisted across `server restarts`, or in case of `cluster failures`. For the `staging` environment, you will define a `5 Gi Persistent Volume Claim` (PVC), using the `DigitalOcean Block Storage`.
+In this section, you will learn how to enable `persistent storage` for `Prometheus`, so that metrics data is persisted across `server restarts`, or in case of `cluster failures`. For the `production` environment, you will define a `10 Gi Persistent Volume Claim` (PVC), using the `DigitalOcean Block Storage`.
 
-1. Open the `"docs/03-staging/assets/manifests/prom-stack-values-v35.5.1.yaml` file provided and uncomment the `storageSpec` section. The definition should look like this:
+1. Open the `"docs/04-production/assets/manifests/prom-stack-values-v35.5.1.yaml` file provided and uncomment the `storageSpec` section. The definition should look like this:
 
     ```yaml
     prometheusSpec:
+      replicas: 2
+      retention: 20
       storageSpec:
         volumeClaimTemplate:
           spec:
@@ -67,8 +69,11 @@ In this section, you will learn how to enable `persistent storage` for `Promethe
             accessModes: ["ReadWriteOnce"]
             resources:
               requests:
-                storage: 5Gi
+                storage: 10Gi
     ```
+
+    !!! note
+        The default retention time for metrics is set to `10d` by default in the `kube-prometheus-stack` helm chart. In production the retention time will be set to `20d`. After 20 days the metrics will be deleted from the `Volume`.
 
 2. Apply the new settings using `Helm`:
 
@@ -77,7 +82,7 @@ In this section, you will learn how to enable `persistent storage` for `Promethe
 
     helm upgrade kube-prom-stack prometheus-community/kube-prometheus-stack --version "${HELM_CHART_VERSION}" \
       --namespace monitoring \
-      -f "docs/03-staging/assets/manifests/prom-stack-values-v${HELM_CHART_VERSION}.yaml"
+      -f "docs/04-production/assets/manifests/prom-stack-values-v${HELM_CHART_VERSION}.yaml"
     ```
 
     !!! note
@@ -85,9 +90,9 @@ In this section, you will learn how to enable `persistent storage` for `Promethe
 
 ## Configuring Persistent Storage for Grafana
 
-In this section, you will learn how to enable `persistent storage` for `Grafana`, so that metrics data is persisted across `server restarts`, or in case of `cluster failures`. For the `staging` environment, you will define a `5 Gi Persistent Volume Claim` (PVC), using the `DigitalOcean Block Storage`.
+In this section, you will learn how to enable `persistent storage` for `Grafana`, so that metrics data is persisted across `server restarts`, or in case of `cluster failures`. For the `production` environment, you will define a `10 Gi Persistent Volume Claim` (PVC), using the `DigitalOcean Block Storage`.
 
-1. Open the `docs/03-staging/assets/manifests/prom-stack-values-v35.5.1.yaml` file provided and uncomment the `storageSpec` section. The definition should look like this:
+1. Open the `docs/04-production/assets/manifests/prom-stack-values-v35.5.1.yaml` file provided and uncomment the `storageSpec` section. The definition should look like this:
 
     ```yaml
     grafana:
@@ -96,7 +101,7 @@ In this section, you will learn how to enable `persistent storage` for `Grafana`
         enabled: true
         storageClassName: do-block-storage
         accessModes: ["ReadWriteOnce"]
-        size: 5Gi
+        size: 10Gi
     ```
 
 2. Apply the new settings using `Helm`:
@@ -106,7 +111,7 @@ In this section, you will learn how to enable `persistent storage` for `Grafana`
 
     helm upgrade kube-prom-stack prometheus-community/kube-prometheus-stack --version "${HELM_CHART_VERSION}" \
       --namespace monitoring \
-      -f "docs/03-staging/assets/manifests/prom-stack-values-v${HELM_CHART_VERSION}.yaml"
+      -f "docs/04-production/assets/manifests/prom-stack-values-v${HELM_CHART_VERSION}.yaml"
     ```
 
     !!! note
@@ -133,7 +138,7 @@ In this section you will learn about [Loki](https://github.com/grafana/helm-char
         helm install loki grafana/loki-stack --version "${HELM_CHART_VERSION}" \
         --namespace=loki-stack \
         --create-namespace \
-        -f "docs/03-staging/assets/manifests/loki-stack-values-v${HELM_CHART_VERSION}.yaml"
+        -f "docs/04-production/assets/manifests/loki-stack-values-v${HELM_CHART_VERSION}.yaml"
     ```  
 
     !!! note
@@ -162,13 +167,13 @@ Next, open a web browser on [localhost:3000](http://localhost:3000), and follow 
 
 You can access logs from the `Explore` tab of `Grafana`. Make sure to select `Loki` as the data source. Use the `Help` button for log search cheat sheet.
     !!! info
-        As an example query, to retrieve all the logs for the `microservices-demo-staging` namespace you can run: `{namespace="microservices-demo-staging"}`.
+        As an example query, to retrieve all the logs for the `microservices-demo-prod` namespace you can run: `{namespace="microservices-demo-prod"}`.
 
 ## Configuring Persistent Storage for Loki
 
 In this step, you will learn how to enable `persistent` storage for `Loki`. You're going to use the `DO Spaces` bucket created in the [Prerequisites](#prerequisites) section.
 
-1. Open the `docs/03-staging/assets/manifests/loki-stack-values-v35.5.1.yaml` file provided and remove the comments surrounding the `schema_config` and `storage_config` keys. The definition should look like this:
+1. Open the `docs/04-production/assets/manifests/loki-stack-values-v35.5.1.yaml` file provided and remove the comments surrounding the `schema_config` and `storage_config` keys. The definition should look like this:
 
     ??? note "Click to expand the `loki config`"
         ```yaml
@@ -206,7 +211,7 @@ In this step, you will learn how to enable `persistent` storage for `Loki`. You'
 
         helm upgrade loki grafana/loki-stack --version "${HELM_CHART_VERSION}" \
         --namespace=loki-stack \
-        -f "docs/03-staging/assets/manifests/loki-stack-values-v${HELM_CHART_VERSION}.yaml"
+        -f "docs/04-production/assets/manifests/loki-stack-values-v${HELM_CHART_VERSION}.yaml"
     ```  
 
     !!! note
@@ -261,9 +266,9 @@ Alertmanager is deployed alongside Prometheus and forms the alerting layer of th
 Alerts and notifications are a critical part of your workflow. When things go wrong (e.g. any service is down, or a pod is crashing, etc.), you will want to get notifications in real time to handle critical situations as soon as possible.
 
 To create a new alert, you need to add a new definition in the `additionalPrometheusRule`s section from the kube-prom-stack Helm values file.
-You will be creating a sample alert that will trigger if the `microservices-demo-staging` namespace does not have an expected number of instances. The expected number of pods for the `online boutique` application is 10.
+You will be creating a sample alert that will trigger if the `microservices-demo-prod` namespace does not have an expected number of instances. The expected number of pods for the `online boutique` application is 10.
 
-1. Open the `docs/03-staging/assets/manifests/prom-stack-values-v35.5.1.yaml` file provided and uncomment the `additionalPrometheusRulesMap` block. The definition should look like this:
+1. Open the `docs/04-production/assets/manifests/prom-stack-values-v35.5.1.yaml` file provided and uncomment the `additionalPrometheusRulesMap` block. The definition should look like this:
 
     ```yaml
     additionalPrometheusRulesMap:
@@ -272,7 +277,7 @@ You will be creating a sample alert that will trigger if the `microservices-demo
         - name: online-boutique-instance-down
           rules:
             - alert: OnlineBoutiqueInstanceDown
-              expr: sum(kube_pod_owner{namespace="microservices-demo-staging"}) by (namespace) < 10
+              expr: sum(kube_pod_owner{namespace="microservices-demo-prod"}) by (namespace) < 10
               for: 1m
               labels:
                 severity: 'critical'
@@ -288,7 +293,7 @@ You will be creating a sample alert that will trigger if the `microservices-demo
 
     helm upgrade kube-prom-stack prometheus-community/kube-prometheus-stack --version "${HELM_CHART_VERSION}" \
       --namespace monitoring \
-      -f "docs/03-staging/assets/manifests/prom-stack-values-v${HELM_CHART_VERSION}.yaml"
+      -f "docs/04-production/assets/manifests/prom-stack-values-v${HELM_CHART_VERSION}.yaml"
     ```
 
     !!! info
@@ -308,7 +313,7 @@ Steps to follow:
 
 Next you will tell `Alertmanager` how to send `Slack` notifications.
 
-1. Open the `docs/03-staging/assets/manifests/prom-stack-values-v35.5.1.yaml` file provided and uncomment the `alertmanager.config` block. Make sure to update the `<>` placeholders accordingly. The definition should look like:
+1. Open the `docs/04-production/assets/manifests/prom-stack-values-v35.5.1.yaml` file provided and uncomment the `alertmaanager.config` block. Make sure to update the `<>` placeholders accordingly. The definition should look like:
 
     ??? note "Click to expand the `alertmanager config`"
         ```yaml
@@ -343,7 +348,7 @@ Next you will tell `Alertmanager` how to send `Slack` notifications.
 
     helm upgrade kube-prom-stack prometheus-community/kube-prometheus-stack --version "${HELM_CHART_VERSION}" \
       --namespace monitoring \
-      -f "docs/03-staging/assets/manifests/prom-stack-values-v${HELM_CHART_VERSION}.yaml"
+      -f "docs/04-production/assets/manifests/prom-stack-values-v${HELM_CHART_VERSION}.yaml"
     ```
 
   !!! info
@@ -390,7 +395,7 @@ In this section you will learn how to configure the [Kubernetes Events Exporter]
         ```
 
     ``` shell
-    kubectl apply -f docs/03-staging/assets/manifests/event-exporter-roles.yaml
+    kubectl apply -f docs/04-production/assets/manifests/event-exporter-roles.yaml
     ```
   
 2. Create the `event exporter` config using `kubectl`:
@@ -418,7 +423,7 @@ In this section you will learn how to configure the [Kubernetes Events Exporter]
         ```
 
     ``` shell
-    kubectl apply -f docs/03-staging/assets/manifests/event-exporter-config.yaml
+    kubectl apply -f docs/04-production/assets/manifests/event-exporter-config.yaml
     ```
 
 3. Finally, create the `event exporter` deployment using kubectl:
@@ -461,7 +466,7 @@ In this section you will learn how to configure the [Kubernetes Events Exporter]
         ```
 
     ``` shell
-    kubectl apply -f docs/03-staging/assets/manifests/event-exporter-deployment.yaml
+    kubectl apply -f docs/04-production/assets/manifests/event-exporter-deployment.yaml
     ```
 
 ## Viewing events in Grafana

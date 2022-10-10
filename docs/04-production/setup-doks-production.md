@@ -1,9 +1,7 @@
 ## Introduction
 
-This section will show you how to create a [DigitalOcean Kubernetes Cluster](https://docs.digitalocean.com/products/kubernetes/) (**DOKS**) cluster which will be used as a `staging` environment, targeting the [online boutique](https://github.com/digitalocean/kubernetes-sample-apps/tree/master/microservices-demo) sample application used as a reference in this guide.
-
-!!! note
-    A staging environment should be pretty close (if not similar) to a production environment hence you will be creating a bigger cluster, resource wise, to be able to handle the workload you would normally have on your production environment.
+This section will show you how to create a [DigitalOcean Kubernetes Cluster](https://docs.digitalocean.com/products/kubernetes/) (**DOKS**) cluster which will be used as the `production` environment, targeting the [online boutique](https://github.com/digitalocean/kubernetes-sample-apps/tree/master/microservices-demo) sample application used as a reference in this guide.
+A Kubernetes environment is referred to as `production-ready` when it has everything needed to serve traffic to real end users and has the resources to adapt to changing demands. A production environment should be secure, scalable, highly available and reliable, and must provide logging and monitoring capabilities that meet organizational requirements.
 
 ## Prerequisites
 
@@ -16,19 +14,19 @@ To complete this section you will need:
 
 In this step, you will create a new Kubernetes cluster running on the DigitalOcean platform, using the [doctl](https://docs.digitalocean.com/reference/doctl/) utility.
 
-Following command will create a DigitalOcean Kubernetes cluster named `microservices-demo-staging`, with a pool size of `3 nodes`, auto-scale to `2-4` each having `2 vCPUs` and `4gbGB` of RAM, in the `nyc1` region:
+Following command will create a DigitalOcean Kubernetes cluster named `microservices-demo-production`, with a pool size of `4 nodes`, auto-scale to `3-5` each having `2 vCPUs` and `4gbGB` of RAM, in the `nyc1` region:
 
 ```shell
-doctl k8s cluster create microservices-demo-staging \
+doctl k8s cluster create microservices-demo-production \
   --auto-upgrade=true \
   --maintenance-window "saturday=21:00" \
-  --node-pool "name=basicnp;size=s-2vcpu-4gb-amd;count=3;tag=cluster2;label=type=basic;auto-scale=true;min-nodes=2;max-nodes=4" \
+  --node-pool "name=basicnp;size=s-2vcpu-4gb-amd;count=4;tag=cluster2;label=type=basic;auto-scale=true;min-nodes=3;max-nodes=5" \
   --region nyc1
 ```
 
 !!! notes
-    - The example cluster created above is using 3 nodes, each having **2vCPU/4GB** size, which amounts to **84$/month**.
-    - For simplicity and consistency through all the guide, the **microservices-demo-staging** name was picked for the example cluster. You can choose any name you like, but you need to make sure the naming convention stays consistent.
+    - The example cluster created above is using 4 nodes, each having **2vCPU/4GB** size, which amounts to **94$/month**.
+    - For simplicity and consistency through all the guide, the **microservices-demo-production** name was picked for the example cluster. You can choose any name you like, but you need to make sure the naming convention stays consistent.
     - It is recommended to use a region for your cluster that is closest to you for faster interaction. Run the following command - `doctl k8s options regions` to check available regions.
     - Cluster [auto upgrade](https://docs.digitalocean.com/products/kubernetes/how-to/upgrade-cluster/#automatically) is enabled (`--auto-upgrade=true`). Kubernetes clusters should be auto-upgraded to ensure that they always contain the latest security patches.
 
@@ -46,4 +44,4 @@ kubectl config current-context
 
 For more info on this topic please see this [Kubernetes Starter Kit DOKS Creation](https://github.com/digitalocean/Kubernetes-Starter-Kit-Developers/tree/main/01-setup-DOKS#step-3---creating-the-doks-cluster).
 
-Next, you will learn how to deploy the online boutique sample application to your staging cluster using `Kustomize`.
+Next, you will learn how to deploy the online boutique sample application to your production cluster using `Kustomize`.
