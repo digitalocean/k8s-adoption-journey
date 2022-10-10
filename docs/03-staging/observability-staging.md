@@ -54,7 +54,7 @@ Observability is a measure of how well the system’s internal states can be inf
 
 ## Configuring Persistent Storage for Prometheus
 
-In this section, you will learn how to enable `persistent storage` for `Prometheus`, so that metrics data is persisted across `server restarts`, or in case of `cluster failures`.
+In this section, you will learn how to enable `persistent storage` for `Prometheus`, so that metrics data is persisted across `server restarts`, or in case of `cluster failures`. For the `staging` environment, you will define a `5 Gi Persistent Volume Claim` (PVC), using the `DigitalOcean Block Storage`.
 
 1. Open the `"docs/03-staging/assets/manifests/prom-stack-values-v35.5.1.yaml` file provided and uncomment the `storageSpec` section. The definition should look like this:
 
@@ -85,7 +85,7 @@ In this section, you will learn how to enable `persistent storage` for `Promethe
 
 ## Configuring Persistent Storage for Grafana
 
-In this section, you will learn how to enable `persistent storage` for `Grafana`, so that metrics data is persisted across `server restarts`, or in case of `cluster failures`.
+In this section, you will learn how to enable `persistent storage` for `Grafana`, so that metrics data is persisted across `server restarts`, or in case of `cluster failures`. For the `staging` environment, you will define a `5 Gi Persistent Volume Claim` (PVC), using the `DigitalOcean Block Storage`.
 
 1. Open the `docs/03-staging/assets/manifests/prom-stack-values-v35.5.1.yaml` file provided and uncomment the `storageSpec` section. The definition should look like this:
 

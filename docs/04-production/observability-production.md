@@ -60,6 +60,8 @@ In this section, you will learn how to enable `persistent storage` for `Promethe
 
     ```yaml
     prometheusSpec:
+      replicas: 2
+      retention: 20
       storageSpec:
         volumeClaimTemplate:
           spec:
@@ -69,6 +71,9 @@ In this section, you will learn how to enable `persistent storage` for `Promethe
               requests:
                 storage: 10Gi
     ```
+
+    ??? note
+        The default retention time for metrics is set to `10d` by default in the `kube-prometheus-stack` helm chart. In production the retention time will be set to `20d`. After 20 days the metrics will be deleted from the `Volume`.
 
 2. Apply the new settings using `Helm`:
 

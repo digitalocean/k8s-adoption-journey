@@ -90,6 +90,7 @@ prometheus:
   ##
   prometheusSpec:
     replicas: 2
+    retention: 30d
     # storageSpec:
     #   volumeClaimTemplate:
     #     spec:
