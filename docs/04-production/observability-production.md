@@ -54,7 +54,7 @@ Observability is a measure of how well the system’s internal states can be inf
 
 ## Configuring Persistent Storage for Prometheus
 
-In this section, you will learn how to enable `persistent storage` for `Prometheus`, so that metrics data is persisted across `server restarts`, or in case of `cluster failures`.
+In this section, you will learn how to enable `persistent storage` for `Prometheus`, so that metrics data is persisted across `server restarts`, or in case of `cluster failures`. For the `production` environment, you will define a `10 Gi Persistent Volume Claim` (PVC), using the `DigitalOcean Block Storage`.
 
 1. Open the `"docs/04-production/assets/manifests/prom-stack-values-v35.5.1.yaml` file provided and uncomment the `storageSpec` section. The definition should look like this:
 
@@ -67,7 +67,7 @@ In this section, you will learn how to enable `persistent storage` for `Promethe
             accessModes: ["ReadWriteOnce"]
             resources:
               requests:
-                storage: 5Gi
+                storage: 10Gi
     ```
 
 2. Apply the new settings using `Helm`:
@@ -85,7 +85,7 @@ In this section, you will learn how to enable `persistent storage` for `Promethe
 
 ## Configuring Persistent Storage for Grafana
 
-In this section, you will learn how to enable `persistent storage` for `Grafana`, so that metrics data is persisted across `server restarts`, or in case of `cluster failures`.
+In this section, you will learn how to enable `persistent storage` for `Grafana`, so that metrics data is persisted across `server restarts`, or in case of `cluster failures`. For the `production` environment, you will define a `10 Gi Persistent Volume Claim` (PVC), using the `DigitalOcean Block Storage`.
 
 1. Open the `docs/04-production/assets/manifests/prom-stack-values-v35.5.1.yaml` file provided and uncomment the `storageSpec` section. The definition should look like this:
 
@@ -96,7 +96,7 @@ In this section, you will learn how to enable `persistent storage` for `Grafana`
         enabled: true
         storageClassName: do-block-storage
         accessModes: ["ReadWriteOnce"]
-        size: 5Gi
+        size: 10Gi
     ```
 
 2. Apply the new settings using `Helm`:
@@ -212,6 +212,48 @@ In this step, you will learn how to enable `persistent` storage for `Loki`. You'
     !!! note
         Check if the main `Loki` application pod is up and running by runnging the following `kubectl` command: `kubectl get pods -n loki-stack -l app=loki`.
         If everything goes well, you should see the `DO Spaces` bucket containing the `index` and `chunks` folders (the `chunks` folder is called `fake`, which is a strange name - this is by design, when not running in `multi-tenant` mode).
+
+## Setting up a retention policy
+
+In this step you will set up a retention policy for your `DO Spaces` bucket. `S3CMD` is a good utility to have in order to set up retention policies. Please follow the `DigitalOcean` guide for installing and setting up [s3cmd](https://docs.digitalocean.com/products/spaces/resources/s3cmd).
+
+1. Configure the `Loki` bucket lifecycle, using `s3cmd`:
+
+    ??? note "Click to expand the `Loki bucket lifecycle`"
+        ```xml
+        <LifecycleConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
+        <Rule>
+            <ID>Expire old fake data</ID>
+            <Prefix>fake/</Prefix>
+            <Status>Enabled</Status>
+            <Expiration>
+            <Days>10</Days>
+            </Expiration>
+        </Rule>
+
+        <Rule>
+            <ID>Expire old index data</ID>
+            <Prefix>index/</Prefix>
+            <Status>Enabled</Status>
+            <Expiration>
+            <Days>10</Days>
+            </Expiration>
+        </Rule>
+        </LifecycleConfiguration>
+        ```
+
+    ```shell
+    s3cmd setlifecycle 04-setup-observability/assets/manifests/loki_do_spaces_lifecycle.xml s3://<LOKI_STORAGE_BUCKET_NAME>
+    ```
+
+2. Check that the `policy` was set (please replace the `<>` placeholders accordingly):
+
+    ```shell
+    s3cmd getlifecycle s3://<LOKI_STORAGE_BUCKET_NAME>
+    ```
+
+    ??? note
+        The `DO Spaces` backend implementation will clean the objects for you `automatically`, based on the expiration date. You can always go back and edit the policy if needed later on, by uploading a new one.
 
 ## Setting up Alert Manager
 
