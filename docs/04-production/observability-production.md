@@ -72,7 +72,7 @@ In this section, you will learn how to enable `persistent storage` for `Promethe
                 storage: 10Gi
     ```
 
-    ??? note
+    !!! note
         The default retention time for metrics is set to `10d` by default in the `kube-prometheus-stack` helm chart. In production the retention time will be set to `20d`. After 20 days the metrics will be deleted from the `Volume`.
 
 2. Apply the new settings using `Helm`:
@@ -257,7 +257,7 @@ In this step you will set up a retention policy for your `DO Spaces` bucket. `S3
     s3cmd getlifecycle s3://<LOKI_STORAGE_BUCKET_NAME>
     ```
 
-    ??? note
+    !!! note
         The `DO Spaces` backend implementation will clean the objects for you `automatically`, based on the expiration date. You can always go back and edit the policy if needed later on, by uploading a new one.
 
 ## Setting up Alert Manager

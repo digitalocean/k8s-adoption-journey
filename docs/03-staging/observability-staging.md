@@ -50,7 +50,7 @@ Observability is a measure of how well the system’s internal states can be inf
     !!! info
         `Grafana` installation comes with a number of dashboards. Open a web browser on [localhost:3000](http://localhost:3000). Once in, you can go to `Dashboards -> Browse`, and choose different dashboards.
         As an example, you can open the `General / Kubernetes / Compute Resources / Node (Pods)` and view the resource metrics for a node and its related pods.
-        ![grafana dashboard example](grafana_dashboard_example_staging.png)
+        ![grafana dashboard example](grafana_dashboard_example.png)
 
 ## Configuring Persistent Storage for Prometheus
 
@@ -252,7 +252,7 @@ In this step you will set up a retention policy for your `DO Spaces` bucket. `S3
     s3cmd getlifecycle s3://<LOKI_STORAGE_BUCKET_NAME>
     ```
 
-    ??? note
+    !!! note
         The `DO Spaces` backend implementation will clean the objects for you `automatically`, based on the expiration date. You can always go back and edit the policy if needed later on, by uploading a new one.
 
 ## Setting up Alert Manager
