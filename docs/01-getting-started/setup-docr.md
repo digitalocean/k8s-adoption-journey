@@ -47,30 +47,21 @@ For more info on this topic please see this [Kubernetes Starter Kit DOCR Creatio
 
 In this section you will build and push the docker images required by the next sections. The sample application used throughout this adoption journey is the [Online Boutique](https://github.com/digitalocean/kubernetes-sample-apps/tree/master/microservices-demo) application.
 
-1. Create a fork of the [sample-apps-repository](https://github.com/digitalocean/kubernetes-sample-apps) to your GitHub account.
+1. Navigate to the repository created in [Setup Github Repository](setup-github-repository.md)
 
-    !!! info
-        At the top right of the page, you will find the `Fork` button. Click on it and create the fork.
-
-2. Clone the forked repository to your local machine:
+2. Change directory to the `microservices-demo` folder:
 
     ```shell
-    git clone https://github.com/digitalocean/kubernetes-sample-apps.git
+    cd microservices-demo
     ```
 
-3. Change directory to the `microservices-demo` folder:
-
-    ```shell
-    cd kubernetes-sample-apps/microservices-demo
-    ```
-
-4. Login to DOCR:
+3. Login to DOCR:
 
     ```shell
     doctl registry login
     ```
 
-5. Run the `make-docker-images.sh` script (make sure to export the required environment variables):
+4. Run the `make-docker-images.sh` script (make sure to export the required environment variables):
 
     ```shell
     export REPO_PREFIX="registry.digitalocean.com/microservices-demo"

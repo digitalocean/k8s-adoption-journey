@@ -8,7 +8,8 @@ Below is a complete list of the tools used in this guide:
 2. [Helm](https://helm.sh/) - this is the package manager for Kubernetes. Behaves the same way as package managers used in Linux distros, but for Kubernetes. Gained a lot of popularity, and it is a widely adopted solution for managing software packages installation and upgrade in Kubernetes.
 3. [Doctl](https://docs.digitalocean.com/reference/doctl/) - allows you to interact with the DigitalOcean API via the command line. It supports most functionality found in the control panel. You can create, configure, and destroy DigitalOcean resources like Droplets, Kubernetes clusters, firewalls, load balancers, database clusters, domains, and more.
 4. [Docker Desktop](https://www.docker.com/products/docker-desktop/) - enables you to build and share containerized applications and microservices using Docker. It has a GUI interface, and bundles a ready to run Kubernetes cluster to use for local development.
-5. [Tilt](https://tilt.dev/) - eases local development by taking away the pain of time consuming Docker builds, watching files, and bringing environments up to date.
+5. [Kustomize](https://kustomize.io/) - Kustomize lets you customize raw, template-free YAML files for multiple purposes, leaving the original YAML untouched and usable as is.
+6. [Tilt](https://tilt.dev/) - eases local development by taking away the pain of time consuming Docker builds, watching files, and bringing environments up to date.
 
 ## Prerequisites
 
@@ -165,7 +166,7 @@ Depending on your operating system, you can install [helm](https://helm.sh/docs/
 
 === "MacOS"
 
-    1. Install kubectl using Homebrew:
+    1. Install helm using Homebrew:
 
         ```shell
         brew install helm
@@ -179,7 +180,7 @@ Depending on your operating system, you can install [helm](https://helm.sh/docs/
 
 === "Linux"
 
-    1. Download the latest `kubectl` release:
+    1. Download the latest `helm` release:
 
         ```shell
         curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | sudo tee /usr/share/keyrings/helm.gpg > /dev/null
@@ -193,6 +194,38 @@ Depending on your operating system, you can install [helm](https://helm.sh/docs/
 
         ```shell
         helm version
+        ```
+
+## Installing Kustomize
+
+Depending on your operating system, you can install [kustomize](https://kubectl.docs.kubernetes.io/installation/kustomize/) in the following ways:
+
+=== "MacOS"
+
+    1. Install kustomize using Homebrew:
+
+        ```shell
+        brew install kustomize
+        ```
+
+    2. Test to ensure you installed the latest version:
+
+        ```shell
+        kustomize version 
+        ```
+
+=== "Linux"
+
+    1. Install kustomize by running the following script:
+
+        ```shell
+        curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash
+        ```
+    
+    2. Test to ensure you installed the latest version:
+
+        ```shell
+        kustomize version
         ```
 
 ## Installing Tilt
