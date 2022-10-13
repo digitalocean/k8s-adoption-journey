@@ -6,45 +6,54 @@ In this section you will create a Github repository in which you will clone the 
 
 1. Navigate to [Github](https://github.com/) and log into your account.
 2. In the upper-right corner of any page, use the `+` drop-down menu, and select `New repository`.
-3. Set the `Repository name` to `online-boutique`.
+3. Set the `Repository name` to `microservices-demo`.
 4. Click on the `Create repository` button.
 5. From the command line clone the newly created repository to your local machine (make sure to replace the `<>` placeholders accordingly):
 
     ```shell
-    git clone git clone git@github.com:<YOUR_GITHUB_USERNAME>/online-boutique.git
+    git clone git clone git@github.com:<YOUR_GITHUB_USERNAME>/microservices-demo.git
     ```
 
 6. Change directory to the clone repository:
 
     ```shell
-    cd online-boutique
+    cd microservices-demo
     ```
 
-7. Clone the [sample apps](https://github.com/digitalocean/kubernetes-sample-apps) inside the `online-boutique` folder:
+7. Run the following command to download the [microservices-demo](https://github.com/digitalocean/kubernetes-sample-apps/tree/master/microservices-demo) project and save it to a `.zip` file:
 
     ```shell
-    git clone https://github.com/digitalocean/kubernetes-sample-apps
+    wget https://github.com/digitalocean/kubernetes-sample-apps/archive/refs/heads/master.zip -O kubernetes-sample-apps.zip
     ```
 
-8. Change directory to the `kubernetes-sample-apps` folder:
+8. Unzip the `microservices-demo` project:
 
     ```shell
-    cd kubernetes-sample-apps
+    unzip kubernetes-sample-apps.zip 'kubernetes-sample-apps-master/microservices-demo/*'
     ```
 
-9. Change the remote origin to your `online-boutique` repository (make sure to replace the `<>` placeholders accordingly):
+    !!! info
+        This will result in a `kubernetes-sample-apps-master` folder being created from the `unzip` process.
+
+9. Copy the content of the `microservices-demo` from the `kubernetes-sample-apps-master` to the current working directory:
 
     ```shell
-    git remote set-url origin git@github.com:<YOUR_GITHUB_USERNAME>/online-boutique.git
+    cp -r kubernetes-sample-apps-master/microservices-demo/* .
     ```
 
-10. Remove all of the folders/files apart from the `microservices-demo` one:
+10. Remove the `kubernetes-sample-apps-master` and `kubernetes-sample-apps.zip`:
 
     ```shell
-    sudo rm -r bookinfo-example doks-example emojivoto-example game-2048-example podinfo-example .github
+    rm -rf kubernetes-sample-apps-master kubernetes-sample-apps.zip
     ```
 
-11. Add, commit and push all the changes to your origin:
+11. Change the remote origin to your `microservices-demo` repository (make sure to replace the `<>` placeholders accordingly):
+
+    ```shell
+    git remote set-url origin git@github.com:<YOUR_GITHUB_USERNAME>/microservices-demo.git
+    ```
+
+12. Add, commit and push all the changes to your origin:
 
     ```shell
     git add .
@@ -67,7 +76,7 @@ You should define branch protection rules to disable force pushing, prevent bran
 6. Tick the following options:
     - Require a pull request before merging
     - Dismiss stale pull request approvals when new commits are pushed
-    
+
 ## Building and pushing docker images to DOCR
 
 In this section you will build and push the docker images required by the next sections. The sample application used throughout this adoption journey is the [Online Boutique](https://github.com/digitalocean/kubernetes-sample-apps/tree/master/microservices-demo) application.
