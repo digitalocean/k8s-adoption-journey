@@ -47,6 +47,39 @@ In this section you will create a Github repository in which you will clone the 
     rm -rf kubernetes-sample-apps-master kubernetes-sample-apps.zip
     ```
 
+    !!! info "The repository structure should look like the following:"
+        ```
+        ├── kustomize
+        │   ├── base
+        │   ├── dev
+        │   ├── local
+        │   ├── prod
+        │   ├── staging
+        │   └── kustomization.yaml
+        ├── release-scripts
+        │   ├── README.md
+        │   ├── license_header.txt
+        │   ├── make-docker-images.sh
+        │   ├── make-release-artifacts.sh
+        │   └── make-release.sh
+        ├── src
+        │   ├── cartservice
+        │   ├── checkoutservice
+        │   ├── currencyservice
+        │   ├── emailservice
+        │   ├── frontend
+        │   ├── paymentservice
+        │   ├── productcatalogservice
+        │   ├── recommendationservice
+        │   └── shippingservice
+        ├── CODE_OF_CONDUCT.md
+        ├── CONTRIBUTING.md
+        ├── LICENSE
+        ├── README.md
+        ├── Tiltfile
+        └── Tiltfile-dev
+        ```
+
 11. Change the remote origin to your `microservices-demo` repository (make sure to replace the `<>` placeholders accordingly):
 
     ```shell
@@ -57,12 +90,9 @@ In this section you will create a Github repository in which you will clone the 
 
     ```shell
     git add .
-    git commit -m "Removes everything apart from microservices-demo"
+    git commit -m "Initial repository layput"
     git push origin
     ```
-
-    !!! info
-        Your repository should not contain only the `microservices-demo` folder.
 
 ## Setting branch protection rules
 
@@ -81,7 +111,7 @@ You should define branch protection rules to disable force pushing, prevent bran
 
 In this section you will build and push the docker images required by the next sections. The sample application used throughout this adoption journey is the [Online Boutique](https://github.com/digitalocean/kubernetes-sample-apps/tree/master/microservices-demo) application.
 
-1. From the command linem, change directory to the `microservices-demo` folder (if not there already):
+1. From the command line, change directory to the `microservices-demo` folder (if not there already):
 
     ```shell
     cd microservices-demo
