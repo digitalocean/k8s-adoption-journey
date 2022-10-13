@@ -67,3 +67,34 @@ You should define branch protection rules to disable force pushing, prevent bran
 6. Tick the following options:
     - Require a pull request before merging
     - Dismiss stale pull request approvals when new commits are pushed
+    
+## Building and pushing docker images to DOCR
+
+In this section you will build and push the docker images required by the next sections. The sample application used throughout this adoption journey is the [Online Boutique](https://github.com/digitalocean/kubernetes-sample-apps/tree/master/microservices-demo) application.
+
+1. From the command linem, change directory to the `microservices-demo` folder (if not there already):
+
+    ```shell
+    cd microservices-demo
+    ```
+
+2. Login to DOCR:
+
+    ```shell
+    doctl registry login
+    ```
+
+3. Run the `make-docker-images.sh` script (make sure to export the required environment variables):
+
+    ```shell
+    export REPO_PREFIX="registry.digitalocean.com/microservices-demo"
+    export TAG=1.0.0
+
+    ./release-scripts/make-docker-images.sh
+    ```
+
+    !!!info
+        You will be pushing an initial release first to DOCR (1.0.0) and use that to deploy to the `staging` and `production` environments in the upcoming sections. Later on, GitHub Actions will take care of building, tagging and pushing images to `DOCR`.
+        This process might take about 15 minutes.
+
+Next, you will learn how to create a DOKS cluster to use as a Kubernetes development environment, and start working with microservices.

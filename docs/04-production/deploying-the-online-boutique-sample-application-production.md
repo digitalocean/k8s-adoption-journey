@@ -17,9 +17,9 @@ For this purpose, kustomize supports the idea of an `overlay` and a `base`. Both
 To complete this section you will need:
 
 1. A container registry already set up as explained in the [Set up DOCR](setup-docr.md) section.
-2. The `microservices-demo` images build and pushed to DOCR as explained in the [Set up DOCR --> Building and pushing docker images to DOCR](setup-docr.md#building-and-pushing-docker-images-to-docr)
-4. A Kubernetes cluster (DOKS) up and running as explained in the [Set up DOKS](setup-doks-production.md) section.
-5. Doctl utility already installed as explained in the [Installing Required Tools -> Doctl](installing-required-tools.md#installing-doctl) section.
+2. The `microservices-demo` images build and pushed to DOCR as explained in the [Set up a github repository --> Building and pushing docker images to DOCR](setup-github-repository.md#building-and-pushing-docker-images-to-docr)
+3. A Kubernetes cluster (DOKS) up and running as explained in the [Set up DOKS](setup-doks-production.md) section.
+4. Doctl utility already installed as explained in the [Installing Required Tools -> Doctl](installing-required-tools.md#installing-doctl) section.
 
 ## Bootstrap the online boutique application using Kustomize
 
