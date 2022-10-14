@@ -47,30 +47,19 @@ For more info on this topic please see this [Kubernetes Starter Kit DOCR Creatio
 
 In this section you will build and push the docker images required by the next sections. The sample application used throughout this adoption journey is the [Online Boutique](https://github.com/digitalocean/kubernetes-sample-apps/tree/master/microservices-demo) application.
 
-1. Create a fork of the [sample-apps-repository](https://github.com/digitalocean/kubernetes-sample-apps) to your GitHub account.
-
-    !!! info
-        At the top right of the page, you will find the `Fork` button. Click on it and create the fork.
-
-2. Clone the forked repository to your local machine:
+1. From the command line, change directory to the `microservices-demo` folder (if not there already):
 
     ```shell
-    git clone https://github.com/digitalocean/kubernetes-sample-apps.git
+    cd microservices-demo
     ```
 
-3. Change directory to the `microservices-demo` folder:
-
-    ```shell
-    cd kubernetes-sample-apps/microservices-demo
-    ```
-
-4. Login to DOCR:
+2. Login to DOCR:
 
     ```shell
     doctl registry login
     ```
 
-5. Run the `make-docker-images.sh` script (make sure to export the required environment variables):
+3. Run the `make-docker-images.sh` script (make sure to export the required environment variables):
 
     ```shell
     export REPO_PREFIX="registry.digitalocean.com/microservices-demo"
@@ -83,4 +72,4 @@ In this section you will build and push the docker images required by the next s
         You will be pushing an initial release first to DOCR (1.0.0) and use that to deploy to the `staging` and `production` environments in the upcoming sections. Later on, GitHub Actions will take care of building, tagging and pushing images to `DOCR`.
         This process might take about 15 minutes.
 
-Next, you will learn how to create a DOKS cluster to use as a Kubernetes development environment, and start working with microservices.
+Next you will setup your developmennt environment which includes deploying the `microservices-demo` application to the cluster as well as setting up `ingress` and `monitoring` for it.
