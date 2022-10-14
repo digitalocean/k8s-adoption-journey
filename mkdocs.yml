@@ -11,8 +11,8 @@ nav:
   - Getting started:
       - Installing required tools: 01-getting-started/installing-required-tools.md
       - Authenticating with the DigitalOcean API: 01-getting-started/do-api-auth.md
-      - Set up a Digital Ocean container registry: 01-getting-started/setup-docr.md
       - Set up a Github repository: 01-getting-started/setup-github-repository.md
+      - Set up a Digital Ocean container registry: 01-getting-started/setup-docr.md
   - Development environment:
       - Setup DOKS: 02-development/setup-doks-dev.md
       - Tilt for local development: 02-development/tilt-local.md

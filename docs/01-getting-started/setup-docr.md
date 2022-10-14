@@ -42,3 +42,34 @@ For more info on this topic please see this [Kubernetes Starter Kit DOCR Creatio
 !!! note
     Please note that DOCR creation can also be achieved from the [Digital Ocean Cloud Console](https://docs.digitalocean.com/products/container-registry/quickstart/).
     Please note that this step should be configured for each new cluster you create in your DO account.
+
+## Building and pushing docker images to DOCR
+
+In this section you will build and push the docker images required by the next sections. The sample application used throughout this adoption journey is the [Online Boutique](https://github.com/digitalocean/kubernetes-sample-apps/tree/master/microservices-demo) application.
+
+1. From the command line, change directory to the `microservices-demo` folder (if not there already):
+
+    ```shell
+    cd microservices-demo
+    ```
+
+2. Login to DOCR:
+
+    ```shell
+    doctl registry login
+    ```
+
+3. Run the `make-docker-images.sh` script (make sure to export the required environment variables):
+
+    ```shell
+    export REPO_PREFIX="registry.digitalocean.com/microservices-demo"
+    export TAG=1.0.0
+
+    ./release-scripts/make-docker-images.sh
+    ```
+
+    !!!info
+        You will be pushing an initial release first to DOCR (1.0.0) and use that to deploy to the `staging` and `production` environments in the upcoming sections. Later on, GitHub Actions will take care of building, tagging and pushing images to `DOCR`.
+        This process might take about 15 minutes.
+
+Next you will setup your developmennt environment which includes deploying the `microservices-demo` application to the cluster as well as setting up `ingress` and `monitoring` for it.
