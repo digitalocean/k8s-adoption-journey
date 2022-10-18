@@ -1,6 +1,6 @@
 Hands-on tutorial for going from day-1 to production on [DigitalOcean Kubernetes](https://docs.digitalocean.com/products/kubernetes/).
 
-## Welcome to Kubernetes Adoption Journey
+## Abstract
 
 The decision to adopt Kubernetes shouldn’t be taken lightly. It’s a complex system that requires hard work and dedication. In fact, when it comes to using Kubernetes, the best value comes from adopting a DevOps culture. Kubernetes isn’t just installing something on a virtual machine (VM), it’s a transformative way of viewing IT and enabling your teams. Automation is a direct path to becoming more productive. Kubernetes can make every aspect of your applications and tools accessible to automation, including role-based access controls, ports, databases, storage, networking, container builds, security scanning, and more. Kubernetes gives teams a well-documented and proven system that they can use to automate so that they can focus on outcomes.
 

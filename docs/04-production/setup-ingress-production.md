@@ -4,6 +4,8 @@ In this section, you will install and configure the Kubernetes-maintained versio
 
 ## Prerequisites
 
+To complete this section you will need:
+
 1. Helm installed as explained in the [Installing required tools](installing-required-tools.md) section.
 2. A Kubernetes cluster (DOKS) up and running as explained in the [Set up DOKS](setup-doks-production.md) section.
 3. The online boutique sample application deployed to your cluster as explained in the [Deploying the app](deploying-the-online-boutique-sample-application-production.md) section.
