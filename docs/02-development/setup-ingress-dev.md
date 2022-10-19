@@ -127,7 +127,7 @@ In this section you will install the community maintained version of the Nginx i
     Apply via kubectl:
 
     ```shell
-    kubectl apply -f docs/03-development/assets/manifests/cert-manager-wildcard-issuer.yaml
+    kubectl apply -f docs/02-development/assets/manifests/cert-manager-wildcard-issuer.yaml
     ```
 
     !!! info
@@ -167,7 +167,7 @@ In this section you will install the community maintained version of the Nginx i
     Apply via kubectl:
 
     ```shell
-    kubectl apply -f docs/03-development/assets/manifests/cert-manager-wildcard-certificate.yaml
+    kubectl apply -f docs/02-development/assets/manifests/cert-manager-wildcard-certificate.yaml
     ```
 
     To verify the certificate status run:
@@ -212,7 +212,7 @@ In this section you will install the community maintained version of the Nginx i
     Apply via kubectl:
 
     ```shell
-    kubectl apply -f docs/03-development/assets/manifests/ingress-host.yaml 
+    kubectl apply -f docs/02-development/assets/manifests/ingress-host.yaml 
     ```
 
 11. Open a web browser and point to `<YOUR_A_RECORD>.<YOUR_DOMAIN>`. You should see the online boutique welcome page. The connection is secure and the certificate is a valid one issued by [Let's Encrypt](https://letsencrypt.org).

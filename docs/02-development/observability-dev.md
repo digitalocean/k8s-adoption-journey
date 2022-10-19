@@ -203,7 +203,7 @@ In this section you will install the community maintained [Kubernetes Dashboard]
 1. Install the `Kubernetes Dashboard` using `kubectl`:
 
     ```shell
-    kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+    kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.6.1/aio/deploy/recommended.yaml
     ```
 
     !!! note
