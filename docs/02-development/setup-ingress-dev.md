@@ -4,6 +4,8 @@ In this section, you will learn how to install and configure the Kubernetes-main
 
 ## Prerequisites
 
+To complete this section you will need:
+
 1. Helm installed as explained in the [Installing required tools](installing-required-tools.md) section.
 2. A Kubernetes cluster (DOKS) up and running as explained in the [Set up DOKS](setup-doks-dev.md) section.
 3. The online boutique sample application deployed to your cluster as explained in the [Tilt remote development](tilt-remote.md) section.

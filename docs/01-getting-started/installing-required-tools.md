@@ -5,7 +5,7 @@ This section will show you how to install the required tools needed to complete 
 Below is a complete list of the tools used in this guide:
 
 1. [Kubectl](https://kubernetes.io/docs/reference/kubectl/) - this the official Kubernetes client. Allows you to interact with the Kubernetes API, and to run commands against Kubernetes clusters.
-2. [Helm](https://helm.sh/) - this is the package manager for Kubernetes. Behaves the same way as package managers used in Linux distros, but for Kubernetes. Gained a lot of popularity, and it is a widely adopted solution for managing software packages installation and upgrade in Kubernetes.
+2. [Helm](https://helm.sh/) - this is the package manager for Kubernetes. Behaves the same way as package managers used in Linux distributions, but for Kubernetes. Gained a lot of popularity, and it is a widely adopted solution for managing software packages installation and upgrade in Kubernetes.
 3. [Doctl](https://docs.digitalocean.com/reference/doctl/) - allows you to interact with the DigitalOcean API via the command line. It supports most functionality found in the control panel. You can create, configure, and destroy DigitalOcean resources like Droplets, Kubernetes clusters, firewalls, load balancers, database clusters, domains, and more.
 4. [Docker Desktop](https://www.docker.com/products/docker-desktop/) - enables you to build and share containerized applications and microservices using Docker. It has a GUI interface, and bundles a ready to run Kubernetes cluster to use for local development.
 5. [Kustomize](https://kustomize.io/) - Kustomize lets you customize raw, template-free YAML files for multiple purposes, leaving the original YAML untouched and usable as is.

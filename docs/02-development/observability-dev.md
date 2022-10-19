@@ -8,6 +8,8 @@ Kubernetes Dashboard is a general purpose, web-based UI for Kubernetes clusters.
 
 ## Prerequisites
 
+To complete this section you will need:
+
 1. Helm installed as explained in the [Installing required tools](installing-required-tools.md) section.
 2. A Kubernetes cluster (DOKS) up and running as explained in the [Set up DOKS](setup-doks-dev.md) section.
 3. [JQ](https://stedolan.github.io/jq/) command-line JSON processor installed on your machine.

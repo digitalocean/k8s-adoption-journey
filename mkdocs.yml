@@ -1,5 +1,6 @@
 site_name: Kubernetes Adoption Journey
-site_url: !ENV [SITE_URL, "https://digitalocean.github.io/k8s-adoption-journey/"]
+site_url:
+  !ENV [SITE_URL, "https://digitalocean.github.io/k8s-adoption-journey/"]
 site_description: Hands-on tutorial for going from day-1 to production on DigitalOcean Kubernetes.
 copyright: DigitalOcean
 repo_url: "https://github.com/digitalocean/k8s-adoption-journey"
@@ -11,24 +12,29 @@ nav:
   - Getting started:
       - Installing required tools: 01-getting-started/installing-required-tools.md
       - Authenticating with the DigitalOcean API: 01-getting-started/do-api-auth.md
-      - Set up a Github repository: 01-getting-started/setup-github-repository.md
+      - Preparing the demo application: 01-getting-started/preparing-demo-application.md
       - Set up a Digital Ocean container registry: 01-getting-started/setup-docr.md
   - Development environment:
-      - Setup DOKS: 02-development/setup-doks-dev.md
+      - Set up Development DOKS: 02-development/setup-doks-dev.md
       - Tilt for local development: 02-development/tilt-local.md
       - Tilt for remote development: 02-development/tilt-remote.md
       - Set up ingress: 02-development/setup-ingress-dev.md
       - Observability: 02-development/observability-dev.md
   - Staging environment:
-      - Setup DOKS: 03-staging/setup-doks-staging.md
+      - Set up Staging DOKS: 03-staging/setup-doks-staging.md
       - Deploying the online boutique sample application: 03-staging/deploying-the-online-boutique-sample-application-staging.md
       - Set up ingress: 03-staging/setup-ingress-staging.md
       - Observability: 03-staging/observability-staging.md
   - Production environment:
-      - Setup DOKS: 04-production/setup-doks-production.md
+      - Set up Production DOKS: 04-production/setup-doks-production.md
       - Deploying the online boutique sample application: 04-production/deploying-the-online-boutique-sample-application-production.md
       - Set up ingress: 04-production/setup-ingress-production.md
       - Observability: 04-production/observability-production.md
+  - Continuous integration and deployments:
+      - Set up continuous integration: 05-ci-cd/setup-continuous-integration.md
+      - Set up continuous deployments: 05-ci-cd/setup-continuous-deployments.md
+      - Set up the release process: 05-ci-cd/setup-release-process.md
+
 theme:
   name: material
   logo: assets/do_logo.png
@@ -57,15 +63,35 @@ markdown_extensions:
   - pymdownx.superfences
   - pymdownx.tabbed:
       alternate_style: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
 
 plugins:
   - search
   # simplifies relative linking between documents
   # https://github.com/midnightprioriem/mkdocs-autolinks-plugin
   - autolinks
+  - glightbox:
+      touchNavigation: true
+      loop: false
+      effect: zoom
+      width: 100%
+      height: auto
+      zoomable: true
+      draggable: true
+      skip_classes:
+        - custom-skip-class-name
+      auto_caption: false
+      caption_position: bottom
   - minify:
       minify_html: true
       minify_js: true
       minify_css: true
       htmlmin_opts:
-          remove_comments: true
+        remove_comments: true

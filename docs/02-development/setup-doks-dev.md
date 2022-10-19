@@ -43,4 +43,16 @@ kubectl config current-context
 
 For more info on this topic please see this [Kubernetes Starter Kit DOKS Creation](https://github.com/digitalocean/Kubernetes-Starter-Kit-Developers/tree/main/01-setup-DOKS#step-3---creating-the-doks-cluster).
 
+## Configuring DOKS for Private Registries
+
+From the command line run the following:
+
+```shell
+doctl registry kubernetes-manifest | kubectl apply -f -
+```
+
+This will configure your DOKS cluster to fetch images from your DOCR created in the [Set up a DigitalOcean container registry](setup-docr.md) section
+
+This step can also be achieved via the DigitalOcean cloud console. Please follow this [guide](https://docs.digitalocean.com/products/container-registry/how-to/use-registry-docker-kubernetes/#kubernetes-integration).
+
 Next, you will learn how to perform local microservices development using [Tilt](https://tilt.dev/).
