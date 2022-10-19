@@ -19,8 +19,8 @@ Next, you will start by creating your own GitHub repository hosting the online b
 To complete this section you will need:
 
 1. A GitHub account you own. You can create one for free [here](https://github.com/join/).
-2. A [Git client](https://git-scm.com/downloads/) to perform operations on your GitHub repository. Usually bundled with your Linux distro.
-3. [Wget](https://www.gnu.org/software/wget/) and unzip utilities. Usually bundled with your Linux distro.
+2. A [Git client](https://git-scm.com/downloads/) to perform operations on your GitHub repository. Usually bundled with your Linux distribution.
+3. [Wget](https://www.gnu.org/software/wget/) and unzip utilities. Usually bundled with your Linux distribution.
 
 ## Set Up Online Boutique GitHub Repository
 
@@ -180,7 +180,7 @@ The e-commerce web application used in this guide is using the following layout 
 
 Explanation for the above project structure:
 
-- `kustomize` - main folder containing project kustomizations. Project deployment is managed via [Kustomize](https://kustomize.io/). Each environment is represented and managed via a Kustomize overlay folder - [dev](https://github.com/digitalocean/kubernetes-sample-apps/tree/master/microservices-demo/kustomize/dev), [staging](https://github.com/digitalocean/kubernetes-sample-apps/tree/master/microservices-demo/kustomize/stating), [prod](https://github.com/digitalocean/kubernetes-sample-apps/tree/master/microservices-demo/kustomize/prod), etc. Overlays contain environment specific configuration over the [base](https://github.com/digitalocean/kubernetes-sample-apps/tree/master/microservices-demo/kustomize/base) folder. The `base` contains common configuration across all environments.
+- `kustomize` - main folder containing project kustomizations. Project deployment is managed via [Kustomize](https://kustomize.io/). Each environment is represented and managed via a Kustomize overlay folder - [dev](https://github.com/digitalocean/kubernetes-sample-apps/tree/master/microservices-demo/kustomize/dev), [staging](https://github.com/digitalocean/kubernetes-sample-apps/tree/master/microservices-demo/kustomize/staging), [prod](https://github.com/digitalocean/kubernetes-sample-apps/tree/master/microservices-demo/kustomize/prod), etc. Overlays contain environment specific configuration over the [base](https://github.com/digitalocean/kubernetes-sample-apps/tree/master/microservices-demo/kustomize/base) folder. The `base` contains common configuration across all environments.
 - `release-scripts` - contains utility shell scripts used to create, build, tag and push project docker images.
 - `src` - this is the main project folder containing source code for all application microservices. It also contains required Dockerfiles to build each component image. It is a standardized layout (except for `cartservice` component). You will find here each project unit tests as well (not all are implemented yet though).
 - `tilt-resources` - Tilt [configuration profiles](https://docs.tilt.dev/tiltfile_config.html) for each environment supported by the sample application.
