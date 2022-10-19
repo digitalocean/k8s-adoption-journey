@@ -10,7 +10,7 @@ To complete this section you will need:
 1. Doctl utility already installed as explained in the [Installing Required Tools -> Doctl](installing-required-tools.md#installing-doctl) section.
 2. Make sure that you're authenticated with the DigitalOcean API as explained in the [Authenticating with the DigitalOcean API](do-api-auth.md) section.
 
-## Provisioning a Staging DOKS Cluster for Microservices
+## Provisioning a Production DOKS Cluster for Microservices
 
 In this step, you will create a new Kubernetes cluster running on the DigitalOcean platform, using the [doctl](https://docs.digitalocean.com/reference/doctl/) utility.
 
