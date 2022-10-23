@@ -89,7 +89,7 @@ In this section you will install the community maintained version of the Nginx i
     ```
 
     !!! note
-        The secret must be created in the **same namespace** where the `Issuer` CRD is located - in this case the `microservides-demo-dev` namespace.
+        The secret must be created in the **same namespace** where the `Issuer` CRD is located - in this case the `microservices-demo-dev` namespace.
 
 8. Create an `issuer` resource for cert-manager using `kubectl` (make sure to replace the <> placeholders first):
 
