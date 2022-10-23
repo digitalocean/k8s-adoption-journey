@@ -52,12 +52,12 @@ In this section, you will push to DOCR the first version (`v1.0.0`) of the [Onli
 
     ```shell
     export REPO_PREFIX="registry.digitalocean.com/microservices-demo"
-    export TAG="v1.0.0"
+    export TAG="1.0.0"
 
     ./release-scripts/make-docker-images.sh
     ```
 
     !!!info
-        You will be pushing an initial release first to DOCR - `v1.0.0`, and use that to deploy to the `staging` and `production` environments in the upcoming sections. Later on, GitHub Actions will take care of building, tagging and pushing images to `DOCR`.
+        You will be pushing an initial release first to DOCR - `1.0.0`, and use that to deploy to the `staging` and `production` environments in the upcoming sections. Later on, GitHub Actions will take care of building, tagging and pushing images to `DOCR`.
 
 Next, you will setup the development environment and deploy the `microservices-demo` application to the associated DOKS cluster, as well as setting up `ingress` and `monitoring`.
