@@ -24,7 +24,7 @@ doctl k8s cluster create microservices-demo-production \
   --region nyc1
 ```
 
-!!! notes
+!!! note
     - The example cluster created above is using 4 nodes, each having **2vCPU/4GB** size, which amounts to **94$/month**.
     - For simplicity and consistency through all the guide, the **microservices-demo-production** name was picked for the example cluster. You can choose any name you like, but you need to make sure the naming convention stays consistent.
     - It is recommended to use a region for your cluster that is closest to you for faster interaction. Run the following command - `doctl k8s options regions` to check available regions.

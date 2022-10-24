@@ -21,7 +21,7 @@ doctl registry create microservices-demo \
     --region nyc3
 ```
 
-!!! notes
+!!! note
     - The **professional tier** is required to store all docker images used in this guide which costs **20$/month**.
     - You can have **only one registry endpoint per account** in **DOCR**. A **repository** in a registry refers to a **collection of container images** using tags.
     - It is recommended to use a region for your registry that is closest to you for faster image download/upload operations. Run the following command - `doctl registry options available-regions` to check available regions.

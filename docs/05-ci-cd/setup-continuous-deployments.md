@@ -49,13 +49,22 @@ To complete this section you will need:
 
 ## Bootstrapping Argo CD for the Development Environment
 
-In this section you will deploy Argo CD to your `development` DOKS cluster using the autopilot CLI . Then, you will configure Argo to sync changes using the `dev` overlay folder from your `microservices-demo` GitHub repository.
+In this section you will deploy Argo CD to your `development` DOKS cluster using the autopilot CLI . Then, you will configure Argo to sync application changes using the `dev` overlay folder from your `microservices-demo` GitHub repository.
 
 The [Argo CD autopilot project](https://argocd-autopilot.readthedocs.io) aims to ease the initial bootstrapping process of your Argo instance for each environment. What is nice about this approach is that the Argo installation itself is also synced with your GitHub repo in a GitOps fashion. The autopilot CLI will first deploy Argo CD in your cluster, and then push all required manifests to your GitHub repository.
 
-Please follow below steps to bootstrap and deploy Argo CD to your development DOKS cluster:
+**Why the Argo CD autopilot CLI and not the App of Apps pattern?**
 
-1. Export the GitHub personal access token via the `GIT_TOKEN` environment variable (make sure to replace the `<>` placeholders first):
+The autopilot project already solves the app of apps problem, and even more. It uses an opinionated way to bootstrap the GitOps layout for your repository. It embeds a set of best practices (even security related) to layout your GitOps repo. On top of that, Argo CD is installed as well in your cluster with just only one command. When needed, the autopilot CLI can be used to bootstrap everything again if your cluster is re-created, without pushing the manifests again to your existing repo. There is a special flag called `--recover`, provided by the `argocd-autopilot repo bootstrap` subcommand.
+
+### Bootstrap Instructions
+
+!!! note
+    You may need to temporarily disable main branch protection to perform the following steps.
+
+Please follow below steps to bootstrap Argo CD, and deploy the `microservices-demo` app to the `development environment`:
+
+1. Export the `GIT_TOKEN` environment variable containing your GitHub personal access token (make sure to replace the `<>` placeholders first):
 
     ```shell
     export GIT_TOKEN=<YOUR_GITHUB_PERSONAL_ACCESS_TOKEN_HERE>
@@ -71,7 +80,7 @@ Please follow below steps to bootstrap and deploy Argo CD to your development DO
 
     ```shell
     argocd-autopilot repo bootstrap \
-        --repo "github.com/<YOUR_GITHUB_USERNAME>/microservices-demo/argocd/dev"
+        --repo "https://github.com/<YOUR_GITHUB_USERNAME>/microservices-demo/argocd/dev"
     ```
 
     !!!note
@@ -102,7 +111,7 @@ Please follow below steps to bootstrap and deploy Argo CD to your development DO
 
     ```shell
     argocd-autopilot project create dev \
-        --repo "github.com/<YOUR_GITHUB_USERNAME>/microservices-demo/argocd/dev"
+        --repo "https://github.com/<YOUR_GITHUB_USERNAME>/microservices-demo/argocd/dev"
     ```
 
     !!!tip
@@ -112,11 +121,21 @@ Please follow below steps to bootstrap and deploy Argo CD to your development DO
 
     ```shell
     argocd-autopilot app create microservices-demo \
-        --app "github.com/<YOUR_GITHUB_USERNAME>/microservices-demo/kustomize/dev" \
-        --repo "github.com/<YOUR_GITHUB_USERNAME>/microservices-demo/argocd/dev" \
+        --app "https://github.com/<YOUR_GITHUB_USERNAME>/microservices-demo/kustomize/dev" \
+        --repo "https://github.com/<YOUR_GITHUB_USERNAME>/microservices-demo/argocd/dev" \
         --project dev \
         --type kustomize
     ```
+
+    Explanations for the above command:
+
+    - `--app` - the application specifier. Here, autopilot CLI expects the repository URL and path to sync in the following format - `https://github.com/<GITHUB_USERNAME>/<REPO_NAME>/<APP_PATH>`. Above example uses the `kustomize/dev` overlay path for the `microservices-demo` repo because that's what renders the final application manifests for the specific environment.
+    - `--repo` - the repository URL and path where autopilot CLI commits the Argo manifests representing applications, projects, etc. Here, the same repository URL is being used, except the directory path - `argocd/dev`. In a separate note down below, you will find the main reason why this approach is used.
+    - `--project` - Argo project name to use for the new application (created in the previous step). The given project name reflects the environment name - `dev`. This may seem confusing at the beginning because you already defined a `dev` env in the `kustomize/dev` path from the root directory of your microservices-demo repo. It seems natural to use environment names to define Argo CD projects, but in the end you can pick any name that fits best to describe your project.
+    - `--type` - tells ArgoCD the application type (kustomize or directory). The autopilot CLI is able to infer the application type by looking at the specified repo path, but most of the time it's better to be explicit rather than implicit (or let the tool guess).
+
+        !!! note
+            Each environment is nested using the `argocd` folder from the root directory of your `microservices-demo` project. This guide is using a monorepo approach to sync all environments, hence the reason. By default, autopilot CLI puts everything in the root directory of your GitHub repo resulting in a mess if no path is specified.
 
 Now, check if Argo created the microservices-demo application. First, port-forward the Argo web interface:
 
@@ -132,7 +151,7 @@ If everything went well, you should see the `dev-microservices-demo` app created
 
 !!!note
     - Argo CD is using this naming convention - `<project_name>-<app_name>`, hence the `dev-microservices-demo` name for the application.
-    - Please bear in mind that Argo CD is using the Git polling method by default which takes around **3 minutes** to trigger. So, changes are not propagated in an instant.
+    - Please bear in mind that Argo CD is using the Git polling method by default which takes around **3 minutes** to trigger, hence changes are not propagated instantly.
 
 Next, click on the `dev-microservices-demo` app tile - you should see the online boutique application composition (microservices):
 
@@ -147,17 +166,74 @@ kubectl port-forward -n microservices-demo-dev svc/frontend 9090:80
 Open a web browser pointing to [localhost:9090](http://localhost:9090/) - you should see the online boutique application landing page.
 
 !!!tip
-    You should see the previous changes that you made in the [Set up continuous integration -> Testing the Online Boutique Application GitHub Workflows](setup-continuous-integration.md#testing-the-online-boutique-application-github-workflows) chapter applied as well. So, please go ahead and check that as well.
+    You should see the previous changes that you made in the [Set up continuous integration -> Testing the Online Boutique Application GitHub Workflows](setup-continuous-integration.md#testing-the-online-boutique-application-github-workflows) chapter applied as well.
+
+### Understanding GitOps Repository Layout
+
+The Argo CD autopilot project is using an opinionated approach to structure your GitOps repository. It does this by creating dedicated folders to store your Argo applications, projects, etc. Following directory structure is created for you automatically in the `argocd/dev` subfolder (this is the base folder used by Argo to sync your development environment):
+
+```text
+argocd/dev/
+├── apps
+│   ├── README.md
+│   └── microservices-demo
+│       ├── base
+│       │   └── kustomization.yaml
+│       └── overlays
+│           └── dev
+│               ├── config.json
+│               └── kustomization.yaml
+├── bootstrap
+│   ├── argo-cd
+│   │   └── kustomization.yaml
+│   ├── argo-cd.yaml
+│   ├── cluster-resources
+│   │   ├── in-cluster
+│   │   │   ├── README.md
+│   │   │   └── argocd-ns.yaml
+│   │   └── in-cluster.json
+│   ├── cluster-resources.yaml
+│   └── root.yaml
+└── projects
+    ├── README.md
+    └── dev.yaml
+```
+
+Explanations for the above structure:
+
+- `apps` - this is the main subfolder where you store all your Argo applications such as the `microservice-demo` project used in this guide. Each application you create in this subfolder is automatically synced by Argo to your target cluster. You'll also find a `README` file in this folder with additional explanations (automatically generated by the autopilot CLI).
+- `bootstrap` - this is where Argo stores all manifests used to bootstrap itself. Usually you don't need to touch this folder unless upgrading Argo to a newer version.
+- `projects` - this is the main subfolder where you store all your Argo projects. Projects are a way to logically group related Argo applications stored in the `apps` folder. You'll also find a `README` file in this folder with additional explanations (automatically generated by the autopilot CLI).
+
+**How does Argo know how to sync your microservices-demo app for the dev environment?**
+
+Argo is watching over the `argocd/dev` path from your repo for changes. The microservices-demo app is stored under the same directory. If you take a look at the `argocd/dev/apps/microservices-demo/base/kustomization.yaml` manifest, you will see that it points to the `kustomize/dev` path from the main repo:
+
+```yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+    - https://github.com/<YOUR_GITHUB_USERNAME>/microservices-demo/kustomize/dev
+```
+
+So, whenever you commit something in the `kustomize/dev` path, Argo will automatically pick up the changes, and sync the `microservices-demo` application for your `dev` environment.
+
+### Managing Argo CD Applications
+
+Argo CD autopilot can be used for adding (or bootstrapping) new applications whenever needed. However, when you need to change or upgrade existing apps it is advised to use Git operations to perform changes (via pull requests). In other words, use GitOps practices.
 
 Next, you will perform the same steps to bootstrap Argo CD for the staging environment.
 
 ## Bootstrapping Argo CD for the Staging Environment
 
-In this section you will deploy Argo CD to your `staging` DOKS cluster using the autopilot CLI . Then, you will configure Argo to sync changes using the `staging` overlay folder from your `microservices-demo` GitHub repository.
+In this section you will deploy Argo CD to your `staging` DOKS cluster using the autopilot CLI . Then, you will configure Argo to sync application changes using the `staging` overlay folder from your `microservices-demo` GitHub repository.
 
-Please follow below steps to bootstrap and deploy Argo CD to your staging DOKS cluster:
+!!! note
+    You may need to temporarily disable main branch protection to perform the following steps.
 
-1. Export the GitHub personal access token via the `GIT_TOKEN` environment variable, if not already (make sure to replace the `<>` placeholders first):
+Please follow below steps to bootstrap Argo CD, and deploy the `microservices-demo` app to the `staging environment`:
+
+1. Export the `GIT_TOKEN` environment variable containing your GitHub personal access token, if not already (make sure to replace the `<>` placeholders first):
 
     ```shell
     export GIT_TOKEN=<YOUR_GITHUB_PERSONAL_ACCESS_TOKEN_HERE>
@@ -173,7 +249,7 @@ Please follow below steps to bootstrap and deploy Argo CD to your staging DOKS c
 
     ```shell
     argocd-autopilot repo bootstrap \
-        --repo "github.com/<YOUR_GITHUB_USERNAME>/microservices-demo/argocd/staging"
+        --repo "https://github.com/<YOUR_GITHUB_USERNAME>/microservices-demo/argocd/staging"
     ```
 
     !!!note
@@ -204,7 +280,7 @@ Please follow below steps to bootstrap and deploy Argo CD to your staging DOKS c
 
     ```shell
     argocd-autopilot project create staging \
-        --repo "github.com/<YOUR_GITHUB_USERNAME>/microservices-demo/argocd/staging"
+        --repo "https://github.com/<YOUR_GITHUB_USERNAME>/microservices-demo/argocd/staging"
     ```
 
     !!!tip
@@ -214,8 +290,8 @@ Please follow below steps to bootstrap and deploy Argo CD to your staging DOKS c
 
     ```shell
     argocd-autopilot app create microservices-demo \
-        --app "github.com/<YOUR_GITHUB_USERNAME>/microservices-demo/kustomize/staging" \
-        --repo "github.com/<YOUR_GITHUB_USERNAME>/microservices-demo/argocd/staging" \
+        --app "https://github.com/<YOUR_GITHUB_USERNAME>/microservices-demo/kustomize/staging" \
+        --repo "https://github.com/<YOUR_GITHUB_USERNAME>/microservices-demo/argocd/staging" \
         --project staging \
         --type kustomize
     ```
@@ -223,17 +299,22 @@ Please follow below steps to bootstrap and deploy Argo CD to your staging DOKS c
 To verify the whole setup works, please use the same procedure as you already learned in the [Bootstrapping Argo CD for the Development Environment](#bootstrapping-argo-cd-for-the-development-environment) section of this chapter.
 
 !!!note
-    Please bear in mind that Argo CD is using the Git polling method by default which takes around **3 minutes** to trigger. So, changes are not propagated in an instant.
+    Please bear in mind that Argo CD is using the Git polling method by default which takes around **3 minutes** to trigger, hence changes are not propagated instantly.
+
+The provisioned GitOps repository layout structure is similar to the dev environment, the only difference being the name. Of course, you will have environment specific details stored as well. Managing Argo CD applications goes the same way.
 
 Next, you will perform the same steps to bootstrap Argo CD for the production environment.
 
 ## Bootstrapping Argo CD for the Production Environment
 
-In this section you will deploy Argo CD to your `production` DOKS cluster using the autopilot CLI . Then, you will configure Argo to sync changes using the `prod` overlay folder from your `microservices-demo` GitHub repository.
+In this section you will deploy Argo CD to your `production` DOKS cluster using the autopilot CLI . Then, you will configure Argo to sync application changes using the `prod` overlay folder from your `microservices-demo` GitHub repository.
 
-Please follow below steps to bootstrap and deploy Argo CD to your production DOKS cluster:
+!!! note
+    You may need to temporarily disable main branch protection to perform the following steps.
 
-1. Export the GitHub personal access token via the `GIT_TOKEN` environment variable, if not already (make sure to replace the `<>` placeholders first):
+Please follow below steps to bootstrap Argo CD, and deploy the `microservices-demo` app to the `prodcution environment`:
+
+1. Export the `GIT_TOKEN` environment variable containing your GitHub personal access token, if not already (make sure to replace the `<>` placeholders first):
 
     ```shell
     export GIT_TOKEN=<YOUR_GITHUB_PERSONAL_ACCESS_TOKEN_HERE>
@@ -249,7 +330,7 @@ Please follow below steps to bootstrap and deploy Argo CD to your production DOK
 
     ```shell
     argocd-autopilot repo bootstrap \
-        --repo "github.com/<YOUR_GITHUB_USERNAME>/microservices-demo/argocd/prod"
+        --repo "https://github.com/<YOUR_GITHUB_USERNAME>/microservices-demo/argocd/prod"
     ```
 
     !!!note
@@ -280,7 +361,7 @@ Please follow below steps to bootstrap and deploy Argo CD to your production DOK
 
     ```shell
     argocd-autopilot project create prod \
-        --repo "github.com/<YOUR_GITHUB_USERNAME>/microservices-demo/argocd/prod"
+        --repo "https://github.com/<YOUR_GITHUB_USERNAME>/microservices-demo/argocd/prod"
     ```
 
     !!!tip
@@ -290,8 +371,8 @@ Please follow below steps to bootstrap and deploy Argo CD to your production DOK
 
     ```shell
     argocd-autopilot app create microservices-demo \
-        --app "github.com/<YOUR_GITHUB_USERNAME>/microservices-demo/kustomize/prod" \
-        --repo "github.com/<YOUR_GITHUB_USERNAME>/microservices-demo/argocd/prod" \
+        --app "https://github.com/<YOUR_GITHUB_USERNAME>/microservices-demo/kustomize/prod" \
+        --repo "https://github.com/<YOUR_GITHUB_USERNAME>/microservices-demo/argocd/prod" \
         --project prod \
         --type kustomize
     ```
@@ -299,10 +380,45 @@ Please follow below steps to bootstrap and deploy Argo CD to your production DOK
 To verify the whole setup works, please use the same procedure as you already learned in the [Bootstrapping Argo CD for the Development Environment](#bootstrapping-argo-cd-for-the-development-environment) section of this chapter.
 
 !!!note
-    Please bear in mind that Argo CD is using the Git polling method by default which takes around **3 minutes** to trigger. So, changes are not propagated in an instant.
+    Please bear in mind that Argo CD is using the Git polling method by default which takes around **3 minutes** to trigger, hence changes are not propagated instantly.
+
+The provisioned GitOps repository layout structure is similar to the dev or staging environment, the only difference being the name. Of course, you will have environment specific details stored as well. Managing Argo CD applications goes the same way.
 
 ## Testing the Final Setup
 
 As an exercise, go ahead and make a change to one or even more microservices. Then, open a PR and check the associated workflow. Next, approve the PR and merge change into main branch. Check the main branch GitHub workflow as it progresses. When finished, check if Argo propagated the latest changes to your development DOKS cluster.
 
-Next, you will learn how to create GitHub releases for your application and propagate (or promote) changes to upper environments. First to staging, and then after QA approval (may imply project manager decision as well) deploy to production environment as well.
+## Reverting Bad Application Deployments
+
+Up to this point you tested only the happy CI/CD flows for the main application. In reality things may go wrong, hence it's important to know how to deal with this kind of situations as well. Because you're already using GitOps it should be easy to revert changes in case something goes bad. The only place where you need to perform changes is the GitHub repository hosting your application.
+
+Moving forward, everything is controlled via pull requests because you already set main branch protection rules. So, the process doesn't get out of control because no one pushes inadvertently to the main branch - this is very important to avoid configuration drifts, and bad things to happen.
+
+Still, even with all processes you already have in place, there's is a chance for human errors to slip. Thus, it is very important to know how to handle and recover from this situation. There are two options available:
+
+1. Use the GitHub [PR revert feature](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/incorporating-changes-from-a-pull-request/reverting-a-pull-request). It is a feature present in the GitHub user interface which creates a new PR that contains one revert of the merge commit from the original merged pull request. After merging the PR into main branch, Argo CD will pickup changes and deploy the previous images for the application. This approach has a few pros and cons:
+    - It is easier to revert back to the original state via single button in the GitHub user interface. It feels natural, just as you would do using the `Undo` feature from your IDE, or any other desktop application. This aspect falls into the pros category.
+    - It will trigger the whole set of CI workflows again. First, the PR workflow, and then the main branch workflow which rebuilds the same set of images basically but using a different commit ID. In the end, you will achieve the final goal and revert things back to their initial state, but the outcome is unnecessary images being built and additional waiting time (things may break in between also). This aspect falls more into the cons category.
+    - You have more control over the process, meaning you also revert the whole batch of changes for application code which may be a desired thing or not. This aspect falls more or less into the pros category.
+2. Another option is to create a fresh PR, and revert only the `kustomize` changes to switch to the previous deployment that worked. This approach is more `lightweight` and doesn't trigger a bunch of GitHub workflows as in the first approach. On the other hand, defective application code stays in place. But, the main advantage is that you revert your application to a working state very quickly, thus it creates minimum application downtime.
+
+If choosing the second option, you have time to prepare a set of fixes (or hot-fixes) meanwhile. When everything is ready and you feel confident about your work, go as usual with the CI flow. Open a new PR with your code changes, obtain approval, merge into main branch, Argo CD picks up and updates the application in the development cluster.
+
+The first approach is already set up, so if you need to go that route there's nothing new to learn or implement. Following example is based on the second approach.
+
+Steps to revert a bad deployment for the development environment (applies to upper environments as well):
+
+1. Identify the problematic commit ID in your application GitHub repository. You should be able to spot it quickly because it contains the following signature:
+
+    ![GitHub Actions Commit Signature](github-actions-signature.png)
+
+2. Navigate to the respective commit ID, and see what changed:
+
+    ![Identify Container Images Tags](identify-img-tag-id.png)
+
+3. Create a new PR containing changes with the previous image tag for each affected microservice (the value highlighted using red color in the Git diff shown in the above image).
+4. Wait for the Kustomize manifests validation workflow to finish, and if everything is alright approve and merge the PR.
+
+After a few moments (3 minutes max), you should see the old version of the `microservices-demo` application present in your development environment.
+
+So far, you learned how to configure and enable an automated CI/CD flow for the development environment. Next, you will learn how to create GitHub releases for your application and propagate (or promote) changes to upper environments. First to the staging environment, and then after QA approval (may imply project manager decision as well), deploy to production environments as well.
