@@ -87,9 +87,6 @@ Next, you will learn how to implement the CI workflows used in this guide for th
 
 On each pull request a dedicated workflow is triggered responsible with running automated tests, part of PR validation step. Next, manual review is requested by the developer opening the PR. Reviewers can be assigned also [automatically](https://docs.github.com/en/organizations/organizing-members-into-teams/managing-code-review-settings-for-your-team#about-auto-assignment).
 
-!!! note
-    You may need to disable main branch protection temporarily to perform the following steps.
-
 Follow below steps to configure and enable main branch PR validation workflow provided in this guide:
 
 1. Clone the `microservices-demo` repository on your local machine, if not already (make sure to replace the `<>` placeholders accordingly):
@@ -350,14 +347,25 @@ Follow below steps to configure and enable main branch PR validation workflow pr
                   echo "[INFO] Remember to run the DOCR garbage collector from time to time!"
         ```
 
-6. Save the workflow file, commit, and push changes to your git repository `main` branch.
+6. Save the workflow file, commit, and push changes to your git repository `main` branch (**you may need to temporarily disable `main` branch protection first**).
+
+    !!!note
+        - Depending on your setup, you may want to adjust the following environment variables at the top of your workflow file:
+        ```yaml
+        env:
+          DOCR_ENDPOINT: "registry.digitalocean.com/<YOUR_REGISTRY_NAME_HERE>"
+          CLUSTER_NAME: "<YOUR_DEV_DOKS_CLUSTER_NAME_HERE>"
+          REGION: "<YOUR_DEV_DOKS_CLUSTER_REGION_HERE>"
+          K8S_NAMESPACE: "<YOUR_PROJECT_CUSTOM_NAMESPACE_HERE>-${{ github.event.pull_request.number }}"
+        ```
+        - In order to run deployment tests, the example CI workflow provided in this guide creates a dedicated Kubernetes namespace to deploy microservices on your target DOKS development cluster. It is suffixed using the PR number which is unique across PRs. When it finishes, it will try to clean up all associated resources such as the provisioned Kubernetes namespace, and docker images from the registry. For docker registry, you still need to run garbage collection (not triggered automatically in the workflow because it puts the DOCR in read-only mode, hence other PR workflows will fail at the docker clean up step).
 
 Explanation for the above configuration:
 
 - `on.pull_request` - triggers the `Online Boutique PR CI` workflow on pull request events only.
 - `on.pull_request.branches` - triggers the `Online Boutique PR CI` workflow whenever a pull request event is detected for the specified list of branches. In this case only `main` branch is desired.
 - `on.pull_requests.paths-ignore` - list of repository paths used for filtering. The `Online Boutique PR CI`  workflow is triggered only on paths **not present** in the `paths-ignore` list. Basically, everything is included (microservices as well), except for Kustomize logic, README files, and workflows logic. Kustomize configuration is dealt in a separate workflow, because it's not related to microservices application logic.
-- `env` - sets environment variables to use for the whole pipeline. Usually, environment variables control CI workflow behavior (such as telling Tilt how to load environment specific profiles).
+- `env` - sets environment variables to use for the whole pipeline. Usually, environment variables control workflow logic.
 - `jobs` - defines list of job to run inside the pipeline such as unit tests, deployment tests, etc.
 - `strategy.matrix` - use a matrix build type. Runs the unit tests in parallel for each project type combination. This approach is a perfect match for projects using multiple components, such as microservices. It also cuts down the time required to build and test each component. Each element from the matrix sets the project name, and the language being used.
 - `steps` - list of steps to execute as part of the workflow jobs. For each project component (or microservice), the following list of actions is executed:
@@ -367,18 +375,6 @@ Explanation for the above configuration:
     4. For deployment tests, the whole suite of microservices is deployed to the DEV environment in a dedicated namespace (unique across PRs) using Tilt. The [dev](https://github.com/digitalocean/kubernetes-sample-apps/tree/master/microservices-demo/tilt-resources/dev) profile is being used.
     5. Then, load tests are performed via the smoke tests step.
     6. Finally, clean up is performed. The microservices setup allocated for the PR is destroyed, including associated Docker images pushed to the registry.
-
-!!!note
-
-    - You should change the following environment variables at the top of your CI workflow file (if your setup is different):
-      ```yaml
-      env:
-        DOCR_ENDPOINT: "<YOUR_CUSTOM_DOCR_ENDPOINT_HERE>"
-        CLUSTER_NAME: "<YOUR_DEV_DOKS_CLUSTER_NAME_HERE>"
-        REGION: "<YOUR_DEV_DOKS_CLUSTER_REGION_HERE>"
-        K8S_NAMESPACE: "<YOUR_PROJECT_CUSTOM_NAMESPACE_HERE>-${{ github.event.pull_request.number }}"
-      ```
-    - In order to run deployment tests, the example CI workflow provided in this guide creates a dedicated Kubernetes namespace to deploy microservices on your target DOKS development cluster. It is suffixed using the PR number which is unique across PRs. When it finishes, it will try to clean up all associated resources such as the provisioned Kubernetes namespace, and docker images from the registry. For docker registry, you still need to run garbage collection (not triggered automatically in the workflow because it puts the DOCR in read-only mode, hence other PR workflows will fail at the docker clean up step).
 
 Following diagram shows the `Online Boutique PR CI` workflow composition:
 
@@ -461,8 +457,8 @@ Follow below steps to configure and enable the main branch workflow provided in 
 
         # Global environment variables
         env:
-          CI_COMMIT_AUTHOR: "CI GitHub Actions"
-          CI_COMMIT_AUTHOR_EMAIL: "gh-actions@noreply.github.com"
+          CI_COMMIT_AUTHOR: "GitHub CI Actions"
+          CI_COMMIT_AUTHOR_EMAIL: "gh-ci-actions@noreply.github.com"
           DOCR_ENDPOINT: "registry.digitalocean.com/microservices-demo"
           PROJECT_NAME: "online-boutique"
 
@@ -556,7 +552,7 @@ Follow below steps to configure and enable the main branch workflow provided in 
                   git config --global user.name "${{ env.CI_COMMIT_AUTHOR }}"
                   git config --global user.email "${{ env.CI_COMMIT_AUTHOR_EMAIL }}"
                   git add kustomize/dev/
-                  git commit -m "Bump docker images tag"
+                  git commit -m "[CI] Bump docker images tag to ${{ github.sha }}"
 
               - name: Push changes
                 uses: ad-m/github-push-action@master
@@ -564,26 +560,26 @@ Follow below steps to configure and enable the main branch workflow provided in 
                   github_token: ${{ secrets.GITHUB_TOKEN }}
         ```
 
-6. Save the workflow file, commit, and push changes to your git repository `main` branch (you may need to disable main branch protection temporarily to perform this step).
+6. Save the workflow file, commit, and push changes to your git repository `main` branch (**you may need to temporarily disable `main` branch protection first**).
+
+    !!!note
+        - The `deployment-tests` job from the `Online Boutique CI Main` workflow example contains only a placeholder for integration tests. This part is implementation specific, and it is left for the user to configure.
+        - Depending on your setup, you may want to adjust the following environment variables at the top of your workflow file:
+          ```yaml
+          env:
+            CI_COMMIT_AUTHOR: "CI GitHub Actions"
+            CI_COMMIT_AUTHOR_EMAIL: "gh-actions@noreply.github.com"
+            DOCR_ENDPOINT: "registry.digitalocean.com/<YOUR_REGISTRY_NAME_HERE>"
+          ```
 
 Explanation for the above configuration:
 
 - `on.push` - triggers the `Online Boutique Main CI` workflow on push events only.
 - `on.push.branches` - triggers the `Online Boutique Main CI` workflow whenever a push event is detected for the specified list of branches. In this case only `main` branch is desired.
-- `on.push.paths-ignore` - list of repository paths used for filtering. The `Online Boutique Main CI`  workflow is triggered only on paths **not present** in the `paths-ignore` list. Basically, everything is included (microservices as well), except for Kustomize logic, README files, and workflows logic. Kustomize configuration is dealt in a separate workflow, because it's not related to microservices application logic.
-- `env` - sets environment variables to use for the whole pipeline. Usually, environment variables control CI workflow behavior (such as telling ArgoCD how to sync only for the specific environment).
+- `on.push.paths-ignore` - list of repository paths used for filtering. The `Online Boutique Main CI` workflow is triggered only on paths **not present** in the `paths-ignore` list. Basically, everything is included (microservices as well), except for Kustomize logic, README files, and workflows logic. Kustomize configuration is dealt in a separate workflow, because it's not related to microservices application logic.
+- `env` - sets environment variables to use for the whole pipeline. Usually, environment variables control workflow logic.
 - `jobs` - defines list of job to run inside the pipeline such as integration tests, build and push docker images, apply Kustomize changes, etc.
 - `steps` - list of steps implementing workflow jobs logic.
-
-!!!note
-
-    You should change the following environment variables at the top of your CI workflow file if your setup is different:
-      ```yaml
-      env:
-        CI_COMMIT_AUTHOR: "CI GitHub Actions"
-        CI_COMMIT_AUTHOR_EMAIL: "gh-actions@noreply.github.com"
-        DOCR_ENDPOINT: "<YOUR_DOCR_ENDPOINT_HERE>"
-      ```
 
 Following diagram shows the `Online Boutique Main CI` workflow composition:
 
@@ -593,16 +589,14 @@ A(Main Branch Workflow Start) --> B(Deployment Tests)
 B --> C{Tests Passing?}
 C -- No --> D(Reject build)
 C -- Yes --> E(Build and Push Images)
-E --> F(Kustomize DEV Images Tags)
+E --> F(Kustomize Dev Env Images Tag)
 F --> G(Commit Kustomize Changes)
-G --> H(Set Build Passing Status Badge)
-H -. Trigger .-> I(ArgoCD DEV Sync)
-style I stroke-dasharray: 5 5
+G -. Trigger .-> H(Argo CD Dev Env Sync)
+style H stroke-dasharray: 5 5
 ```
 
 !!! note
-    - The deployment tests step contains only a placeholder for integration tests. This part is implementation specific and it is left for the user to configure.
-    - The final ArgoCD sync step from above diagram is marked as optional (dotted representation) because Argo will automatically trigger a deployment for the DEV environment anyways. Depending how Argo is configured, it can happen immediately via GitHub webhooks, or via polling (3 minutes interval by default). You can also force a sync and avoid waiting time via the CI workflow if desired.
+    The final step from above flow chart - `Argo CD Dev Env Sync` is discussed and implemented in the next chapter - [Continous Deployments](setup-continuous-deployments.md).
 
 Next, you learn how to configure and enable the Kustomize manifests validation workflow that gets triggered whenever changes are requested via pull requests affecting the `kustomize/**` path in your GitHub repository.
 
@@ -695,17 +689,16 @@ Follow below steps to enable the Kustomize checks workflow for PRs:
                   done
         ```
 
-6. Save the workflow file, commit, and push changes to your git repository `main` branch (you may need to disable main branch protection temporarily to perform this step).
+6. Save the workflow file, commit, and push changes to your git repository `main` branch (**you may need to temporarily disable `main` branch protection first**).
 
-What the above workflow does is to send each environment (or overlay) Kubernetes YAML manifests after rendering via Kustomize to [Kubeconform](https://github.com/yannh/kubeconform/) tool. Kubeconform is a tool for validating Kubernetes YAML files using the OpenAPI specifications.
-
-!!!tip
-
-    You should change the following environment variable at the top of your workflow file according to your Kubernetes environment:
+    !!!note
+      Depending on your setup, you may want to adjust the following environment variable at the top of your workflow file:
       ```yaml
       env:
         KUBERNETES_VERSION: "1.24.4"
       ```
+
+Above workflow will validate each Kubernetes manifest using [Kubeconform](https://github.com/yannh/kubeconform/) after rendering via Kustomize. Kubeconform is a tool for validating Kubernetes YAML files using the OpenAPI specifications.
 
 Next, you will test each workflow to check if it meets the required functionality.
 
