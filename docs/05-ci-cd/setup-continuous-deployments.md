@@ -32,7 +32,29 @@ Following diagram depicts the Argo CD setup used in this guide for each environm
 
 It's important to understand Argo CD concepts, so please follow the official [getting started guide](https://argo-cd.readthedocs.io/en/stable/getting_started/). To keep it short, you need to know how to operate Argo [applications](https://argo-cd.readthedocs.io/en/stable/operator-manual/declarative-setup/#applications) and [projects](https://argo-cd.readthedocs.io/en/stable/user-guide/projects/). The application CRD is the most important bit of configuration dealing with connecting various sources such as Git repositories and Kubernetes clusters. On the other hand, Argo CD projects represent a logical way of grouping multiple applications related to each other.
 
-Next, you will learn how to bootstrap Argo CD for each environment. The procedure is basically the same, so once you learn how to do it for one environment, it should be pretty straightforward to perform the same steps for the remaining ones.
+This chapter relies on the [Argo CD Autopilot](https://argocd-autopilot.readthedocs.io/) project to bootstrap Argo itself, as well as example applications (i.e. `microservices-demo`).
+
+**Why use Argo CD autopilot?**
+
+Some people argue that the [app of apps pattern](https://argo-cd.readthedocs.io/en/stable/operator-manual/cluster-bootstrapping/) solves all problems related to bootstrapping Argo apps and projects. This is true, but there are some missing pieces:
+
+1. Argo CD has to be installed first (this is a one time operation usually, so maybe not a big deal).
+2. You have to create initial manifest(s) for Argo to consume (including the manifest implementing the **app of apps pattern**).
+3. Create and layout your GitOps repository.
+4. Enforce a set of best practices for your GitOps repository.
+5. Commit and push required Argo manifests to your GitOps repository.
+6. Tell Argo about your intentions which requires `kubectl apply` for the involved manifests.
+
+The Argo CD autopilot project tries to solve all enumerated steps above. It uses an opinionated way to bootstrap your GitOps environment, and embeds a set of best practices to layout your Argo apps and projects in a GitOps fashion. On top of that, Argo CD is bootstrapped as well on your target cluster with just only one command. When needed, the autopilot CLI can be used to repeat the bootstrap process if your cluster is re-created, without pushing all manifests again to your existing repo (a special flag exists, called `--recover`).
+
+To summarize, here's what Argo CD autopilot can do for you:
+
+- Creates a GitOps repository (if doesn't exists) using an opinionated approach for your Argo apps and projects.
+- Bootstraps Argo CD on your DOKS cluster, and keeps itself in sync using same GitOps repo.
+- Helps you create apps and projects which are then automatically synced by your Argo instance (no need to run `kubectl apply`).
+- Enforces a set of best practices for all operations.
+
+Next, you will learn how to bootstrap Argo CD for each environment using the autopilot CLI. The procedure is basically the same, so once you learn how to do it for one environment, it should be pretty straightforward to perform the same steps for the remaining ones.
 
 ## Prerequisites
 
@@ -52,10 +74,6 @@ To complete this section you will need:
 In this section you will deploy Argo CD to your `development` DOKS cluster using the autopilot CLI . Then, you will configure Argo to sync application changes using the `dev` overlay folder from your `microservices-demo` GitHub repository.
 
 The [Argo CD autopilot project](https://argocd-autopilot.readthedocs.io) aims to ease the initial bootstrapping process of your Argo instance for each environment. What is nice about this approach is that the Argo installation itself is also synced with your GitHub repo in a GitOps fashion. The autopilot CLI will first deploy Argo CD in your cluster, and then push all required manifests to your GitHub repository.
-
-**Why the Argo CD autopilot CLI and not the App of Apps pattern?**
-
-The autopilot project already solves the app of apps problem, and even more. It uses an opinionated way to bootstrap the GitOps layout for your repository. It embeds a set of best practices (even security related) to layout your GitOps repo. On top of that, Argo CD is installed as well in your cluster with just only one command. When needed, the autopilot CLI can be used to bootstrap everything again if your cluster is re-created, without pushing the manifests again to your existing repo. There is a special flag called `--recover`, provided by the `argocd-autopilot repo bootstrap` subcommand.
 
 ### Bootstrap Instructions
 
@@ -312,7 +330,7 @@ In this section you will deploy Argo CD to your `production` DOKS cluster using 
 !!! note
     You may need to temporarily disable main branch protection to perform the following steps.
 
-Please follow below steps to bootstrap Argo CD, and deploy the `microservices-demo` app to the `prodcution environment`:
+Please follow below steps to bootstrap Argo CD, and deploy the `microservices-demo` app to the `production environment`:
 
 1. Export the `GIT_TOKEN` environment variable containing your GitHub personal access token, if not already (make sure to replace the `<>` placeholders first):
 

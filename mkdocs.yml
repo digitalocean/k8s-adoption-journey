@@ -33,7 +33,9 @@ nav:
   - Continuous integration and deployments:
       - Set up continuous integration: 05-ci-cd/setup-continuous-integration.md
       - Set up continuous deployments: 05-ci-cd/setup-continuous-deployments.md
-      - Set up the release process: 05-ci-cd/setup-release-process.md
+  - Promote releases:
+      - Set up release process: 06-promote-releases/setup-release-process.md
+      - Promote releases to upper environments: 06-promote-releases/promote-releases-to-upper-envs.md
 
 theme:
   name: material
