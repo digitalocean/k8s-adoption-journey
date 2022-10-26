@@ -214,6 +214,34 @@ Next, you will learn how to create a new release version for the online boutique
 
 In this section, you will learn how to create a new GitHub release using the web interface. GitHub provides a neat UI experience and helps you create and manage releases for your application using a straightforward process.
 
+!!! tip
+    It's best practice to **announce and enforce code freeze** for your repository before each release. This procedure ensures that no changes are pushed to your repository during the release process.
+
+    You can automate this behavior by setting **`pull/triage/push/maintain/admin`** permissions for your GitHub repository via the **REST API** (make sure to replace the `<>` placeholders first):
+
+    === "cURL"
+
+        ```shell
+        curl \
+          -X PUT \
+          -H "Accept: application/vnd.github+json" \
+          -H "Authorization: Bearer <YOUR_TOKEN>" \
+          https://api.github.com/repos/<OWNER>/<REPO>/collaborators/<USERNAME> \
+          -d '{"permission":"triage"}'
+        ```
+
+    === "GitHub CLI"
+
+        ```shell
+        gh api \
+          --method PUT \
+          -H "Accept: application/vnd.github+json" \
+          /repos/<OWNER>/<REPO>/collaborators/<USERNAME> \
+          -f permission='push'
+        ```
+    
+    Find out more by visiting the [Collaborators REST API](https://docs.github.com/en/rest/collaborators/collaborators/) page from the official GitHub documentation website.
+
 Follow below steps to create and tag a new release for the sample application used in this guide:
 
 1. Prepare a few major changes for the application, open and merge required pull requests to commit all changes to your `microservices-demo` repository.

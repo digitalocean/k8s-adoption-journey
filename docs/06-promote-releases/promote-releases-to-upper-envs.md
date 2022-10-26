@@ -6,12 +6,15 @@ Promoting a new release to upper environments should happen in a controlled mann
 
 ## Promoting to Staging Environment
 
-Prerequisites:
+!!! note
+    This part is automated in this guide. But, if you want to disable automated deployments of project releases to staging environment, you will find required manual steps below.
+
+**Prerequisites:**
 
 1. A new GitHub release for the project was made.
 2. Release artifacts already published.
 
-Steps:
+**Steps:**
 
 1. Create a new PR with Kustomize changes for the staging overlay. New release tag is included in the images section.
 2. A Kustomize validation workflow is automatically triggered.
@@ -21,18 +24,18 @@ Steps:
 
 ## Promoting to Production Environment
 
-Prerequisites:
+**Prerequisites:**
 
-1. A new GitHub release for the project was made.
+1. A new GitHub release for your project is made.
 2. Release artifacts already published.
 3. Application was already tested and QA team approved it for staging environment.
 
-Steps:
+**Steps:**
 
 1. Create a new PR with Kustomize changes for the prod overlay. New release tag is included in the images section.
 2. A Kustomize validation workflow is automatically triggered.
 3. Manual review is also required.
-4. If all hecks pass, PR is closed, and code merged in the main branch.
+4. If all checks pass, PR is closed, and code merged in the main branch.
 5. ArgoCD picks the changes and deploys new application artifacts to prod environment.
 
 ## Rolling Back a Release
