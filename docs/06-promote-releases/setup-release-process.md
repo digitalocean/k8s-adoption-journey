@@ -217,7 +217,7 @@ In this section, you will learn how to create a new GitHub release using the web
 !!! tip
     It's best practice to **announce and enforce code freeze** for your repository before each release. This procedure ensures that no changes are pushed to your repository during the release process.
 
-    You can automate this behavior by setting **`pull/triage/push/maintain/admin`** permissions for your GitHub repository via the **REST API** (make sure to replace the `<>` placeholders first):
+    You can automate this behavior by setting **`pull/triage/push/maintain/admin`** permissions for your GitHub repository via the **REST API**. Bellow snippet allows collaborators to pull code only, thus dissallowing code push to your repository (make sure to replace the `<>` placeholders first):
 
     === "cURL"
 
@@ -227,7 +227,7 @@ In this section, you will learn how to create a new GitHub release using the web
           -H "Accept: application/vnd.github+json" \
           -H "Authorization: Bearer <YOUR_TOKEN>" \
           https://api.github.com/repos/<OWNER>/<REPO>/collaborators/<USERNAME> \
-          -d '{"permission":"triage"}'
+          -d '{"permission":"pull"}'
         ```
 
     === "GitHub CLI"
@@ -237,7 +237,7 @@ In this section, you will learn how to create a new GitHub release using the web
           --method PUT \
           -H "Accept: application/vnd.github+json" \
           /repos/<OWNER>/<REPO>/collaborators/<USERNAME> \
-          -f permission='push'
+          -f permission='pull'
         ```
     
     Find out more by visiting the [Collaborators REST API](https://docs.github.com/en/rest/collaborators/collaborators/) page from the official GitHub documentation website.
