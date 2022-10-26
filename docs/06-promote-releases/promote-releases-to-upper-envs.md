@@ -38,8 +38,12 @@ Promoting a new release to upper environments should happen in a controlled mann
 4. If all checks pass, PR is closed, and code merged in the main branch.
 5. ArgoCD picks the changes and deploys new application artifacts to prod environment.
 
-## Rolling Back a Release
+## Rollback Releases
 
 In case something goes bad, you can immediately revert the associated PR for the respective environment. This approach ensures atomic changes and rollbacks. Next, Argo CD picks the changes automatically and rolls back to previous deployment.
 
 Essentially, you follow the same procedure as learned in previous chapters - e.g. [Set up continuous deployments -> Reverting bad application deployments](setup-continuous-deployments.md#reverting-bad-application-deployments).
+
+Another approach is to use the [Argo CD application rollback](https://argo-cd.readthedocs.io/en/stable/user-guide/commands/argocd_app_rollback/) feature. You should be able to revert to any previous git commit ID. It offers a fast approach to rollback application changes. Meanwhile you will work on a fix, and when ready deploy a new release.
+
+Just bear in mind that during the rollback process changes are performed only on the Argo CD server - your Git repository remains untouched. As a consequence, the affected Argo application is not in sync anymore with latest state of your Git repository. This is something desired, until you come up with a fix (or set of fixes) for the bad release. The affected Argo application will be synced again automatically when you perform the next release.
