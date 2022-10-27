@@ -1,3 +1,6 @@
+!!! warning
+    This chapter is still work in progress. Tracked via GitHub issue [#32](https://github.com/digitalocean/k8s-adoption-journey/issues/32).
+
 ## Introduction
 
 It's not best practice to immediately deploy to production after a new release was made. You will want to deploy to staging environment first, then have QA team check and approve the release. If everything is ok, then you will move forward and deploy to production.
