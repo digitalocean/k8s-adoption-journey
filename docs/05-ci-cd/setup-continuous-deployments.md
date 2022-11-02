@@ -439,4 +439,35 @@ Steps to revert a bad deployment for the development environment (applies to upp
 
 After a few moments (3 minutes max), you should see the old version of the `microservices-demo` application present in your development environment.
 
-So far, you learned how to configure and enable an automated CI/CD flow for the development environment. Next, you will learn how to create GitHub releases for your application and propagate (or promote) changes to upper environments. First to the staging environment, and then after QA approval (may imply project manager decision as well), deploy to production environments as well.
+## Restoring a Lost Argo CD Instance
+
+If for some reason the DOKS cluster is re-created and the associaged Argo CD instance is lost, then you should be able to recover from this situation using your existing GitOps repository (assuming it is still intact). It's a feature offered by the Argo CD autopilot CLI via a special flag called `--recover`.
+
+!!! note
+    Don't forget to integrate your new DOKS cluster with DOCR before anything else. If you forget to perform this step, all Kubernetes deployments will fail to pull application images from your registry.
+
+Assuming you want to recover the `staging` environment Argo CD instance, please follow below steps:
+
+1. Export the `GIT_TOKEN` environment variable containing your GitHub personal access token, if not already (make sure to replace the `<>` placeholders first):
+
+    ```shell
+    export GIT_TOKEN=<YOUR_GITHUB_PERSONAL_ACCESS_TOKEN_HERE>
+    ```
+
+2. Switch Kubernetes context to your `staging` cluster. Below example is using `do-nyc1-microservices-demo-staging` for demonstration - make sure to change value if yours is different:
+
+    ```shell
+    kubectl config set-context do-nyc1-microservices-demo-staging
+    ```
+
+3. Run the autopilot bootstrap using the `--recover` flag this time (make sure to replace the `<>` placeholders first):
+
+    ```shell
+    argocd-autopilot repo bootstrap \
+        --repo "https://github.com/<YOUR_GITHUB_USERNAME>/microservices-demo/argocd/staging" \
+        --recover
+    ```
+
+What the above command does is it will clone your GitOps repository first as specified by the `--repo` flag. Then, it will install a fresh Argo CD instance using environment specific manifests pointed by the last part of the repository path, i.e. `argocd/staging`. Environment specific applications and projects should be restored as well. GitOps repository Kustomize manifests should remain untouched.
+
+So far, you learned how to configure and enable an automated CI/CD flow for the development environment. Next, you will learn how to create GitHub releases for your application and propagate (or promote) changes to upper environments as well. First to the staging environment, and then after QA approval (may imply project manager decision as well), deploy to production.
