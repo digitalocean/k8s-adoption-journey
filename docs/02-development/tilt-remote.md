@@ -49,6 +49,7 @@ To complete this section you will need:
 
     !!! warn
         - Make sure to give a unique value for the `namespace` property in the `tilt_config.json` file to avoid overriding existing applications on the remote development cluster.
+        - Make sure to change the `default_registry` value from the `tilt_config.json` file to point to your DOCR registry name as configured in the [DOCR setup](setup-docr.md) chapter from this guide.
         - Tilt configuration files will be excluded from git commits by `.gitignore` settings. Each developer customizes his profile locally as desired, and should not impact other team members.
 
 6. Bring the `microservices-demo` dev environment up using Tilt:

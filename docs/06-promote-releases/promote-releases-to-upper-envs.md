@@ -53,43 +53,44 @@ E -- No --> C
     git clone https://github.com/<YOUR_GITHUB_ACCOUNT_USERNAME>/microservices-demo.git
     ```
 
-2. Change version number in the `images` section of the `kustomize/prod/kustomization.yaml` file from `prod` overlay. For example, if new application version to promote to prod is `v1.0.1`, then the images section looks similar to:
+2. Change version number within `newTag` line for each application defined in the `kustomization.yaml` manifest file from `prod` overlay. For example, if new application version to promote is `v1.0.1`, then the `images` section looks similar to:
 
-    ```yaml
-    ...
-    images:
-     - name: cartservice
-       newName: registry.digitalocean.com/microservices-demo/cartservice
-       newTag: v1.0.1
-     - name: checkoutservice
-       newName: registry.digitalocean.com/microservices-demo/checkoutservice
-       newTag: v1.0.1
-     - name: currencyservice
-       newName: registry.digitalocean.com/microservices-demo/currencyservice
-       newTag: v1.0.1
-     - name: emailservice
-       newName: registry.digitalocean.com/microservices-demo/emailservice
-       newTag: v1.0.1
-     - name: frontend
-       newName: registry.digitalocean.com/microservices-demo/frontend
-       newTag: v1.0.1
-     - name: paymentservice
-       newName: registry.digitalocean.com/microservices-demo/paymentservice
-       newTag: v1.0.1
-     - name: productcatalogservice
-       newName: registry.digitalocean.com/microservices-demo/productcatalogservice
-       newTag: v1.0.1
-     - name: recommendationservice
-       newName: registry.digitalocean.com/microservices-demo/recommendationservice
-       newTag: v1.0.1
-     - name: shippingservice
-       newName: registry.digitalocean.com/microservices-demo/shippingservice
-       newTag: v1.0.1
-    ...
-    ```
+    ??? info "Click to expand the `kustomize/prod/kustomization.yaml` images section"
+        ```yaml hl_lines="5 8 11 14 17 20 23 26 29"
+        ...
+        images:
+        - name: cartservice
+          newName: registry.digitalocean.com/microservices-demo/cartservice
+          newTag: v1.0.1
+        - name: checkoutservice
+          newName: registry.digitalocean.com/microservices-demo/checkoutservice
+          newTag: v1.0.1
+        - name: currencyservice
+          newName: registry.digitalocean.com/microservices-demo/currencyservice
+          newTag: v1.0.1
+        - name: emailservice
+          newName: registry.digitalocean.com/microservices-demo/emailservice
+          newTag: v1.0.1
+        - name: frontend
+          newName: registry.digitalocean.com/microservices-demo/frontend
+          newTag: v1.0.1
+        - name: paymentservice
+          newName: registry.digitalocean.com/microservices-demo/paymentservice
+          newTag: v1.0.1
+        - name: productcatalogservice
+          newName: registry.digitalocean.com/microservices-demo/productcatalogservice
+          newTag: v1.0.1
+        - name: recommendationservice
+          newName: registry.digitalocean.com/microservices-demo/recommendationservice
+          newTag: v1.0.1
+        - name: shippingservice
+          newName: registry.digitalocean.com/microservices-demo/shippingservice
+          newTag: v1.0.1
+        ...
+        ```
 
     !!! note
-        Above example is using **registry.digitalocean.com/microservices-demo** as the DOCR endpoint. Don't forget to adjust according to your setup.
+        Above example is using **registry.digitalocean.com/microservices-demo** for the DOCR endpoint. Don't forget to adjust according to your setup.
 
 3. Save the `kustomization.yaml` manifest, commit changes to your working branch.
 4. Push new branch to remote, and create a new PR addressing Kustomize changes for the `prod` overlay.
