@@ -12,8 +12,8 @@ nav:
   - Getting started:
       - Installing required tools: 01-getting-started/installing-required-tools.md
       - Authenticating with the DigitalOcean API: 01-getting-started/do-api-auth.md
-      - Preparing the demo application: 01-getting-started/preparing-demo-application.md
       - Set up a Digital Ocean container registry: 01-getting-started/setup-docr.md
+      - Preparing the demo application: 01-getting-started/preparing-demo-application.md
   - Development environment:
       - Set up Development DOKS: 02-development/setup-doks-dev.md
       - Tilt for local development: 02-development/tilt-local.md
@@ -61,6 +61,7 @@ markdown_extensions:
   - pymdownx.details
   - pymdownx.highlight:
       anchor_linenums: true
+  - pymdownx.mark
   - pymdownx.snippets
   - pymdownx.superfences
   - pymdownx.tabbed:
@@ -70,9 +71,6 @@ markdown_extensions:
         - name: mermaid
           class: mermaid
           format: !!python/name:pymdownx.superfences.fence_code_format
-  - pymdownx.emoji:
-      emoji_index: !!python/name:materialx.emoji.twemoji
-      emoji_generator: !!python/name:materialx.emoji.to_svg
 
 plugins:
   - search
