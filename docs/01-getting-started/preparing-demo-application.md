@@ -1,5 +1,21 @@
 ## Introduction
 
+## Containerization
+
+Throughout this journey you will deploy the [demo application](https://github.com/digitalocean/kubernetes-sample-apps/tree/master/microservices-demo) using docker images you build, tag and push to a [DOCR](https://www.digitalocean.com/products/container-registry) repository so it would be worthwhile to talk about this process.
+Containerization is the packaging together of software code with all it’s necessary components like libraries, frameworks, and other dependencies so that they are isolated in their own `container`.
+This is so that the software or application within the container can be moved and run consistently in any environment and on any infrastructure, independent of that environment or infrastructure’s operating system. The container acts as a kind of bubble or a computing environment surrounding the application and keeping it independent of its surroundings. It’s basically a fully functional and portable computing environment.
+Containers are an alternative to coding on one platform or operating system, which made moving the application difficult since the code might not then be compatible with the new environment. This could result in bugs, errors, and glitches that needed fixing (meaning more time, less productivity, and a lot of frustration).
+One crucial benefit of using a container is the `lightweight` or `portability` characteristic that comes from their ability to share the host machine’s `operating system kernel`, negating the need for a separate operating system for each container and allowing the application to run the same on any infrastructure.
+
+**VMs vs containers**
+
+A virtual machine (VM) is a virtual environment that functions as a virtual computer system with its own `CPU`, `memory`, `network interface`, and `storage`, created on a physical hardware system (located off or on-premises).
+Containerization and virtualization are similar in that they both allow for full isolation of applications so that they can be operational in multiple environments. Where the main differences lie are in size and portability.
+`VMs` are the larger of the two, typically measured by the gigabyte and containing their own `OS`, which allows them to perform multiple resource-intensive functions at once. The increased resources available to VMs allows them to abstract, split, duplicate, and emulate entire servers, operating systems, desktops, databases, and networks.
+
+`Containers` are much smaller, typically measured by the megabyte and not packaging anything bigger than an app and its running environment. Containers are lightweight meaning they share the machine’s operating system kernel and do not require the overhead of associating an operating system within each application. Mmost important, containerization allows applications to be “written once and run anywhere.” You can think of containers as isolated sandboxes on a single machine for applications to run in.
+
 In this section you will create the GitHub repository hosting the sample application used through this guide. It's a web-based e-commerce app (online boutique) consisting of 11 microservices of which only 9 are used by this guide. In terms of functionality, users can browse items, add them to the cart, and purchase them.
 
 The online boutique application is a clone of the original [GoogleCloudPlatform](https://github.com/GoogleCloudPlatform/microservices-demo) project. It will be used as a demo for the Kubernetes adoption journey. The [microservices-demo](https://github.com/digitalocean/kubernetes-sample-apps/tree/master/microservices-demo) project from the DigitalOcean [kubernetes-sample-apps](https://github.com/digitalocean/kubernetes-sample-apps) repository has been stripped down to focus only on the major parts required by the adoption journey.
@@ -393,6 +409,54 @@ In this section, you will push to DOCR the first version (`v1.0.0`) of the [onli
     export TAG="v1.0.0"
 
     ./release-scripts/make-docker-images.sh
+    ```
+
+    !!!info
+        You will be pushing an initial release first to DOCR - `v1.0.0`, and use that to deploy to the `staging` and `production` environments in the upcoming sections. Later on, GitHub Actions will take care of building, tagging and pushing images to `DOCR`.
+
+## Alternative way of building docker images with Cloud Native Buildpacks
+
+Cloud Native Buildpacks transform your application source code into images that can run on any cloud. In this section you'll learn the basics of using buildpacks and create the images required for the [microservices-demo](https://github.com/digitalocean/kubernetes-sample-apps/tree/master/microservices-demo) project.
+Buildpacks allow you to convert your source code into a secure, efficient, production ready container image without the need to write a Dockerfile so you can focus all your attention on writing the application code.
+[Buildpacks](https://buildpacks.io/docs/concepts/components/buildpack/) provide framework and runtime support for applications. Buildpacks examine your apps to determine all the dependencies it needs and configure them appropriately to run on any cloud.
+Each buildpack comprises of two phases:
+
+- the `detect` phase which runs against your source code to determine if the buildpack is applicable or not. Once a buildpack is detected to be applicable, it proceeds to the build stage. Detection criteria is specific to each buildpack – for instance, an `NPM buildpack` might look for a package.json, and a `Go buildpack` might look for Go source files.
+- the `build` phase runs against your source code to set up the build-time and run-time environment, download dependencies and compile your source code (if needed) and set appropriate entry point and startup scripts.
+
+[Builders](https://buildpacks.io/docs/concepts/components/builder/) are an ordered combination of buildpacks with a base build image, a lifecycle, and reference to a run image. They take in your app source code and build the output app image. The build image provides the base environment for the builder (for eg. an Ubuntu Bionic OS image with build tooling) and a run image provides the base environment for the app image during runtime. A combination of a `build image` and a `run image` is called a `stack`.
+
+Next, you will be buidling and pushing images for the `microservices-demo` app using [pack](https://buildpacks.io/docs/tools/pack/) which is a tool maintained by the `Cloud Native Buildpacks` project to support the use of buildpacks.
+
+!!! note
+    Cloud Native Buildpacks images work best when run on an x86 architecture workstation. ARM is not 100% supported at this time. 
+    To be able to use pack you will need to install it as explained in the [Installing Pack](installing-required-tools.md#installing-pack-optional).
+
+1. Clone your `microservices-demo` repository if you haven't already (make sure to replace the `<>` placeholders first):
+
+    ```shell
+    git clone https://github.com/<YOUR_GITHUB_ACCOUNT_USERNAME>/microservices-demo.git
+    ```
+
+2. From the command line, change directory to the `microservices-demo` folder (if not there already):
+
+    ```shell
+    cd microservices-demo
+    ```
+
+3. Login to DOCR:
+
+    ```shell
+    doctl registry login
+    ```
+
+4. Run the `cnb-docker-images.sh` script after setting required environment variables first:
+
+    ```shell
+    export REPO_PREFIX="registry.digitalocean.com/microservices-demo"
+    export TAG="v1.0.0"
+
+    ./release-scripts/cnb-docker-images.sh
     ```
 
     !!!info
