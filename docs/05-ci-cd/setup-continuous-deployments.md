@@ -65,7 +65,7 @@ To complete this section you will need:
     - [Development Environment -> Set up DOKS](setup-doks-dev.md)
     - [Staging Environment -> Set up DOKS](setup-doks-staging.md)
     - [Production Environment -> Set up DOKS](setup-doks-production.md)
-3. The `microservices-demo` GitHub repository already prepared as explained in the [Preparing demo application GitHub repository](preparing-demo-application.md) section.
+3. The `microservices-demo` GitHub repository already prepared as explained in the [Preparing demo application GitHub repository](introduction-and-repository-setup.md) section.
 4. [Argo CD Autopilot CLI](https://argocd-autopilot.readthedocs.io/en/stable/Installation-Guide/) installed for your distribution as explained in the official docs.
 5. A [GitHub Personal Access Token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token/) (or PAT for short) with the `repo` permissions set. It is required only once by the autopilot CLI to bootstrap Argo CD to your cluster for each environment.
 

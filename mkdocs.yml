@@ -13,7 +13,10 @@ nav:
       - Installing required tools: 01-getting-started/installing-required-tools.md
       - Authenticating with the DigitalOcean API: 01-getting-started/do-api-auth.md
       - Set up a Digital Ocean container registry: 01-getting-started/setup-docr.md
-      - Preparing the demo application: 01-getting-started/preparing-demo-application.md
+      - Preparing the demo application: 
+        - 01-getting-started/building-and-pushing-docker-images/introduction-and-repository-setup.md
+        - Building and pushing images with Docker: 01-getting-started/building-and-pushing-docker-images/building-and-pushing-images-using-docker.md
+        - Building and pushing images with Cloud Native Buildpacks: 01-getting-started/building-and-pushing-docker-images/building-and-pushing-images-using-cnb.md
   - Development environment:
       - Set up Development DOKS: 02-development/setup-doks-dev.md
       - Tilt for local development: 02-development/tilt-local.md

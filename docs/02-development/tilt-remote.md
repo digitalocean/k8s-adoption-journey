@@ -13,7 +13,7 @@ To complete this section you will need:
 1. Tilt already installed and working as explained in the [Installing Required Tools](installing-required-tools.md) section.
 2. A container registry already set up as explained in the [Set up DOCR](setup-docr.md) section.
 3. A development Kubernetes cluster (DOKS) up and running as explained in the [Set up Development DOKS](setup-doks-dev.md) section. You need to have proper permissions to create namespaces and deploy resources.
-4. The `microservices-demo` GitHub repository already prepared as explained in the [Preparing demo application GitHub repository](preparing-demo-application.md) section.
+4. The `microservices-demo` GitHub repository already prepared as explained in the [Preparing demo application GitHub repository](introduction-and-repository-setup.md) section.
 
 ## Remote development with Tilt
 

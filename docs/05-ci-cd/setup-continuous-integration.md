@@ -42,7 +42,7 @@ To complete this section you will need:
 
 1. A container registry already set up as explained in the [Getting Started -> Set up DOCR](setup-docr.md) section.
 2. A development DOKS cluster set up and running as explained in the [Development Environment -> Set up DOKS](setup-doks-dev.md) section.
-3. The `microservices-demo` GitHub repository already prepared as explained in the [Preparing demo application GitHub repository](preparing-demo-application.md) section.
+3. The `microservices-demo` GitHub repository already prepared as explained in the [Preparing demo application GitHub repository](introduction-and-repository-setup.md) section.
 4. Main [branch protection](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/defining-the-mergeability-of-pull-requests/about-protected-branches) is enabled and configured for your repository. Also number of reviewers should be set to at least one.
 5. Main branch changes should be allowed only via [pull requests](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/defining-the-mergeability-of-pull-requests).
 6. Your [DigitalOcean authentication token](do-api-auth.md) stored as a GitHub secret named `DIGITALOCEAN_ACCESS_TOKEN` in the `microservices-demo` repository. Follow [this guide](https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-a-repository) to learn more about creating GitHub secrets.

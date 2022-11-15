@@ -259,10 +259,10 @@ Depending on your operating system, you can install [Tilt](https://docs.tilt.dev
         tilt version
         ```
 
-## Installing Pack (optional)
+## Installing Cloud Native Buildpacks's CLI (optional)
 
 !!! note
-    Installing pack is only needed if you wish to build and push the docker images of the [microservices-demo](https://github.com/digitalocean/kubernetes-sample-apps/tree/master/microservices-demo) app using `Cloud Native Buildpacks` as explained in the next [Preparing the demo application](preparing-demo-application.md#alternative-way-of-building-docker-images-with-cloud-native-buildpacks) section.
+    Installing the `pack` CLI is only needed if you wish to build and push the docker images of the [microservices-demo](https://github.com/digitalocean/kubernetes-sample-apps/tree/master/microservices-demo) app using `Cloud Native Buildpacks` as explained in the next [Preparing the demo application](./building-and-pushing-docker-images/building-and-pushing-images-using-cnb.md) section.
 
 Depending on your operating system, you can install [pack](https://buildpacks.io/docs/tools/pack/) in the following ways:
 
