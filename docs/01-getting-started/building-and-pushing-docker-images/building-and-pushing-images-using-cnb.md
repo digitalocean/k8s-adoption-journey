@@ -10,7 +10,9 @@ Each buildpack comprises of two phases:
 
 [Builders](https://buildpacks.io/docs/concepts/components/builder/) are an ordered combination of buildpacks with a base build image, a lifecycle, and reference to a run image. They take in your app source code and build the output app image. The build image provides the base environment for the builder (for eg. an Ubuntu Bionic OS image with build tooling) and a run image provides the base environment for the app image during runtime. A combination of a `build image` and a `run image` is called a `stack`.
 
-Next, you will be buidling and pushing images for the `microservices-demo` app using [pack](https://buildpacks.io/docs/tools/pack/) which is a tool maintained by the `Cloud Native Buildpacks` project to support the use of buildpacks.
+## Build and Push Online Boutique Application Images
+
+In this section you will be buidling and pushing images for the `microservices-demo` app using [pack](https://buildpacks.io/docs/tools/pack/) which is a tool maintained by the `Cloud Native Buildpacks` project to support the use of buildpacks.
 
 !!! note
     Cloud Native Buildpacks images work best when run on an x86 architecture workstation. ARM is not 100% supported at this time.
@@ -34,7 +36,7 @@ Next, you will be buidling and pushing images for the `microservices-demo` app u
     doctl registry login
     ```
 
-4. Run the `cnb-docker-images.sh` script after setting required environment variables first:
+4. Run the `make-cnb-docker-images.sh` script after setting required environment variables first:
 
     ```shell
     export REPO_PREFIX="registry.digitalocean.com/microservices-demo"
@@ -47,4 +49,4 @@ Next, you will be buidling and pushing images for the `microservices-demo` app u
         This script will go through each of the microservices and perform a `pack build and publish` tagging each image with the service name and the `TAG` environment variable exported above. Using Cloud Native Buildpacks means that even if there are no Dockerfiles present, pack will be able to detect which buildpack to use and proceed to the build step.
         You will be pushing an initial release first to DOCR - `v1.0.0`, and use that to deploy to the `staging` and `production` environments in the upcoming sections. Later on, GitHub Actions will take care of building, tagging and pushing images to `DOCR`.
 
-Next, you will learn how to setup DOKS and deploy the `microservices-demo` application to your development environment, as well as setting up `ingress` and `monitoring`.
+In the next section you can study about the `Cloud Native Buildpaks` project and how to build and push `docker images` using its CLI tool `pack`. If not you can skip to the [Development Environment](../../02-development/setup-doks-dev.md) section where you will learn how to setup DOKS and deploy the `microservices-demo` application to your development environment, as well as setting up `ingress` and `monitoring`.

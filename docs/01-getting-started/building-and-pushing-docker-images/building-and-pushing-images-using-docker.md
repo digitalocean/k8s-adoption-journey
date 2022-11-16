@@ -2,7 +2,9 @@
 
 Docker is an open platform for developing, shipping, and running applications. Docker enables you to separate your applications from your infrastructure so you can deliver software quickly. With Docker, you can manage your infrastructure in the same ways you manage your applications. By taking advantage of Docker’s methodologies for shipping, testing, and deploying code quickly, you can significantly reduce the delay between writing code and running it in production.
 
-Next, you will be buidling and pushing images for the `microservices-demo` app using docker to the DOCR repository you created in the [Setup DOCR](setup-docr.md) section.
+## Build and Push Online Boutique Application Images
+
+In this section, you will be buidling and pushing images for the `microservices-demo` app using docker to the DOCR repository you created in the [Setup DOCR](setup-docr.md) section.
 
 1. Clone your `microservices-demo` repository if you haven't already (make sure to replace the `<>` placeholders first):
 

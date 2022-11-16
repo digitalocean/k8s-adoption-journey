@@ -362,13 +362,5 @@ You should define branch protection rules to disable force pushing, prevent bran
     - Require a pull request before merging.
     - Dismiss stale pull request approvals when new commits are pushed.
 
-Next, you will test the DOCR setup by pushing the initial version for the online boutique sample application to your registry.
-
-## Building and Pushing the Online Boutique Application Images to DOCR
-
-In this section, you will push to DOCR the first version (`v1.0.0`) of the [online boutique](https://github.com/digitalocean/kubernetes-sample-apps/tree/master/microservices-demo) sample application. This step is required to perform the initial testing of the application in the upcoming sections of this guide.
-Throughout this journey you will deploy the [online boutique](https://github.com/digitalocean/kubernetes-sample-apps/tree/master/microservices-demo) using docker images you build, tag and push to a [DOCR](https://www.digitalocean.com/products/container-registry) repository so it would be worthwhile to talk about this process.
-Containerization is the packaging together of software code with all it’s necessary components like libraries, frameworks, and other dependencies so that they are isolated in their own `container`. This is so that the software or application within the container can be moved and run consistently in any environment and on any infrastructure.
-
 You can create the images required for this journey in two ways. Using a `classic` docker build, tag and push approach or using [Cloud Native Buildpacks](https://buildpacks.io/).
 Please choose between [Docker](building-and-pushing-images-using-docker.md) or [Cloud Native Buildpacks](building-and-pushing-images-using-cnb.md).
