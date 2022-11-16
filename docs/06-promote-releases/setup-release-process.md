@@ -15,7 +15,7 @@ To complete this section you will need:
 
 1. A container registry already set up as explained in the [Getting Started -> Set up DOCR](setup-docr.md) section.
 2. A DOKS cluster set up and running for the [staging environment](setup-doks-staging.md).
-3. The `microservices-demo` GitHub repository already prepared as explained in the [Preparing demo application GitHub repository](preparing-demo-application.md) section.
+3. The `microservices-demo` GitHub repository already prepared as explained in the [Preparing demo application GitHub repository](introduction-and-repository-setup.md) section.
 4. Your [DigitalOcean authentication token](do-api-auth.md) stored as a GitHub secret named `DIGITALOCEAN_ACCESS_TOKEN` in the `microservices-demo` repository. Follow [this guide](https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-a-repository) to learn more about creating GitHub secrets.
 
 ## Managing Application Releases

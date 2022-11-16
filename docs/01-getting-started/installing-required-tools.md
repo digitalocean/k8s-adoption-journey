@@ -259,4 +259,40 @@ Depending on your operating system, you can install [Tilt](https://docs.tilt.dev
         tilt version
         ```
 
+## Installing Cloud Native Buildpacks's CLI (Optional)
+
+!!! note
+    Installing the `pack` CLI is only needed if you wish to build and push the docker images of the [microservices-demo](https://github.com/digitalocean/kubernetes-sample-apps/tree/master/microservices-demo) app using `Cloud Native Buildpacks` as explained in [preparing the demo application](./building-and-pushing-docker-images/building-and-pushing-images-using-cnb.md) section.
+
+Depending on your operating system, you can install [pack](https://buildpacks.io/docs/tools/pack/) in the following ways:
+
+=== "MacOS"
+
+    1. Install pack using homebrew:
+
+        ```shell
+        brew install buildpacks/tap/pack
+        ```
+
+    2. Test to ensure you installed the latest version:
+
+        ```shell
+        pack version
+        ```
+
+=== "Linux"
+    1. Install pack using curl:
+
+        ```shell
+        sudo add-apt-repository ppa:cncf-buildpacks/pack-cli
+        sudo apt-get update
+        sudo apt-get install pack-cli
+        ```
+
+    2. Test to ensure you installed the latest version:
+
+        ```shell
+        pack version
+        ```
+
 Next, you will learn how to authenticate with the DigitalOcean API to get the most out of the tools used in this guide to provision required cloud resources.

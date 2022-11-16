@@ -34,7 +34,7 @@ To complete this section you will need:
 
 1. Tilt already installed and working as explained in the [Installing Required Tools -> Tilt](installing-required-tools.md#installing-tilt) section.
 2. Docker desktop already installed and running as explained in the [Installing Required Tools -> Docker Desktop](installing-required-tools.md#installing-docker-desktop) section.
-3. The `microservices-demo` GitHub repository already prepared as explained in the [Preparing demo application GitHub repository](preparing-demo-application.md) section.
+3. The `microservices-demo` GitHub repository already prepared as explained in the [Preparing demo application GitHub repository](introduction-and-repository-setup.md) section.
 
 ## Local development with Tilt
 

@@ -353,7 +353,7 @@ Next, it is important to set a few protection rules to avoid pushing directly to
 
 You should define branch protection rules to disable force pushing, prevent branches from being deleted, and optionally require status checks before merging.
 
-1. From [Github](https://github.com/), navigate to the main page of your repository.
+1. From [GitHub](https://github.com/), navigate to the main page of your repository.
 2. Under your repository name, click `Settings`.
 3. In the `Code and automation` section of the sidebar, click `Branches`.
 4. Next to `Branch protection rules`, click Add rule.
@@ -362,40 +362,6 @@ You should define branch protection rules to disable force pushing, prevent bran
     - Require a pull request before merging.
     - Dismiss stale pull request approvals when new commits are pushed.
 
-Next, you will test the DOCR setup by pushing the initial version for the online boutique sample application to your registry.
+The online boutique demo application uses [Docker](https://www.docker.com/) technology to distribute and run all application components.
 
-## Building and Pushing the Online Boutique Application Images to DOCR
-
-In this section, you will push to DOCR the first version (`v1.0.0`) of the [online boutique](https://github.com/digitalocean/kubernetes-sample-apps/tree/master/microservices-demo) sample application. This step is required to perform the initial testing of the application in the upcoming sections of this guide.
-
-1. Clone your `microservices-demo` repository if you haven't already (make sure to replace the `<>` placeholders first):
-
-    ```shell
-    git clone https://github.com/<YOUR_GITHUB_ACCOUNT_USERNAME>/microservices-demo.git
-    ```
-
-2. From the command line, change directory to the `microservices-demo` folder (if not there already):
-
-    ```shell
-    cd microservices-demo
-    ```
-
-3. Login to DOCR:
-
-    ```shell
-    doctl registry login
-    ```
-
-4. Run the `make-docker-images.sh` script after setting required environment variables first:
-
-    ```shell
-    export REPO_PREFIX="registry.digitalocean.com/microservices-demo"
-    export TAG="v1.0.0"
-
-    ./release-scripts/make-docker-images.sh
-    ```
-
-    !!!info
-        You will be pushing an initial release first to DOCR - `v1.0.0`, and use that to deploy to the `staging` and `production` environments in the upcoming sections. Later on, GitHub Actions will take care of building, tagging and pushing images to `DOCR`.
-
-Next, you will learn how to setup DOKS and deploy the `microservices-demo` application to your development environment, as well as setting up `ingress` and `monitoring`.
+Next, you have the option to use a [classic docker build](building-and-pushing-images-using-docker.md) to distribute the application, or use [Cloud Native Buildpacks](building-and-pushing-images-using-cnb.md). Cloud Native Buildpacks simplify the process of distributing Docker applications without having to write a single Dockerfile.
