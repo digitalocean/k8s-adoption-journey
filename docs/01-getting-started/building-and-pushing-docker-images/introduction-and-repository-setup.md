@@ -353,7 +353,7 @@ Next, it is important to set a few protection rules to avoid pushing directly to
 
 You should define branch protection rules to disable force pushing, prevent branches from being deleted, and optionally require status checks before merging.
 
-1. From [Github](https://github.com/), navigate to the main page of your repository.
+1. From [GitHub](https://github.com/), navigate to the main page of your repository.
 2. Under your repository name, click `Settings`.
 3. In the `Code and automation` section of the sidebar, click `Branches`.
 4. Next to `Branch protection rules`, click Add rule.
@@ -362,5 +362,6 @@ You should define branch protection rules to disable force pushing, prevent bran
     - Require a pull request before merging.
     - Dismiss stale pull request approvals when new commits are pushed.
 
-You can create the images required for this journey in two ways. Using a `classic` docker build, tag and push approach or using [Cloud Native Buildpacks](https://buildpacks.io/).
-Please choose between [Docker](building-and-pushing-images-using-docker.md) or [Cloud Native Buildpacks](building-and-pushing-images-using-cnb.md).
+The online boutique demo application uses [Docker](https://www.docker.com/) technology to distribute and run all application components.
+
+Next, you have the option to use a [classic docker build](building-and-pushing-images-using-docker.md) to distribute the application, or use [Cloud Native Buildpacks](building-and-pushing-images-using-cnb.md). Cloud Native Buildpacks simplify the process of distributing Docker applications without having to write a single Dockerfile.
