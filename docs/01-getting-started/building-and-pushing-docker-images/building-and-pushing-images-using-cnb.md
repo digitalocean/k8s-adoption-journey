@@ -54,6 +54,6 @@ Follow below steps to build and push online boutique demo application images usi
 
     !!!tip
         If you need to run one of the Python microservices (recommendationservice or emailservice) with a different runtime than what the builder is offering you can change the python runtime in the [Python version](https://github.com/digitalocean/kubernetes-sample-apps/blob/master/microservices-demo/src/emailservice/.python-version) file.
-        The `entrypoint` needs to be explicitly set for `Python microservices`. This is set in the [Procfile](https://github.com/digitalocean/kubernetes-sample-apps/blob/master/microservices-demo/src/emailservice/Procfile). Any changes to the entrypoints of `Python` microservices need to be set in the `Procfile`.
+        The `entrypoint` needs to be explicitly set for `Python microservices` when using Cloud Native Buildpacks. This is set in the [Procfile](https://github.com/digitalocean/kubernetes-sample-apps/blob/master/microservices-demo/src/emailservice/Procfile). Any changes to the entrypoints of `Python` microservices need to be set in the `Procfile`.
 
 Next, you will learn how to setup DOKS and deploy the `microservices-demo` application to your development environment, as well as configuring `ingress` and `monitoring`.
