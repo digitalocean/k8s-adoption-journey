@@ -52,4 +52,8 @@ Follow below steps to build and push online boutique demo application images usi
         This script will go through each of the microservices and perform a `pack build and publish`, tagging each image with the service name and the `TAG` environment variable exported above. Using Cloud Native Buildpacks means that even if there are no Dockerfiles present, pack will be able to detect which buildpack to use and proceed to the build step.
         You will be pushing an initial release first to DOCR - `v1.0.0`, and use that to deploy to the `staging` and `production` environments in the upcoming sections. Later on, GitHub Actions will take care of building, tagging and pushing images to `DOCR`.
 
+    !!!tip
+        If you need to run one of the Python microservices (recommendationservice or emailservice) with a different runtime than what the builder is offering you can change the python runtime in the [Python version](https://github.com/digitalocean/kubernetes-sample-apps/blob/master/microservices-demo/src/emailservice/.python-version) file.
+        The `entrypoint` needs to be explicitly set for `Python microservices` when using Cloud Native Buildpacks. This is set in the [Procfile](https://github.com/digitalocean/kubernetes-sample-apps/blob/master/microservices-demo/src/emailservice/Procfile). Any changes to the entrypoints of `Python` microservices need to be set in the `Procfile`.
+
 Next, you will learn how to setup DOKS and deploy the `microservices-demo` application to your development environment, as well as configuring `ingress` and `monitoring`.
