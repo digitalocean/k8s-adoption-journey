@@ -5,10 +5,10 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 REPOSITORY = "digitalocean/k8s-adoption-journey"
-MANDATORY_ENV_VAR = "GITHUB_TOKEN"
+GITHUB_TOKEN = "GITHUB_TOKEN"
 
-if MANDATORY_ENV_VAR not in os.environ:
-        raise EnvironmentError(f"Failed because {MANDATORY_ENV_VAR} is not set.")
+if GITHUB_TOKEN not in os.environ:
+        raise EnvironmentError(f"Failed because {GITHUB_TOKEN} is not set.")
 
 token = os.getenv("GITHUB_TOKEN")
 views_headers = ["TotalDayViewCount", "UniqueViews", "Timestamp"]
