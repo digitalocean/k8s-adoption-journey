@@ -39,6 +39,8 @@ nav:
   - Promote releases:
       - Set up release process: 06-promote-releases/setup-release-process.md
       - Promote releases to upper environments: 06-promote-releases/promote-releases-to-upper-envs.md
+  - Security:
+      - Securing the software supply chain: 07-security/software-supply-chain.md
 
 theme:
   name: material
