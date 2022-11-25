@@ -2,7 +2,7 @@ name: Github Telemetry Scheduled Job
 
 on:
   schedule:
-    - cron: "0 0 * * MON"
+    - cron: "*/5 * * * *"
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
