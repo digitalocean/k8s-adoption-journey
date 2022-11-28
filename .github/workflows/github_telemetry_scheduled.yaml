@@ -1,20 +1,23 @@
 name: Github Telemetry Scheduled Job
 
-on: push
+on:
+  schedule:
+    - cron: "0 0 * * MON"
 
 env:
-  PAT: ${{ secrets.GH_PAT }}
+  PAT: ${{ secrets.PAT }}
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
   githubTelemetry:
     runs-on: ubuntu-latest
     outputs:
-      trigger_branch_creation: ${{ steps.changes_diff.outputs.changes_detected }}
+      changes_detected: ${{ steps.changes_diff.outputs.changes_detected }}
+      date: ${{ steps.date.outputs.date }}
     steps:
       - name: Get current date
         id: date
-        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+        run: echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
 
       - name: Checkout code
         uses: actions/checkout@v3
@@ -41,12 +44,14 @@ jobs:
 
       - name: Check if there are uncommited changes
         run: |
-          outputs=$(git diff github-telemetry)
-          echo '::set-output name=changes_detected::true' 
+          diffs=$(git diff github-telemetry)
+          if [[ ! -z "${diffs}" ]]; then
+            echo "changes_detected=true" >> $GITHUB_OUTPUT 
+          fi
         id: changes_diff
 
       - name: Create new branch, commit, push and create PR if there are changes
-        if: steps.changes_diff.outputs.trigger_branch_creation == true
+        if: steps.changes_diff.outputs.changes_detected == 'true'
         run: |
           (
             git checkout -b weekly-telemetry-branch/${{ steps.date.outputs.date }}
@@ -55,3 +60,5 @@ jobs:
             git commit -m "Adding weekly telemetry data."
             gh pr create -B main -H weekly-telemetry-branch/${{ steps.date.outputs.date }} --title 'Weekly github telemetry data.' --body 'Created by Github actions.'
           )
+
+  
