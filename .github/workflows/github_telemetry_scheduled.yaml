@@ -58,6 +58,7 @@ jobs:
             cd github-telemetry
             git add clones.csv views.csv plot-clones.png plot-views.png
             git commit -m "Adding weekly telemetry data."
+            git push --set-upstream origin weekly-telemetry-branch/${{ steps.date.outputs.date }}
             gh pr create -B main -H weekly-telemetry-branch/${{ steps.date.outputs.date }} --title 'Weekly github telemetry data.' --body 'Created by Github actions.'
           )
 
