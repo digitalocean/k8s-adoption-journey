@@ -1,6 +1,8 @@
 name: Github Telemetry Scheduled Job
 
-on: push
+on:
+  schedule:
+    - cron: "0 0 * * MON"
 
 env:
   GH_PAT: ${{ secrets.GH_PAT }}
